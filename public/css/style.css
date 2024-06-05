@@ -1,0 +1,215 @@
+:root {
+    font-size: 16px;
+}
+
+body {
+    color: black;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+.sidebar a {
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+}
+
+.sidebar a.active {
+    background-color: #cf5604;
+    color: white;
+}
+
+.sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+div.content-isi {
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+}
+
+@media screen and (max-width: 700px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .sidebar a {float: left;}
+        div.content {margin-left: 0;}
+    }
+
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}
+
+
+/* Admin Table (CRUD User) */
+.table-container {
+    overflow:auto;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px rgba(39, 38, 38, 0.1);
+}
+
+table {
+    width: 100%;
+}
+
+.table-header {
+    background-color: #700909;
+    border-bottom-width: 10px;
+    border-color: #edf2f7;
+    color: rgb(255, 255, 255);
+}
+
+.table-header-row th{
+    padding: 5px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+
+.id-heading {
+    width: 50px;
+}
+
+.name-heading {
+    width: 100px;
+}
+
+.email-heading {
+    width: 250px;
+}
+
+.password-heading {
+    width: 100px;
+}
+
+.role-heading {
+    width: 100px;
+}
+
+tr:nth-child(even) {
+    background-color: rgb(214, 213, 213);
+}
+
+.table-container a {
+    text-decoration: none;
+    color: black;
+}
+.table-container a:hover {
+    font-weight: 600;
+}
+
+a.edit-button {
+    color: white;
+    padding: 2px;
+    background-color: green;
+    border-radius: 5px;
+}
+
+a.delete-button {
+    color: white;
+    padding: 2px;
+    background-color: red;
+    border-radius: 5px;
+}
+
+td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.users {
+    margin: 5px;
+    width: 80%;
+}
+
+.add-user {
+    background-color: blue;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.back-user {
+    background-color: green;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.form-content {
+    width: 50%;
+    border: 1px solid black;
+    background-color: rgb(221, 221, 221);
+}
+
+.form-content label {
+    margin-left: 10px;
+    width: 25%;
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+    font-size: 18px;
+}
+
+input[type=text], select, textarea {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+input[type=password], select, textarea {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.save-user-button {
+    padding: 10px;
+}
+
+.save-user-button button {
+    font-size: 20px;
+    background-color: red;
+    color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.save-user-button button:hover {
+    background-color: rgb(255, 123, 123);
+    color: white;
+}
+
