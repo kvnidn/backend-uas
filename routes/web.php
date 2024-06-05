@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +16,9 @@ Route::get('/about', function () {
     ]);
 });
 
-Route::get('/admin', function () {
-    return view('admin', [
-        "title" => "Admin",
+Route::get('/room', function () {
+    return view('room', [
+        "title" => "Room",
     ]);
 });
 
@@ -29,6 +30,12 @@ Route::get('/user/{id}/edit', [UserController::class, 'edit']);
 Route::put('/user/{id}/edit', [UserController::class, 'update']);
 Route::get('/user/{id}/delete', [UserController::class, 'destroy']);
 
+Route::get('/room', [RoomController::class, 'index']);
+Route::get('/room/create', [RoomController::class, 'create']);
+Route::post('/room/create', [RoomController::class, 'store']);
+Route::get('/room/{id}/edit', [RoomController::class, 'edit']);
+Route::put('/room/{id}/edit', [RoomController::class, 'update']);
+Route::get('/room/{id}/delete', [RoomController::class, 'destroy']);
 
 Route::get('/test', function () {
     return view('welcome', [
