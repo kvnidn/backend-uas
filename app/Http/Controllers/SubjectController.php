@@ -17,7 +17,7 @@ class SubjectController extends Controller
 
     public function create() {
         $title = 'Subject';
-        $users = User::all();
+        $users = User::where('role', 'Lecturer')->get();
         return view('subject/create', [
             'title'=>$title,
             'users'=>$users
@@ -25,8 +25,8 @@ class SubjectController extends Controller
     }
 
     public function store(Request $request) {
-        
-        
+
+
         $request->validate([
             'name'=>'required|string|max:50',
             'user_id'=>'required|exists:user,id'
@@ -44,7 +44,7 @@ class SubjectController extends Controller
     public function edit(int $id) {
         $subject = Subject::findOrFail($id);
         $title = "Subject";
-        $users = User::all();
+        $users = User::where('role', 'Lecturer')->get();
 
         return view("subject/edit", compact('subject', 'title', 'users'));
     }
