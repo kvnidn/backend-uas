@@ -5,7 +5,9 @@
 
             <a class="{{ ($title === "About") ? "active" : ""}}" href="/about">About</a>
 
-            <a class="{{ ($title === "Subject") ? "active" : ""}}" href="/subject">Subject</a>
+            <a class="{{ ($title === "Assignment") ? "active" : ""}}" href="/assignment">Assignment</a>
+
+            <a class="{{ ($title === "Subject") ? "active" : ""}}"  href="/subject">Subject</a>
 
             <a class="{{ ($title === "Room") ? "active" : ""}}"  href="/room">Room</a>
 

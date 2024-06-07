@@ -22,7 +22,7 @@ class User extends Model
     //     'id',
     // ];
 
-    public function subject() {
-        return $this->hasMany(Subject::class);
+    public function assignment() {
+        return $this->hasMany(Assignment::class);
     }
 }

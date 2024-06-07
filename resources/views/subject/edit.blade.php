@@ -22,20 +22,8 @@
 
                         <div class="form-name">
                             <label>Subject Name</label>
-                            <input type="text" name="name" value="{{ $subject->name }}" />
+                            <input type="text" name="name" value="{{  $subject->name }}"/>
                             @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="form-user">
-                            <label>User</label>
-                            <select name="user_id">
-                                <option value="" disabled>Select a user</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->id }}" {{ $subject->user_id == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="save-user-button">
                             <button type="submit">Update</button>

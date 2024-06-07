@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,13 @@ Route::post('/subject/create', [SubjectController::class, 'store']);
 Route::get('/subject/{id}/edit', [SubjectController::class, 'edit']);
 Route::put('/subject/{id}/edit', [SubjectController::class, 'update']);
 Route::get('/subject/{id}/delete', [SubjectController::class, 'destroy']);
+
+Route::get('/assignment', [AssignmentController::class, 'index']);
+Route::get('/assignment/create', [AssignmentController::class, 'create']);
+Route::post('/assignment/create', [AssignmentController::class, 'store']);
+Route::get('/assignment/{id}/edit', [AssignmentController::class, 'edit']);
+Route::put('/assignment/{id}/edit', [AssignmentController::class, 'update']);
+Route::get('/assignment/{id}/delete', [AssignmentController::class, 'destroy']);
 
 Route::get('/test', function () {
     return view('welcome', [
