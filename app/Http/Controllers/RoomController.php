@@ -22,11 +22,14 @@ class RoomController extends Controller
     }
 
     public function store(Request $request) {
+        $paddedRoomNumber = str_pad($request->room_number, 4, '0', STR_PAD_LEFT);
+        
+        $request->merge(['room_number' => $paddedRoomNumber]);
+        
         $request->validate([
             'room_number'=>'required|unique:room,room_number|string|max:4'
         ]);
 
-        $paddedRoomNumber = str_pad($request->room_number, 4, '0', STR_PAD_LEFT);
 
         Room::create([
             'room_number' => $paddedRoomNumber
@@ -43,11 +46,14 @@ class RoomController extends Controller
     }
 
     public function update(Request $request, int $id) {
+        $paddedRoomNumber = str_pad($request->room_number, 4, '0', STR_PAD_LEFT);
+
+        $request->merge(['room_number' => $paddedRoomNumber]);
+
         $request->validate([
             'room_number' => 'required|unique:room,room_number|string|max:4'
         ]);
 
-        $paddedRoomNumber = str_pad($request->room_number, 4, '0', STR_PAD_LEFT);
 
         Room::findOrFail($id)->update([
             'room_number' => $paddedRoomNumber
