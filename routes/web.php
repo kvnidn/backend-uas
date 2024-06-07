@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,13 @@ Route::post('/room/create', [RoomController::class, 'store']);
 Route::get('/room/{id}/edit', [RoomController::class, 'edit']);
 Route::put('/room/{id}/edit', [RoomController::class, 'update']);
 Route::get('/room/{id}/delete', [RoomController::class, 'destroy']);
+
+Route::get('/subject', [SubjectController::class, 'index']);
+Route::get('/subject/create', [SubjectController::class, 'create']);
+Route::post('/subject/create', [SubjectController::class, 'store']);
+Route::get('/subject/{id}/edit', [SubjectController::class, 'edit']);
+Route::put('/subject/{id}/edit', [SubjectController::class, 'update']);
+Route::get('/subject/{id}/delete', [SubjectController::class, 'destroy']);
 
 Route::get('/test', function () {
     return view('welcome', [

@@ -18,7 +18,11 @@ class User extends Model
         'role',
     ];
 
-    protected $guarded = [
-        'id',
-    ];
+    // protected $guarded = [
+    //     'id',
+    // ];
+
+    public function subject() {
+        return $this->hasMany(Subject::class);
+    }
 }
