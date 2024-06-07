@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -14,7 +16,7 @@ class UserController extends Controller
     }
 
     public function create() {
-        $title = 'user';
+        $title = 'User';
         return view('user/create', [
             'title'=>$title,
         ]);
@@ -31,7 +33,7 @@ class UserController extends Controller
         User::create([
             'name'=>$request->name,
             'email'=>$request->email,
-            'password'=>$request->password,
+            'password'=>bcrypt($request->password),
             'role'=>$request->role,
         ]);
 
@@ -53,10 +55,12 @@ class UserController extends Controller
             'role' => 'required',
         ]);
 
+        $user = User::findOrFail($id);
+
         User::findOrFail($id)->update([
             'name'=>$request->name,
             'email'=>$request->email,
-            'password'=>$request->password,
+            'password'=>bcrypt($request->password),
             'role'=>$request->role,
         ]);
 
@@ -64,11 +68,15 @@ class UserController extends Controller
     }
 
     public function destroy(int $id) {
-        $user = User::findOrFail($id);
-        $user->delete();
-
-        return redirect('user/')->with('status', 'User deleted');
+        if (Auth::check()) {
+            $user = User::findOrFail($id);
+            $user->delete();
+            return redirect('user/')->with('status', 'User deleted');
+        } else {
+            return redirect('/login')->with('loginError', 'Please login to delete users');
+        }
     }
+
 
 
 }

@@ -213,3 +213,36 @@ input[type=password], select, textarea {
     color: white;
 }
 
+p {
+    margin: 16px;
+}
+
+.logout {
+    position: absolute;
+    bottom: 0;
+}
+
+.logout-button {
+    background-color: #ff0404;
+    color: white;
+    border: none;
+    padding: 15px 150px 15px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0px;
+}
+
+.logout-button:hover {
+    background-color: #ff2c2c;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+

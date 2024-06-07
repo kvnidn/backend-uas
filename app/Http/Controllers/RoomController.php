@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Room;
+use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
 {
@@ -15,7 +16,7 @@ class RoomController extends Controller
     }
 
     public function create() {
-        $title = 'room';
+        $title = 'Room';
         return view('room/create', [
             'title'=>$title,
         ]);
@@ -23,9 +24,9 @@ class RoomController extends Controller
 
     public function store(Request $request) {
         $paddedRoomNumber = str_pad($request->room_number, 4, '0', STR_PAD_LEFT);
-        
+
         $request->merge(['room_number' => $paddedRoomNumber]);
-        
+
         $request->validate([
             'room_number'=>'required|unique:room,room_number|string|max:4'
         ]);
@@ -63,9 +64,12 @@ class RoomController extends Controller
     }
 
     public function destroy(int $id) {
-        $room = Room::findOrFail($id);
-        $room->delete();
-
-        return redirect('room/')->with('status', 'Room deleted');
+        if (Auth::check()) {
+            $room = Room::findOrFail($id);
+            $room->delete();
+            return redirect('room/')->with('status', 'Room deleted');
+        } else {
+            return redirect('/login')->with('loginError', 'Please login to delete room');
+        }
     }
 }

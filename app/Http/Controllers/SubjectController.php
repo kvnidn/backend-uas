@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
     //
     public function index() {
         $subject = Subject::orderBy('id')->get();
-        $title = 'subject';
+        $title = 'Subject';
         return view('subject/index', compact('subject', 'title'));
     }
 
@@ -58,9 +59,12 @@ class SubjectController extends Controller
     }
 
     public function destroy(int $id) {
-        $subject = Subject::findOrFail($id);
-        $subject->delete();
-
-        return redirect('subject/')->with('status', 'subject deleted');
+        if (Auth::check()) {
+            $subject = Subject::findOrFail($id);
+            $subject->delete();
+            return redirect('subject/')->with('status', 'Subject deleted');
+        } else {
+            return redirect('/login')->with('loginError', 'Please login to delete subject');
+        }
     }
 }

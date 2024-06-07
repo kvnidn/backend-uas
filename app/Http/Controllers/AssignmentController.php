@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\Assignment;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -40,20 +41,20 @@ class AssignmentController extends Controller
 
         try {
             DB::beginTransaction();
-    
+
             Assignment::create([
                 'subject_id' => $request->subject_id,
                 'user_id' => $request->user_id,
             ]);
-    
+
             DB::commit();
-    
+
             return redirect('assignment/create')->with('status', 'Assignment created');
         } catch (QueryException $e) {
             DB::rollBack();
-    
+
             $errorMessage = "The combination of subject and user must be unique.";
-    
+
             return redirect('assignment/create')->with('error', $errorMessage);
         }
     }
@@ -76,28 +77,31 @@ class AssignmentController extends Controller
 
         try {
             DB::beginTransaction();
-    
+
             Assignment::create([
                 'subject_id' => $request->subject_id,
                 'user_id' => $request->user_id,
             ]);
-    
+
             DB::commit();
-    
+
             return redirect('assignment/create')->with('status', 'Assignment updated');
         } catch (QueryException $e) {
             DB::rollBack();
-    
+
             $errorMessage = "The combination of subject and user must be unique.";
-    
+
             return redirect('assignment/create')->with('error', $errorMessage);
         }
     }
 
     public function destroy(int $id) {
-        $assignment = Assignment::findOrFail($id);
-        $assignment->delete();
-
-        return redirect('assignment/')->with('status', 'Assignment deleted');
+        if (Auth::check()) {
+            $assignment = Assignment::findOrFail($id);
+            $assignment->delete();
+            return redirect('assignment/')->with('status', 'Assignment deleted');
+        } else {
+            return redirect('/login')->with('loginError', 'Please login to delete assignment');
+        }
     }
 }
