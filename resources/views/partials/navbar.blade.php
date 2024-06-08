@@ -19,6 +19,8 @@
 
                 <a class="{{ ($title === "Room") ? "active" : "" }}"  href="/room">Room</a>
 
+                <a class="{{ ($title === "Class") ? "active" : "" }}"  href="/class">Class</a>
+
                 <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
             @else
                 <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>

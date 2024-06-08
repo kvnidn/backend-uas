@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\ScheduleController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KelasController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AssignmentController;
 
 Route::get('/', function () {
@@ -61,6 +62,13 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'authentication']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
+Route::get('/class', [KelasController::class, 'index'])->middleware('auth');
+Route::get('/class/create', [KelasController::class, 'create'])->middleware('auth');
+Route::post('/class/create', [KelasController::class, 'store']);
+Route::get('/class/{id}/edit', [KelasController::class, 'edit'])->middleware('auth');
+Route::put('/class/{id}/edit', [KelasController::class, 'update']);
+Route::get('/class/{id}/delete', [KelasController::class, 'destroy'])->middleware('auth');
+
 Route::get('/create-user', [UserController::class,'createUser']);
 
 
@@ -69,3 +77,4 @@ Route::get('/test', function () {
         "title" => "Admin",
     ]);
 });
+
