@@ -50,6 +50,18 @@
                             </select>
                             @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
+                        <div class="form-user">
+                            <label>Class</label>
+                            <select name="kelas_id">
+                                <option value="" disabled selected>Select a Class</option>
+                                @foreach($kelas as $kelas)
+                                <option value="{{ $kelas->id }}" {{ $assignment->kelas_id == $kelas->id ? 'selected' : '' }}>
+                                    {{ $kelas->prodi }}-{{ substr($kelas->year, -2) }}-{{ $kelas->class }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
                         <div class="save-user-button">
                             <button type="submit">Update</button>
                         </div>

@@ -18,6 +18,7 @@
                                 <th class="user-heading">End Time</th>
                                 <th class="user-heading">Subject Name</th>
                                 <th class="user-heading">Lecturer Name</th>
+                                <th class="user-heading">Class</th>
                                 <th class="user-heading">Room Number</th>
                                 <th class="action-heading">Action</th>
                             </tr>
@@ -31,6 +32,7 @@
                                 <td>{{ $item->end_time }}</td>
                                 <td>{{ $item->assignment->subject->name }}</td>
                                 <td>{{ $item->assignment->user->name }}</td>
+                                <td>{{ $item->assignment->kelas->prodi }}-{{ substr($item->assignment->kelas->year, -2) }}-{{ $item->assignment->kelas->class }}</td>
                                 <td>{{ $item->room->room_number}}</td>
                                 <td>
                                     <a href="{{ url('schedule/'.$item->id.'/edit') }}" class="edit-button">Edit</a>

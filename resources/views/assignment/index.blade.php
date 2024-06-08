@@ -15,6 +15,7 @@
                                 <th class="id-heading">ID</th>
                                 <th class="name-heading">Subject Name</th>
                                 <th class="user-heading">User</th>
+                                <th class="kelas-heading">Class</th>
                                 <th class="action-heading">Action</th>
                             </tr>
                         </thead>
@@ -24,12 +25,10 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->subject->name }}</td>
                                 <td>{{ $item->user->name ?? 'N/A'}}</td>
+                                <td>{{ $item->kelas->prodi }}-{{ substr($item->kelas->year, -2) }}-{{ $item->kelas->class }}</td>
                                 <td>
                                     <a href="{{ url('assignment/'.$item->id.'/edit') }}" class="edit-button">Edit</a>
                                     <a href="{{ url('assignment/'.$item->id.'/delete') }}" class="delete-button" onclick="return confirm('Are you sure ?')">Delete</a>
-                                    <!-- <form id="delete-form-{{ $item->id }}" action="{{ url('subject/'.$item->id) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE') -->
                                     </form>
                                 </td>
                             </tr>

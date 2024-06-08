@@ -55,7 +55,7 @@
                                 <option value="" disabled>Select an assignment</option>
                                 @foreach($assignments as $assignment)
                                     <option value="{{ $assignment->id }}" {{ $schedule->assignment_id == $assignment->id ? 'selected' : '' }}>
-                                        {{ $assignment->subject->name }} - {{ $assignment->user->name }}
+                                        {{ $assignment->subject->name }} - {{ $assignment->user->name }} - {{ $assignment->kelas->prodi }}-{{ substr($assignment->kelas->year, -2) }}-{{ $assignment->kelas->class }}
                                     </option>
                                 @endforeach
                             </select>

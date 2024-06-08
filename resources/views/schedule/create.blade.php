@@ -9,7 +9,7 @@
                     {{ $errors->first('time') }}
                 </div>
             @endif
-            
+
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -54,7 +54,7 @@
                                 <option value="" disabled selected>Select an assignment</option>
                                 @foreach($assignments as $assignment)
                                     <option value="{{ $assignment->id }}">
-                                        {{ $assignment->subject->name }} - {{ $assignment->user->name }}
+                                        {{ $assignment->subject->name }} - {{ $assignment->user->name }} - {{ $assignment->kelas->prodi }}-{{ substr($assignment->kelas->year, -2) }}-{{ $assignment->kelas->class }}
                                     </option>
                                 @endforeach
                             </select>

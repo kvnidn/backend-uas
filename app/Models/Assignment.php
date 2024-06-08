@@ -14,6 +14,7 @@ class Assignment extends Model
     protected $fillable = [
         'subject_id',
         'user_id',
+        'kelas_id',
     ];
 
     public function subject() {
@@ -24,7 +25,12 @@ class Assignment extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function kelas() {
+        return $this->belongsTo(Kelas::class);
+    }
+
     public function schedule() {
         return $this->hasMany(Schedule::class);
     }
+
 }

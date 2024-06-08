@@ -11,6 +11,12 @@
                 </div>
             @endif
 
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="">
                 <div class="">
                     <h4>Subjects <a href="{{ url("subject") }}" class="back-user"> Back</a></h4>

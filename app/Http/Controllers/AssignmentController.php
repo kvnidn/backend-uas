@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Subject;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 use App\Models\Assignment;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +25,12 @@ class AssignmentController extends Controller
         $title = 'Assignment';
         $users = User::where('role', 'Lecturer')->get();
         $subjects = Subject::all();
+        $kelas = Kelas::all();
         return view('assignment/create', [
             'title'=>$title,
             'users'=>$users,
-            'subjects'=>$subjects
+            'subjects'=>$subjects,
+            'kelas'=>$kelas,
         ]);
     }
 
@@ -36,7 +39,8 @@ class AssignmentController extends Controller
 
         $request->validate([
             'subject_id'=>'required|exists:subject,id',
-            'user_id'=>'required|exists:user,id'
+            'user_id'=>'required|exists:user,id',
+            'kelas_id'=>'required|exists:kelas,id',
         ]);
 
         try {
@@ -45,6 +49,7 @@ class AssignmentController extends Controller
             Assignment::create([
                 'subject_id' => $request->subject_id,
                 'user_id' => $request->user_id,
+                'kelas_id' => $request->kelas_id,
             ]);
 
             DB::commit();
@@ -53,7 +58,7 @@ class AssignmentController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
 
-            $errorMessage = "The combination of subject and user must be unique.";
+            $errorMessage = "The combination of subject and user and class must be unique.";
 
             return redirect('assignment/create')->with('error', $errorMessage);
         }
@@ -63,24 +68,28 @@ class AssignmentController extends Controller
         $assignment = Assignment::findOrFail($id);
         $title = "Assignment";
         $subjects = Subject::all();
+        $kelas = Kelas::all();
         $users = User::where('role', 'Lecturer')->get();
 
-        return view("assignment/edit", compact('assignment', 'title', 'subjects','users'));
+        return view("assignment/edit", compact('assignment', 'title', 'subjects', 'users', 'kelas'));
     }
 
     public function update(Request $request, int $id) {
 
         $request->validate([
             'subject_id'=>'required|exists:subject,id',
-            'user_id'=>'required|exists:user,id'
+            'user_id'=>'required|exists:user,id',
+            'kelas_id' => 'required|exists:kelas,id',
         ]);
 
         try {
             DB::beginTransaction();
 
-            Assignment::create([
+            $assignment = Assignment::findOrFail($id);
+            $assignment->update([
                 'subject_id' => $request->subject_id,
                 'user_id' => $request->user_id,
+                'kelas_id' => $request->kelas_id,
             ]);
 
             DB::commit();
@@ -89,7 +98,7 @@ class AssignmentController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
 
-            $errorMessage = "The combination of subject and user must be unique.";
+            $errorMessage = "The combination of subject and user and class must be unique.";
 
             return redirect('assignment/create')->with('error', $errorMessage);
         }

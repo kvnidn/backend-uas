@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class SubjectController extends Controller
 {
@@ -29,10 +31,23 @@ class SubjectController extends Controller
             'name'=>'required|string|max:50',
         ]);
 
+        try {
+            DB::beginTransaction();
+            Subject::create([
+                'name' => $request->name,
+            ]);
 
-        Subject::create([
-            'name' => $request->name,
-        ]);
+            DB::commit();
+
+            return redirect('subject/create')->with('status', 'Subject created');
+        } catch (QueryException $e) {
+            DB::rollback();
+
+            $errorMessage = "Subject must be unique.";
+
+        return redirect('subject/create')->with('error', $errorMessage);
+        }
+
 
         return redirect('subject/create')->with('status', 'Subject created');
     }
@@ -50,12 +65,20 @@ class SubjectController extends Controller
             'name' => 'required|string|max:50',
         ]);
 
-
-        Subject::findOrFail($id)->update([
+        try {
+            DB::beginTransaction();
+            Subject::findOrFail($id)->update([
             'name' => $request->name,
-        ]);
+            ]);
+            DB::commit();
 
-        return redirect('subject/')->with('status', 'Subject updated');
+            return redirect('subject/')->with('status', 'Subject updated');
+        } catch (QueryException $e) {
+            DB::rollBack();
+            $errorMessage = "Subject must be unique.";
+            return redirect()->back()->with('error', $errorMessage);
+        }
+
     }
 
     public function destroy(int $id) {

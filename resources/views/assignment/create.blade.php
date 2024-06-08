@@ -28,7 +28,7 @@
                         <div class="form-name">
                             <label>Subject Name</label>
                             <select name="subject_id">
-                                <option value="" disabled selected>Select a user</option>
+                                <option value="" disabled selected>Select a subject</option>
                                 @foreach($subjects as $subject)
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
@@ -44,6 +44,16 @@
                                 @endforeach
                             </select>
                             @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="form-user">
+                            <label>Class</label>
+                            <select name="kelas_id">
+                                <option value="" disabled selected>Select a Class</option>
+                                @foreach($kelas as $kelas)
+                                    <option value="{{ $kelas->id }}">{{ $kelas->prodi }}-{{ substr($kelas->year, -2) }}-{{ $kelas->class }}</option>
+                                @endforeach
+                            </select>
+                            @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="save-user-button">
                             <button type="submit">Save</button>
