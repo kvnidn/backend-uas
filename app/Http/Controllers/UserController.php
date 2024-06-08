@@ -54,18 +54,24 @@ class UserController extends Controller
             'password' => "required|max:255|string",
             'role' => 'required',
         ]);
-
+    
         $user = User::findOrFail($id);
-
-        User::findOrFail($id)->update([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>bcrypt($request->password),
-            'role'=>$request->role,
-        ]);
-
+    
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+        ];
+    
+        if ($request->password != $user->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+    
+        $user->update($data);
+    
         return redirect('user/')->with('status', 'User updated');
     }
+    
 
     public function destroy(int $id) {
         if (Auth::check()) {
