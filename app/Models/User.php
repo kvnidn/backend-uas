@@ -19,10 +19,6 @@ class User extends Authenticatable
         'role',
     ];
 
-    // protected $guarded = [
-    //     'id',
-    // ];
-
     public function assignment() {
         return $this->hasMany(Assignment::class);
     }

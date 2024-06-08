@@ -11,6 +11,7 @@
             <a class="{{ ($title === "About") ? "active" : ""}}" href="/about">About</a>
 
             @auth
+                <a class="{{ ($title === "Schedule") ? "active" : ""}}" href="/schedule">Schedule</a>
 
                 <a class="{{ ($title === "Assignment") ? "active" : ""}}" href="/assignment">Assignment</a>
 

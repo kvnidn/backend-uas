@@ -77,6 +77,18 @@ class UserController extends Controller
         }
     }
 
+    public function createUser() {
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('12345'),
+            'role' => 'Admin', // Set the role as appropriate
+        ]);
+    
+        return 'User created successfully!';
+    }
+    
+
 
 
 }

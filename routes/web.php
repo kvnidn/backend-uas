@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
@@ -48,11 +49,19 @@ Route::get('/assignment/{id}/edit', [AssignmentController::class, 'edit'])->midd
 Route::put('/assignment/{id}/edit', [AssignmentController::class, 'update']);
 Route::get('/assignment/{id}/delete', [AssignmentController::class, 'destroy'])->middleware('auth');
 
+Route::get('/schedule', [ScheduleController::class, 'index'])->middleware('auth');
+Route::get('/schedule/create', [ScheduleController::class, 'create'])->middleware('auth');
+Route::post('/schedule/create', [ScheduleController::class, 'store']);
+Route::get('/schedule/{id}/edit', [ScheduleController::class, 'edit'])->middleware('auth');
+Route::put('/schedule/{id}/edit', [ScheduleController::class, 'update']);
+Route::get('/schedule/{id}/delete', [ScheduleController::class, 'destroy'])->middleware('auth');
 
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'authentication']);
 Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::get('/create-user', [UserController::class,'createUser']);
 
 
 Route::get('/test', function () {
