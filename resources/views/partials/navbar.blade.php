@@ -10,6 +10,8 @@
 
             <a class="{{ ($title === "About") ? "active" : ""}}" href="/about">About</a>
 
+            <a class="{{ ($title === "View") ? "active" : ""}}" href="/view">View</a>
+
             @auth
                 <a class="{{ ($title === "Schedule") ? "active" : ""}}" href="/schedule">Schedule</a>
 

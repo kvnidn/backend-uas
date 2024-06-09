@@ -75,6 +75,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="repeat">Repeat (weeks)</label>
+                            <input type="number" name="repeat" id="repeat" min="0" max="52" value="0">
+                        </div>
+
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">Create</button>
                         </div>
 

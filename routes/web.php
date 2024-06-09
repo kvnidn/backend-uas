@@ -51,11 +51,18 @@ Route::put('/assignment/{id}/edit', [AssignmentController::class, 'update']);
 Route::get('/assignment/{id}/delete', [AssignmentController::class, 'destroy'])->middleware('auth');
 
 Route::get('/schedule', [ScheduleController::class, 'index'])->middleware('auth');
+Route::get('/view/{date?}', [ScheduleController::class, 'view'])->name('schedule.view');
 Route::get('/schedule/create', [ScheduleController::class, 'create'])->middleware('auth');
 Route::post('/schedule/create', [ScheduleController::class, 'store']);
 Route::get('/schedule/{id}/edit', [ScheduleController::class, 'edit'])->middleware('auth');
 Route::put('/schedule/{id}/edit', [ScheduleController::class, 'update']);
 Route::get('/schedule/{id}/delete', [ScheduleController::class, 'destroy'])->middleware('auth');
+
+Route::get('schedule/batch-edit', [ScheduleController::class, 'batchEdit'])->middleware('auth');
+Route::put('schedule/batch-update', [ScheduleController::class, 'batchUpdate']);
+Route::get('schedule/batch-delete', [ScheduleController::class, 'batchDestroy'])->middleware('auth');
+
+
 
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
