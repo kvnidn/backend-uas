@@ -67,7 +67,7 @@
                                 <option value="" disabled selected>Select a room</option>
                                 @foreach($rooms as $room)
                                     <option value="{{ $room->id }}">
-                                        {{ $room->room_number }}
+                                        R{{ $room->room_number }}
                                     </option>
                                 @endforeach
                             </select>

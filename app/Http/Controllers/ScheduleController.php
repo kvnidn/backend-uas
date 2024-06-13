@@ -94,20 +94,35 @@ class ScheduleController extends Controller
             $date = \Carbon\Carbon::parse($request->date)->addDays($i * $intervalDays);
     
             $conflict = \DB::table('schedule')
-                ->where('room_id', $request->room_id)
-                ->where('date', $date->toDateString())
+                ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
+                ->where('schedule.date', $date->toDateString())
+                ->where(function($query) use ($request) {
+                    $query->where('schedule.room_id', $request->room_id)
+                          ->orWhere(function($query) use ($request) {
+                              $query->where('assignment.user_id', function($query) use ($request) {
+                                        $query->select('user_id')
+                                              ->from('assignment')
+                                              ->where('id', $request->assignment_id);
+                                    })
+                                    ->orWhere('assignment.kelas_id', function($query) use ($request) {
+                                        $query->select('kelas_id')
+                                              ->from('assignment')
+                                              ->where('id', $request->assignment_id);
+                                    });
+                          });
+                })
                 ->where(function($query) use ($request) {
                     $query->where(function($query) use ($request) {
-                            $query->where('start_time', '>=', $request->start_time)
-                                  ->where('start_time', '<', $request->end_time);
+                            $query->where('schedule.start_time', '>=', $request->start_time)
+                                  ->where('schedule.start_time', '<', $request->end_time);
                         })
                         ->orWhere(function($query) use ($request) {
-                            $query->where('end_time', '>', $request->start_time)
-                                  ->where('end_time', '<=', $request->end_time);
+                            $query->where('schedule.end_time', '>', $request->start_time)
+                                  ->where('schedule.end_time', '<=', $request->end_time);
                         })
                         ->orWhere(function($query) use ($request) {
-                            $query->where('start_time', '<', $request->start_time)
-                                  ->where('end_time', '>', $request->end_time);
+                            $query->where('schedule.start_time', '<', $request->start_time)
+                                  ->where('schedule.end_time', '>', $request->end_time);
                         });
                 })
                 ->exists();
@@ -132,6 +147,7 @@ class ScheduleController extends Controller
         return redirect('schedule/create')->with('status', 'Schedule created');
     }
     
+    
 
     public function edit(int $id) {
         $schedule = Schedule::findOrFail($id);
@@ -147,24 +163,37 @@ class ScheduleController extends Controller
     public function update(Request $request, int $id) {
         $request->validate([
             'date' => 'required|date',
-            // Validate start time only if it's different from the existing value
-            'start_time' => $request->start_time != $request->start_time ? 'required|date_format:H:i' : '',
-            // Validate end time only if it's different from the existing value
-            'end_time' => $request->end_time != $request->end_time ? 'required|date_format:H:i|after:start_time' : '',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
             'assignment_id' => 'required|exists:assignment,id',
             'room_id' => 'required|exists:room,id',
         ]);
     
         $conflict = \DB::table('schedule')
-            ->where('room_id', $request->room_id)
-            ->where('date', $request->date)
-            ->where('id', '!=', $id)
+            ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
+            ->where('schedule.date', $request->date)
+            ->where('schedule.id', '!=', $id)
             ->where(function($query) use ($request) {
-                $query->whereBetween('start_time', [$request->start_time, $request->end_time])
-                      ->orWhereBetween('end_time', [$request->start_time, $request->end_time])
+                $query->where('schedule.room_id', $request->room_id)
                       ->orWhere(function($query) use ($request) {
-                          $query->where('start_time', '<=', $request->start_time)
-                                ->where('end_time', '>=', $request->end_time);
+                          $query->where('assignment.user_id', function($query) use ($request) {
+                                    $query->select('user_id')
+                                          ->from('assignment')
+                                          ->where('id', $request->assignment_id);
+                                })
+                                ->orWhere('assignment.kelas_id', function($query) use ($request) {
+                                    $query->select('kelas_id')
+                                          ->from('assignment')
+                                          ->where('id', $request->assignment_id);
+                                });
+                      });
+            })
+            ->where(function($query) use ($request) {
+                $query->whereBetween('schedule.start_time', [$request->start_time, $request->end_time])
+                      ->orWhereBetween('schedule.end_time', [$request->start_time, $request->end_time])
+                      ->orWhere(function($query) use ($request) {
+                          $query->where('schedule.start_time', '<=', $request->start_time)
+                                ->where('schedule.end_time', '>=', $request->end_time);
                       });
             })
             ->exists();
@@ -184,6 +213,7 @@ class ScheduleController extends Controller
     
         return redirect('schedule')->with('status', 'Schedule updated');
     }
+    
 
     public function destroy(int $id) {
         if (Auth::check()) {
@@ -219,19 +249,32 @@ class ScheduleController extends Controller
                 $schedule->assignment_id = $request->input('assignment_id');
                 $schedule->room_id = $request->input('room_id');
     
+                // Get the lecturer and class IDs from the assignment
+                $assignment = Assignment::findOrFail($schedule->assignment_id);
+                $user_id = $assignment->user_id;
+                $kelas_id = $assignment->kelas_id;
+    
                 // Check for conflicts
-                $conflict = Schedule::where('room_id', $schedule->room_id)
-                                    ->where('date', $schedule->date)
-                                    ->where('id', '!=', $id)
-                                    ->where(function($query) use ($schedule) {
-                                        $query->whereBetween('start_time', [$schedule->start_time, $schedule->end_time])
-                                              ->orWhereBetween('end_time', [$schedule->start_time, $schedule->end_time])
-                                              ->orWhere(function($query) use ($schedule) {
-                                                  $query->where('start_time', '<=', $schedule->start_time)
-                                                        ->where('end_time', '>=', $schedule->end_time);
-                                              });
-                                    })
-                                    ->exists();
+                $conflict = \DB::table('schedule')
+                    ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
+                    ->where('schedule.date', $schedule->date)
+                    ->where('schedule.id', '!=', $id)
+                    ->where(function($query) use ($schedule, $user_id, $kelas_id) {
+                        $query->where('schedule.room_id', $schedule->room_id)
+                              ->orWhere(function($query) use ($user_id, $kelas_id) {
+                                  $query->where('assignment.user_id', $user_id)
+                                        ->orWhere('assignment.kelas_id', $kelas_id);
+                              });
+                    })
+                    ->where(function($query) use ($schedule) {
+                        $query->whereBetween('schedule.start_time', [$schedule->start_time, $schedule->end_time])
+                              ->orWhereBetween('schedule.end_time', [$schedule->start_time, $schedule->end_time])
+                              ->orWhere(function($query) use ($schedule) {
+                                  $query->where('schedule.start_time', '<=', $schedule->start_time)
+                                        ->where('schedule.end_time', '>=', $schedule->end_time);
+                              });
+                    })
+                    ->exists();
     
                 if ($conflict) {
                     return redirect()->back()->withErrors(['time' => 'The selected time slot conflicts with an existing schedule.']);
@@ -243,6 +286,7 @@ class ScheduleController extends Controller
     
         return redirect()->back()->with('success', 'Schedules updated successfully.');
     }
+    
     
     public function batchDestroy(Request $request) {
         // Check if the user is authenticated

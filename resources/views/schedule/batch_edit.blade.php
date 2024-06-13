@@ -57,7 +57,9 @@
     <select name="assignment_id" id="assignment_id" required>
         <option value="" disabled>Select an assignment</option>
         @foreach($assignments as $assignment)
-            <option value="{{ $assignment->id }}">{{ $assignment->subject->name }} - {{ $assignment->user->name }} - {{ $assignment->kelas->prodi }}-{{ substr($assignment->kelas->year, -2) }}-{{ $assignment->kelas->class }}</option>
+            <option value="{{ $assignment->id }}" {{ $schedule->assignment_id == $assignment->id ? 'selected' : '' }}>
+                {{ $assignment->subject->name }} - {{ $assignment->user->name }} - {{ $assignment->kelas->prodi }}-{{ substr($assignment->kelas->year, -2) }}-{{ $assignment->kelas->class }}
+            </option>
         @endforeach
     </select>
     @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror
@@ -68,7 +70,9 @@
     <select name="room_id" id="room_id" required>
         <option value="" disabled>Select a room</option>
         @foreach($rooms as $room)
-            <option value="{{ $room->id }}">{{ $room->room_number }}</option>
+            <option value="{{ $room->id }}" {{ $schedule->room_id == $room->id ? 'selected' : '' }}>
+                R{{ $room->room_number }}
+            </option>
         @endforeach
     </select>
     @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror

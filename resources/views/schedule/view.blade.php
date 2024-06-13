@@ -44,7 +44,7 @@
                                 <td>{{ $item->assignment->subject->name }}</td>
                                 <td>{{ $item->assignment->user->name }}</td>
                                 <td>{{ $item->assignment->kelas->prodi }}-{{ substr($item->assignment->kelas->year, -2) }}-{{ $item->assignment->kelas->class }}</td>
-                                <td>{{ $item->room->room_number }}</td>
+                                <td>R{{ $item->room->room_number }}</td>
                             </tr>
                             @endforeach
                         </tbody>

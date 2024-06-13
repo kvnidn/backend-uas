@@ -36,7 +36,7 @@
                                     <td>{{ $group->first()->assignment->subject->name }}</td>
                                     <td>{{ $group->first()->assignment->user->name }}</td>
                                     <td>{{ $group->first()->assignment->kelas->prodi }}-{{ substr($group->first()->assignment->kelas->year, -2) }}-{{ $group->first()->assignment->kelas->class }}</td>
-                                    <td>{{ $group->first()->room->room_number }}</td>
+                                    <td>R{{ $group->first()->room->room_number }}</td>
                                     <td>
                                         <div class="actions">
                                             <a href="{{ url('schedule/batch-edit?ids=' . $ids) }}" class="edit-button">Edit</a>
@@ -71,7 +71,7 @@
                                                         <td>{{ $item->assignment->subject->name }}</td>
                                                         <td>{{ $item->assignment->user->name }}</td>
                                                         <td>{{ $item->assignment->kelas->prodi }}-{{ substr($item->assignment->kelas->year, -2) }}-{{ $item->assignment->kelas->class }}</td>
-                                                        <td>{{ $item->room->room_number }}</td>
+                                                        <td>R{{ $item->room->room_number }}</td>
                                                         <td>
                                                             <a href="{{ url('schedule/'.$item->id.'/edit') }}" class="edit-button">Edit</a>
                                                             <a href="{{ url('schedule/'.$item->id.'/delete') }}" class="delete-button" onclick="return confirm('Are you sure?')">Delete</a>
