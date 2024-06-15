@@ -19,6 +19,10 @@ class User extends Authenticatable
         'role',
     ];
 
+    protected $hidden = [
+        'remember_token',
+    ];
+
     public function assignment() {
         return $this->hasMany(Assignment::class);
     }

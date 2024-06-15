@@ -28,6 +28,7 @@ class UserController extends Controller
             'email'=>'required|max:255|string|email|unique:user,email',
             'password'=>'required|max:255|string',
             'role'=>'required',
+            'remember_token'=>'nullable|string',
         ]);
 
         User::create([
@@ -35,6 +36,7 @@ class UserController extends Controller
             'email'=>$request->email,
             'password'=>bcrypt($request->password),
             'role'=>$request->role,
+            'remember_token'=>$request->remember_token,
         ]);
 
         return redirect('user/create')->with('status', 'User created');
@@ -53,25 +55,26 @@ class UserController extends Controller
             "email" => "required|max:255|string|email|unique:user,email,{$id}",
             'password' => "required|max:255|string",
             'role' => 'required',
+            'remember_token'=>'nullable|string',
         ]);
-    
+
         $user = User::findOrFail($id);
-    
+
         $data = [
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
         ];
-    
+
         if ($request->password != $user->password) {
             $data['password'] = bcrypt($request->password);
         }
-    
+
         $user->update($data);
-    
+
         return redirect('user/')->with('status', 'User updated');
     }
-    
+
 
     public function destroy(int $id) {
         if (Auth::check()) {
@@ -89,11 +92,12 @@ class UserController extends Controller
             'email' => 'admin@example.com',
             'password' => bcrypt('12345'),
             'role' => 'Admin', // Set the role as appropriate
+            'remember_token'=>null,
         ]);
-    
+
         return 'User created successfully!';
     }
-    
+
 
 
 

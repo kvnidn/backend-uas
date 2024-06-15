@@ -19,8 +19,12 @@ class LoginController extends Controller
            'password'=>'required|max:255|string',
         ]);
 
-        if(Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        $remember = $request->filled('remember');
+
+        if(Auth::attempt($credentials, $remember)) {
+            if($remember) {
+                $request->session()->regenerate();
+            }
 
             return redirect()->intended('/');
         }
@@ -36,4 +40,5 @@ class LoginController extends Controller
 
         return redirect('/');
     }
+
 }

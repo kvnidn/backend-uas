@@ -36,6 +36,14 @@
                             <input type="password" name="password" value="{{  old('password') }}"/>
                             @error('password') <span class="">{{ $message }}</span> @enderror
                         </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                                <label class="form-check-label" for="remember">
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
                         <div class="save-user-button">
                             <button type="submit">Login</button>
                         </div>

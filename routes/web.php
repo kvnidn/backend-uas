@@ -78,10 +78,3 @@ Route::get('/class/{id}/delete', [KelasController::class, 'destroy'])->middlewar
 
 Route::get('/create-user', [UserController::class,'createUser']);
 
-
-Route::get('/test', function () {
-    return view('welcome', [
-        "title" => "Admin",
-    ]);
-});
-
