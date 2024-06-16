@@ -11,21 +11,25 @@
             <a class="{{ ($title === "About") ? "active" : ""}}" href="/about">About</a>
 
             <a class="{{ ($title === "View") ? "active" : ""}}" href="/view">View</a>
-            
+
             <a class="{{ ($title === "KeyLending") ? "active" : ""}}" href="/key-lending">Room Lending</a>
 
             @auth
-                <a class="{{ ($title === "Schedule") ? "active" : ""}}" href="/schedule">Schedule</a>
+                @if(auth()->user()->role == 'Admin')
+                    <a class="{{ ($title === "Schedule") ? "active" : ""}}" href="/schedule">Schedule</a>
 
-                <a class="{{ ($title === "Assignment") ? "active" : ""}}" href="/assignment">Assignment</a>
+                    <a class="{{ ($title === "Assignment") ? "active" : ""}}" href="/assignment">Assignment</a>
 
-                <a class="{{ ($title === "Subject") ? "active" : ""}}"  href="/subject">Subject</a>
+                    <a class="{{ ($title === "Subject") ? "active" : ""}}"  href="/subject">Subject</a>
 
-                <a class="{{ ($title === "Room") ? "active" : "" }}"  href="/room">Room</a>
+                    <a class="{{ ($title === "Room") ? "active" : "" }}"  href="/room">Room</a>
 
-                <a class="{{ ($title === "Class") ? "active" : "" }}"  href="/class">Class</a>
+                    <a class="{{ ($title === "Class") ? "active" : "" }}"  href="/class">Class</a>
 
-                <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
+                    <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
+                @elseif(auth()->user()->role == 'Lecturer')
+                    <a class="{{ ($title === "Schedule") ? "active" : "" }}" href="/schedule">Schedule</a>
+                @endif
             @else
                 <a class="{{ ($title === "Login") ? "active" : "" }}" href="/login">Login</a>
             @endauth

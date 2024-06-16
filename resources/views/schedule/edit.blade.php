@@ -27,7 +27,7 @@
                     <h4>Edit Schedule <a href="{{ url('schedule') }}" class="back-user">Back</a></h4>
                 </div>
                 <div class="form-content">
-                    <form action="{{ url('schedule/'.$schedule->id.'/edit') }}" method="POST">
+                    <form action="{{ url('schedule/'.$schedule->id.'/update') }}" method="POST">
                         @csrf
                         @method('PUT')
 
