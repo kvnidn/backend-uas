@@ -94,13 +94,13 @@ class AssignmentController extends Controller
 
             DB::commit();
 
-            return redirect('assignment/create')->with('status', 'Assignment updated');
+            return redirect('assignment/')->with('status', 'Assignment updated');
         } catch (QueryException $e) {
             DB::rollBack();
 
             $errorMessage = "The combination of subject and user and class must be unique.";
 
-            return redirect('assignment/create')->with('error', $errorMessage);
+            return redirect()->back()->with('error', $errorMessage);
         }
     }
 

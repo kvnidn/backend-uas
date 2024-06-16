@@ -26,4 +26,10 @@ class Schedule extends Model
     public function room() {
         return $this->belongsTo(Room::class);
     }
+
+    public function keyLending()
+    {
+        return $this->hasMany(KeyLending::class);
+    }
+
 }

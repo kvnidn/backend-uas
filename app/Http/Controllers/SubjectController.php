@@ -47,9 +47,6 @@ class SubjectController extends Controller
 
         return redirect('subject/create')->with('error', $errorMessage);
         }
-
-
-        return redirect('subject/create')->with('status', 'Subject created');
     }
 
     public function edit(int $id) {

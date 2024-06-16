@@ -11,6 +11,8 @@
             <a class="{{ ($title === "About") ? "active" : ""}}" href="/about">About</a>
 
             <a class="{{ ($title === "View") ? "active" : ""}}" href="/view">View</a>
+            
+            <a class="{{ ($title === "KeyLending") ? "active" : ""}}" href="/key-lending">Room Lending</a>
 
             @auth
                 <a class="{{ ($title === "Schedule") ? "active" : ""}}" href="/schedule">Schedule</a>
@@ -25,7 +27,6 @@
 
                 <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
             @else
-                <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
                 <a class="{{ ($title === "Login") ? "active" : "" }}" href="/login">Login</a>
             @endauth
 

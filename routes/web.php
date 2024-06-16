@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KeyLendingController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
@@ -57,6 +58,20 @@ Route::post('/schedule/create', [ScheduleController::class, 'store']);
 Route::get('/schedule/{id}/edit', [ScheduleController::class, 'edit'])->middleware('auth');
 Route::put('/schedule/{id}/edit', [ScheduleController::class, 'update']);
 Route::get('/schedule/{id}/delete', [ScheduleController::class, 'destroy'])->middleware('auth');
+
+// Route::get('/key-lending', [KeyLendingController::class, 'index'])->middleware('auth')->name('key-lending.index');
+// Route::get('/key-lending/create', [KeyLendingController::class, 'create'])->middleware('auth');
+// Route::post('/key-lending/create', [KeyLendingController::class, 'store']);
+// Route::get('/key-lending/{id}/edit', [KeyLendingController::class, 'edit'])->middleware('auth');
+// Route::put('/key-lending/{id}/edit', [KeyLendingController::class, 'update']);
+// Route::get('/key-lending/{id}/delete', [KeyLendingController::class, 'destroy'])->middleware('auth');
+
+Route::get('/key-lending', [KeyLendingController::class, 'viewToday'])->name('key-lending.viewToday');
+Route::get('/key-lending/{id}/verify', [KeyLendingController::class, 'showVerifyForm'])->name('key-lending.verify');
+Route::get('/key-lending/{id}/verify-end', [KeyLendingController::class, 'showEndVerifyForm'])->name('key-lending.verify-end');
+Route::post('/key-lending/{id}/verify-update-start', [KeyLendingController::class, 'verifyAndUpdateStart'])->name('key-lending.verify.update.start');
+Route::post('/key-lending/{id}/verify-update-end', [KeyLendingController::class, 'verifyAndUpdateEnd'])->name('key-lending.verify.update.end');
+
 
 Route::get('schedule/batch-edit', [ScheduleController::class, 'batchEdit'])->middleware('auth');
 Route::put('schedule/batch-update', [ScheduleController::class, 'batchUpdate']);
