@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Subject;
 use App\Models\Kelas;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\Assignment;
 use Illuminate\Support\Facades\Auth;
@@ -15,21 +15,46 @@ use Illuminate\Support\Facades\DB;
 class AssignmentController extends Controller
 {
     //
-    public function index() {
-        $assignment = Assignment::orderBy('id')->get();
-        $title = 'Assignment';
-        return view('assignment/index', compact('assignment', 'title'));
+    public function index(Request $request)
+{
+    $assignments = Assignment::orderBy('id');
+    $allLecturer = User::where("role", "Lecturer")->get();
+    $allSubject = Subject::all();
+
+    // Filter by subject_id if provided in the request
+    if ($request->filled('subject_id')) {
+        $subjectId = $request->input('subject_id');
+        $assignments->whereHas('kelas', function ($q) use ($subjectId) {
+            $q->where('subject_id', $subjectId);
+        });
     }
+
+    if ($request->filled('lecturer_id')) {
+        $lecturerId = $request->input('lecturer_id');
+        $assignments->whereHas('user', function ($q) use ($request) {
+            $q->where('user_id', $request->input('lecturer_id'));
+        });
+    }
+
+    // Get the filtered assignments
+    $assignments = $assignments->get();
+
+    // Title for the view
+    $title = 'Assignment';
+
+    // Pass data to the view
+    return view('assignment.index', compact('assignments', 'title', 'allLecturer', 'allSubject'));
+}
+
+    
 
     public function create() {
         $title = 'Assignment';
         $users = User::where('role', 'Lecturer')->get();
-        $subjects = Subject::all();
         $kelas = Kelas::all();
         return view('assignment/create', [
             'title'=>$title,
             'users'=>$users,
-            'subjects'=>$subjects,
             'kelas'=>$kelas,
         ]);
     }
@@ -38,7 +63,6 @@ class AssignmentController extends Controller
 
 
         $request->validate([
-            'subject_id'=>'required|exists:subject,id',
             'user_id'=>'required|exists:user,id',
             'kelas_id'=>'required|exists:kelas,id',
         ]);
@@ -47,7 +71,6 @@ class AssignmentController extends Controller
             DB::beginTransaction();
 
             Assignment::create([
-                'subject_id' => $request->subject_id,
                 'user_id' => $request->user_id,
                 'kelas_id' => $request->kelas_id,
             ]);
@@ -58,7 +81,7 @@ class AssignmentController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
 
-            $errorMessage = "The combination of subject and user and class must be unique.";
+            $errorMessage = "The combination of user and class must be unique.";
 
             return redirect('assignment/create')->with('error', $errorMessage);
         }
@@ -67,17 +90,15 @@ class AssignmentController extends Controller
     public function edit(int $id) {
         $assignment = Assignment::findOrFail($id);
         $title = "Assignment";
-        $subjects = Subject::all();
         $kelas = Kelas::all();
         $users = User::where('role', 'Lecturer')->get();
 
-        return view("assignment/edit", compact('assignment', 'title', 'subjects', 'users', 'kelas'));
+        return view("assignment/edit", compact('assignment', 'title', 'users', 'kelas'));
     }
 
     public function update(Request $request, int $id) {
 
         $request->validate([
-            'subject_id'=>'required|exists:subject,id',
             'user_id'=>'required|exists:user,id',
             'kelas_id' => 'required|exists:kelas,id',
         ]);
@@ -87,7 +108,6 @@ class AssignmentController extends Controller
 
             $assignment = Assignment::findOrFail($id);
             $assignment->update([
-                'subject_id' => $request->subject_id,
                 'user_id' => $request->user_id,
                 'kelas_id' => $request->kelas_id,
             ]);
@@ -98,7 +118,7 @@ class AssignmentController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
 
-            $errorMessage = "The combination of subject and user and class must be unique.";
+            $errorMessage = "The combination of user and class must be unique.";
 
             return redirect()->back()->with('error', $errorMessage);
         }

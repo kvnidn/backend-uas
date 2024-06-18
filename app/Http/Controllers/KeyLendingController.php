@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KeyLending;
 use App\Models\Schedule;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -145,16 +146,27 @@ class KeyLendingController extends Controller
             return redirect()->back()->with('error', 'Password verification failed.');
         }
     }
-
-    public function viewToday()
+    
+    public function viewToday(Request $request)
     {
+        $selectedRoomId = $request->input('room_id');
         $selectedDate = now()->format('Y-m-d');
         $title = "KeyLending";
-
+    
+        // Fetch all rooms
+        $allRoom = Room::all();
+    
         // Fetch key lending records for today
-        $schedule = Schedule::whereDate('date', $selectedDate)->orderBy('start_time')->get();
+        $query = Schedule::whereDate('date', $selectedDate)->orderBy('start_time');
+    
+        if ($selectedRoomId) {
+            $query->where('room_id', $selectedRoomId);
+        }
+    
+        $schedule = $query->get();
         $keyLendings = KeyLending::whereDate('created_at', $selectedDate)->orderBy('start_time')->get();
-
-        return view('key-lending.view', compact('title', 'keyLendings', 'selectedDate', 'schedule'));
+    
+        return view('key-lending.view', compact('title', 'keyLendings', 'selectedDate', 'schedule', 'selectedRoomId', 'allRoom'));
     }
+    
 }

@@ -20,6 +20,17 @@
         </div>
     </div>
     <div class="table-container">
+    <form method="GET" action="{{ route('key-lending.viewToday') }}">
+        <label for="room">Filter by Room:</label>
+        <select name="room_id" id="room" onchange="this.form.submit()">
+            <option value="">All Rooms</option>
+            @foreach ($allRoom as $room)
+                <option value="{{ $room->id }}" {{ $room->id == $selectedRoomId ? 'selected' : '' }}>
+                    Room {{ $room->room_number }}
+                </option>
+            @endforeach
+        </select>
+    </form>
         <table class="table">
             <thead class="table-header">
                 <tr class="table-header-row">
@@ -40,9 +51,9 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $schedule->start_time }}</td>
                         <td>{{ $schedule->end_time }}</td>
-                        <td>{{ $schedule->assignment ? $schedule->assignment->subject->name : '' }}</td>
+                        <td>{{ $schedule->assignment ? $schedule->assignment->kelas->prodi . '-' . $schedule->assignment->kelas->subject->name : '' }}</td>
                         <td>{{ $schedule->assignment ? $schedule->assignment->user->name : '' }}</td>
-                        <td>{{ $schedule->assignment && $schedule->assignment->kelas ? $schedule->assignment->kelas->prodi . '-' . substr($schedule->assignment->kelas->year, -2) . '-' . $schedule->assignment->kelas->class : '' }}</td>
+                        <td>{{ $schedule->assignment && $schedule->assignment->kelas ? $schedule->assignment->kelas->class : '' }}</td>
                         <td>{{ $schedule->room ? 'R' . $schedule->room->room_number : '' }}</td>
                         <td>
                         @php

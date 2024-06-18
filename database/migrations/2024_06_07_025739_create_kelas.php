@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
             $table->string('prodi');
-            $table->integer('year');
+            $table->foreignId('subject_id')->constrained('subject')->onDelete('cascade');
             $table->string('class');
             $table->timestamps();
 
-            $table->unique(['prodi', 'year', 'class']);
+            $table->unique(['prodi','subject_id', 'class']);
         });
     }
 

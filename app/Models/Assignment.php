@@ -12,14 +12,13 @@ class Assignment extends Model
     protected $table = 'assignment';
 
     protected $fillable = [
-        'subject_id',
         'user_id',
         'kelas_id',
     ];
 
-    public function subject() {
-        return $this->belongsTo(Subject::class);
-    }
+    // public function subject() {
+    //     return $this->belongsTo(Subject::class);
+    // }
 
     public function user() {
         return $this->belongsTo(User::class);

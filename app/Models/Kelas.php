@@ -13,7 +13,15 @@ class Kelas extends Model
 
     protected $fillable = [
         'prodi',
-        'year',
+        'subject_id',
         'class',
     ];
+
+    public function subject() {
+        return $this->belongsTo(Subject::class);
+    }
+
+    public function assignment() {
+        return $this->hasMany(Assignment::class);
+    }
 }

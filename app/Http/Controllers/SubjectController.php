@@ -28,7 +28,7 @@ class SubjectController extends Controller
 
 
         $request->validate([
-            'name'=>'required|string|max:50',
+            'name'=>'required|string|max:100',
         ]);
 
         try {

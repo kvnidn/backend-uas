@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 use App\Models\Room;
+use App\Models\User;
+use App\Models\Subject;
+use App\Models\Kelas;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use DateTime;
@@ -12,61 +15,87 @@ use Illuminate\Support\Facades\Auth;
 class ScheduleController extends Controller
 {
     //
-    public function index() {
-        $schedule = Schedule::orderBy('date')->orderBy('start_time')->get();
-        $groupedSchedules = $schedule->groupBy(function ($item) {
-            return $item->start_time . '|' . $item->end_time . '|' . $item->assignment_id . '|' . $item->room_id;
+    public function index(Request $request)
+{
+    $allRoom = Room::all();
+    $allLecturer = User::where("role", "Lecturer")->get();
+    $allSubject = Subject::all();
+    $allClass = Kelas::all();
+    // Fetch all schedules
+    $query = Schedule::orderByRaw("CASE WHEN EXTRACT(DOW FROM date::date) = 0 THEN 7 ELSE EXTRACT(DOW FROM date::date) END")->orderBy('start_time');
+
+    // Filter by room
+    if ($request->filled('room_id')) {
+        $query->where('room_id', $request->input('room_id'));
+    }
+
+    if ($request->filled('lecturer_id')) {
+        $query->whereHas('assignment', function ($q) use ($request) {
+            $q->where('user_id', $request->input('lecturer_id'));
         });
-        $title = 'Schedule';
-        return view('schedule/index', compact('schedule','title', 'groupedSchedules'));
     }
 
-    public function view($date = null) {
-        $now = new DateTime();
-        $currentDayOfWeek = (int)$now->format('N'); // Get the current day of the week (1 for Monday, 7 for Sunday)
+    if ($request->filled('subject_id')) {
+        $query->whereHas('assignment.kelas.subject', function ($q) use ($request) {
+            $q->where('id', $request->input('subject_id'));
+        });
+    }
 
-        // Determine the initial selected date based on the current day of the week
-        if ($currentDayOfWeek >= 6) { // Saturday (6) or Sunday (7)
-            $now->modify('next Monday');
+    if ($request->filled('class_id')) {
+        $query->whereHas('assignment.kelas', function ($q) use ($request) {
+            $q->where('id', $request->input('class_id'));
+        });
+    }
+
+    if ($request->filled('day_of_week')) {
+        $selectedDayOfWeek = $request->input('day_of_week');
+        // Convert day name to the corresponding numeric value (1 for Monday, 2 for Tuesday, etc.)
+        $dayOfWeekNumeric = date('N', strtotime($selectedDayOfWeek));
+        
+        // Adjust for Sunday to make sure it includes schedules for Sunday
+        if ($dayOfWeekNumeric == 7) {
+            $query->whereRaw("EXTRACT(DOW FROM date::date) IN (0, 7)");
+        } else {
+            $query->whereRaw("EXTRACT(DOW FROM date::date) = $dayOfWeekNumeric");
         }
-        $selectedDate = $now->format('Y-m-d');
+    }
 
-        if ($date) {
-            $selectedDate = $date;
-        }
+    // Add more filters as needed
 
-        // Calculate previous and next dates based on the selected date
-        $prevDate = (clone $now)->modify('-1 day');
-        $nextDate = (clone $now)->modify('+1 day');
+    $schedules = $query->get();
+    $groupedSchedules = $schedules->groupBy(function ($item) {
+        return $item->start_time . '|' . $item->end_time . '|' . $item->assignment_id . '|' . $item->room_id;
+    });
 
-        // Fetch the first schedule date before the selected date as the previous date
+    $title = 'Schedule';
+
+    return view('schedule.index', compact('schedules', 'title', 'groupedSchedules', 'allRoom', 'allLecturer', 'allSubject', 'allClass'));
+}
+
+    public function view(Request $request, $date = null) {
+        $allRoom = Room::all();
+        $selectedRoom = $request->input('room_id', null);
+        $selectedDate = $date ?: today()->toDateString();
+    
         $prevDate = Schedule::whereDate('date', '<', $selectedDate)->max('date');
-
-        // Fetch the first schedule date after the selected date as the next date
         $nextDate = Schedule::whereDate('date', '>', $selectedDate)->min('date');
-
         $earliestDate = Schedule::min('date');
-
         $furthestDate = Schedule::max('date');
-
+    
         $title = "View";
-
-        // Fetch schedules for the selected date
-        $schedules = Schedule::whereDate('date', $selectedDate)->orderBy('start_time')->get();
-
-        return view('schedule.view', compact('title', 'schedules', 'selectedDate', 'prevDate', 'nextDate', 'earliestDate', 'furthestDate'));
+    
+        $query = Schedule::whereDate('date', $selectedDate)->orderBy('start_time');
+        if ($selectedRoom) {
+            $query->where('room_id', $selectedRoom);
+        }
+        $schedules = $query->get();
+    
+        return view('schedule.view', compact('title', 'schedules', 'selectedDate', 'prevDate', 'nextDate', 'earliestDate', 'furthestDate', 'allRoom', 'selectedRoom'));
     }
-
-
-
-
 
     public function create() {
         $title = 'Schedule';
-        $assignments = Assignment::select('assignment.*')
-            ->join('subject', 'assignment.subject_id', '=', 'subject.id')
-            ->orderBy('subject.name')
-            ->get();
+        $assignments = Assignment::all();
         $rooms = Room::orderBy('room_number')->get();
         return view('schedule/create', [
             'title'=> $title,
@@ -152,10 +181,7 @@ class ScheduleController extends Controller
     public function edit(int $id) {
         $schedule = Schedule::findOrFail($id);
         $title = 'Schedule';
-        $assignments = Assignment::select('assignment.*')
-            ->join('subject', 'assignment.subject_id', '=', 'subject.id')
-            ->orderBy('subject.name')
-            ->get();
+        $assignments = Assignment::all();
         $rooms = Room::orderBy('room_number')->get();
         return view('schedule/edit', compact('schedule','title','assignments','rooms'));
     }
@@ -163,8 +189,8 @@ class ScheduleController extends Controller
     public function update(Request $request, int $id) {
         $request->validate([
             'date' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'start_time' => 'required',
+            'end_time' => 'required|after:start_time',
             'assignment_id' => 'required|exists:assignment,id',
             'room_id' => 'required|exists:room,id',
         ]);

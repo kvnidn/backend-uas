@@ -15,7 +15,7 @@ class Subject extends Model
         'name',
     ];
 
-    public function assignment() {
-        return $this->hasMany(Assignment::class);
+    public function kelas() {
+        return $this->hasMany(Kelas::class);
     }
 }

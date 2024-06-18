@@ -26,18 +26,6 @@
                         @csrf
                         @method('PUT')
 
-                        <div class="form-name">
-                            <label>Subject Name</label>
-                            <select name="subject_id">
-                                <option value="" disabled>Select a user</option>
-                                @foreach($subjects as $subject)
-                                    <option value="{{ $subject->id }}" {{ $assignment->subject_id == $subject->id ? 'selected' : '' }}>
-                                        {{ $subject->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
                         <div class="form-user">
                             <label>User</label>
                             <select name="user_id">
@@ -56,7 +44,7 @@
                                 <option value="" disabled selected>Select a Class</option>
                                 @foreach($kelas as $kelas)
                                 <option value="{{ $kelas->id }}" {{ $assignment->kelas_id == $kelas->id ? 'selected' : '' }}>
-                                    {{ $kelas->prodi }}-{{ substr($kelas->year, -2) }}-{{ $kelas->class }}
+                                    {{ $kelas->prodi }}-{{ $kelas->subject->name }}-{{ $kelas->class }}
                                 </option>
                                 @endforeach
                             </select>

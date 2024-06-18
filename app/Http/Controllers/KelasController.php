@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,23 +20,25 @@ class KelasController extends Controller
 
     public function create() {
         $title = 'Class';
+        $subjects = Subject::all();
         return view('class/create', [
             'title'=>$title,
+            'subjects'=>$subjects,
         ]);
     }
 
     public function store(Request $request) {
         $request->validate([
-           'prodi'=>'required|string',
-           'year'=>'required|integer',
-           'class'=>'required|string',
+            'prodi'=> 'required|string',
+            'subject_id'=>'required|exists:subject,id',
+            'class'=>'required|string',
         ]);
 
         try {
             DB::beginTransaction();
             Kelas::create([
                 'prodi' => $request->prodi,
-                'year' => $request->year,
+                'subject_id' => $request->subject_id,
                 'class' => $request->class,
             ]);
 
@@ -45,7 +48,7 @@ class KelasController extends Controller
         } catch (QueryException $e) {
             DB::rollback();
 
-            $errorMessage = "The combination of Prodi, Year, and Class must be unique.";
+            $errorMessage = "The combination of Subject, and Class must be unique.";
 
         return redirect('class/create')->with('error', $errorMessage);
         }
@@ -53,16 +56,17 @@ class KelasController extends Controller
 
     public function edit(int $id) {
         $class = Kelas::findOrFail($id);
+        $subjects = Subject::all();
         $title = "Class";
 
-        return view('class/edit', compact('class', 'title'));
+        return view('class/edit', compact('class', 'title', 'subjects'));
     }
 
     public function update(Request $request, int $id) {
         $request->validate([
-           'prodi'=>'required|string',
-           'year'=>'required|integer',
-           'class'=>'required|string',
+            'prodi'=> 'required|string',
+            'subject_id'=>'required|exists:subject,id',
+            'class'=>'required|string',
         ]);
 
         try {
@@ -70,7 +74,7 @@ class KelasController extends Controller
             $class = Kelas::findOrFail($id);
             $class->update([
                 'prodi' => $request->prodi,
-                'year' => $request->year,
+                'subject_id' => $request->subject_id,
                 'class' => $request->class,
             ]);
             DB::commit();
@@ -78,7 +82,7 @@ class KelasController extends Controller
             return redirect('class/')->with('status', 'Class updated');
         } catch (QueryException $e) {
             DB::rollBack();
-            $errorMessage = "The combination of Prodi, Year, and Class must be unique.";
+            $errorMessage = "The combination of Subject, and Class must be unique.";
             return redirect()->back()->with('error', $errorMessage);
         }
     }

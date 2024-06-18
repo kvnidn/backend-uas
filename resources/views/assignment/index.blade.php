@@ -7,6 +7,28 @@
             <div class="">
                 <div class="users">
                     <h4>Assignment <a href="{{ url("assignment/create") }}" class="add-user">Add Assignment</a></h4>
+                    <form method="GET" action="{{ route('assignment.index') }}">
+                        <!-- Filter by Subject -->
+                        <label for="subject">Filter by Subject:</label>
+                        <select name="subject_id" id="subject" onchange="this.form.submit()">
+                            <option value="">All Subjects</option>
+                            @foreach ($allSubject as $subject)
+                                <option value="{{ $subject->id }}" {{ request('subject_id') == $subject->id ? 'selected' : '' }}>
+                                    {{ $subject->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <!-- Filter by Subject -->
+                        <label for="lecturer">Filter by Subject:</label>
+                        <select name="lecturer_id" id="lecturer" onchange="this.form.submit()">
+                            <option value="">All Lecturer</option>
+                            @foreach ($allLecturer as $lecturer)
+                                <option value="{{ $lecturer->id }}" {{ request('lecturer_id') == $lecturer->id ? 'selected' : '' }}>
+                                    {{ $lecturer->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
                 </div>
                 <div class="table-container">
                     <table class="table">
@@ -20,12 +42,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($assignment->sortBy('id') as $index => $item)
+                            @foreach ($assignments->sortBy('id') as $index => $item)
                             <tr class="user-content">
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->subject->name }}</td>
+                                <td>{{ $item->kelas->prodi }}-{{ $item->kelas->subject->name }}</td>
                                 <td>{{ $item->user->name ?? 'N/A'}}</td>
-                                <td>{{ $item->kelas->prodi }}-{{ substr($item->kelas->year, -2) }}-{{ $item->kelas->class }}</td>
+                                <td>{{$item->kelas->class}}</td>
                                 <td>
                                     <a href="{{ url('assignment/'.$item->id.'/edit') }}" class="edit-button">Edit</a>
                                     <a href="{{ url('assignment/'.$item->id.'/delete') }}" class="delete-button" onclick="return confirm('Are you sure ?')">Delete</a>

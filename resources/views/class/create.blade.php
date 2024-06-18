@@ -35,15 +35,15 @@
                             @error('prodi') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
 
-                        <div class="form-year">
-                            <label>Year</label>
-                            <select name="year">
-                                <option value="" disabled selected>Select year</option>
-                                @for ($i = date('Y')-10;  $i <= date('Y'); $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
+                        <div class="form-name">
+                            <label>Subject Name</label>
+                            <select name="subject_id">
+                                <option value="" disabled selected>Select a subject</option>
+                                @foreach($subjects as $subject)
+                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                @endforeach
                             </select>
-                            @error('year') <span class="text-danger">{{ $message }}</span> @enderror
+                            @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="form-class">

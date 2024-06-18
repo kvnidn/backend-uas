@@ -14,8 +14,8 @@
                             <tr class="table-header-row">
                                 <th class="id-heading">ID</th>
                                 <th class="name-heading">Prodi</th>
-                                <th class="user-heading">Angkatan</th>
-                                <th class="kelas-heading">Kelas</th>
+                                <th class="user-heading">Subject</th>
+                                <th class="kelas-heading">Class</th>
                                 <th class="action-heading">Action</th>
                             </tr>
                         </thead>
@@ -25,7 +25,7 @@
                             <tr class="user-content">
                                 <td>{{ $counter }}</td>
                                 <td>{{ $item->prodi }}</td>
-                                <td>{{ $item->year }}</td>
+                                <td>{{ $item->subject->name }}</td>
                                 <td>{{ $item->class }}</td>
                                 <td>
                                     <a href="{{ url('class/'.$item->id.'/edit') }}" class="edit-button">Edit</a>
