@@ -43,16 +43,7 @@
                 </option>
             @endforeach
         </select>
-            <!-- Filter by Class -->
-            <label for="class">Filter by Class:</label>
-            <select name="class_id" id="class" onchange="this.form.submit()">
-                <option value="">All Classes</option>
-                @foreach ($allClass as $class)
-                <option value="{{ $class->id }}" {{ request('class_id') == $class->id ? 'selected' : '' }}>
-                    {{ $class->class }}
-                </option>
-                @endforeach
-            </select>
+
             <!-- Filter by Room -->
             <label for="room">Filter by Room:</label>
             <select name="room_id" id="room" onchange="this.form.submit()">

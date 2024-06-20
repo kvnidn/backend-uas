@@ -18,7 +18,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($subject->sortBy('id') as $index => $item)
+                            @foreach ($subject as $index => $item)
                             <tr class="user-content">
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->name }}</td>

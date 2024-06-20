@@ -17,27 +17,34 @@ class AssignmentController extends Controller
     //
     public function index(Request $request)
 {
-    $assignments = Assignment::orderBy('id');
-    $allLecturer = User::where("role", "Lecturer")->get();
+    $query = Assignment::join('kelas', 'assignment.kelas_id', '=', 'kelas.id')
+    ->join('user', 'assignment.user_id', '=', 'user.id')
+    ->join('subject', 'kelas.subject_id', '=', 'subject.id')
+    ->orderBy('subject.name')
+    ->orderBy('kelas.class')
+    ->orderBy('user.name', 'desc')
+    ->select('assignment.*');
+
+    $allLecturer = User::whereIn('role', ['Lecturer', 'Assistant'])->orderBy('name')->get();
     $allSubject = Subject::all();
 
     // Filter by subject_id if provided in the request
     if ($request->filled('subject_id')) {
         $subjectId = $request->input('subject_id');
-        $assignments->whereHas('kelas', function ($q) use ($subjectId) {
+        $query->whereHas('kelas', function ($q) use ($subjectId) {
             $q->where('subject_id', $subjectId);
         });
     }
 
     if ($request->filled('lecturer_id')) {
         $lecturerId = $request->input('lecturer_id');
-        $assignments->whereHas('user', function ($q) use ($request) {
+        $query->whereHas('user', function ($q) use ($request) {
             $q->where('user_id', $request->input('lecturer_id'));
         });
     }
 
     // Get the filtered assignments
-    $assignments = $assignments->get();
+    $assignments = $query->get();
 
     // Title for the view
     $title = 'Assignment';
@@ -46,11 +53,11 @@ class AssignmentController extends Controller
     return view('assignment.index', compact('assignments', 'title', 'allLecturer', 'allSubject'));
 }
 
-
+    
 
     public function create() {
         $title = 'Assignment';
-        $users = User::whereIn('role', ['Lecturer', 'Assistant'])->get();
+        $users = User::whereIn('role', ['Lecturer', 'Assistant'])->orderBy('name')->get();
         $kelas = Kelas::all();
         return view('assignment/create', [
             'title'=>$title,
@@ -91,7 +98,7 @@ class AssignmentController extends Controller
         $assignment = Assignment::findOrFail($id);
         $title = "Assignment";
         $kelas = Kelas::all();
-        $users = User::whereIn('role', ['Lecturer', 'Assistant'])->get();
+        $users = User::whereIn('role', ['Lecturer', 'Assistant'])->orderBy('name')->get();
 
         return view("assignment/edit", compact('assignment', 'title', 'users', 'kelas'));
     }

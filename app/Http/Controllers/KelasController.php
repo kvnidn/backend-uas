@@ -13,7 +13,10 @@ class KelasController extends Controller
 {
     //
     public function index() {
-        $class = Kelas::orderBy('id')->get();
+        $class = Kelas::join('subject', 'kelas.subject_id', '=', 'subject.id')
+                ->orderBy('subject.name')
+                ->select('kelas.*')  // Select all columns from 'kelas' table
+                ->get();
         $title = 'Class';
         return view('class/index', compact('class', 'title'));
     }

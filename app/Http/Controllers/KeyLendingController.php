@@ -154,16 +154,22 @@ class KeyLendingController extends Controller
         $title = "KeyLending";
     
         // Fetch all rooms
-        $allRoom = Room::all();
+        $allRoom = Room::orderBy('room_number')->get();
     
         // Fetch key lending records for today
-        $query = Schedule::whereDate('date', $selectedDate)->orderBy('start_time');
+        $query = Schedule::whereDate('date', $selectedDate)->orderBy('start_time')
+        ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
+        ->join('kelas', 'assignment.kelas_id', '=', 'kelas.id')
+        ->join('subject', 'kelas.subject_id', '=', 'subject.id')
+        ->orderBy('subject.name')
+        ->select('schedule.*');
     
         if ($selectedRoomId) {
             $query->where('room_id', $selectedRoomId);
         }
     
-        $schedule = $query->get();
+        $schedule = $query
+        ->get();
         $keyLendings = KeyLending::whereDate('created_at', $selectedDate)->orderBy('start_time')->get();
     
         return view('key-lending.view', compact('title', 'keyLendings', 'selectedDate', 'schedule', 'selectedRoomId', 'allRoom'));

@@ -18,12 +18,17 @@ class ScheduleController extends Controller
     //
     public function index(Request $request)
     {
-        $allRoom = Room::all();
-        $allLecturer = User::whereIn('role', ['Lecturer', 'Assistant'])->get();
-        $allSubject = Subject::all();
-        $allClass = Kelas::all();
+        $allRoom = Room::orderBy('room_number')->get();
+        $allLecturer = User::whereIn('role', ['Lecturer', 'Assistant'])->orderBy('name')->get();
+        $allSubject = Subject::orderBy('name')->get();
         // Fetch all schedules
-        $query = Schedule::orderByRaw("CASE WHEN EXTRACT(DOW FROM date::date) = 0 THEN 7 ELSE EXTRACT(DOW FROM date::date) END")->orderBy('start_time');
+        $query = Schedule::join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
+        ->join('kelas', 'assignment.kelas_id', '=', 'kelas.id')
+        ->join('subject', 'kelas.subject_id', '=', 'subject.id')
+        ->orderByRaw("CASE WHEN EXTRACT(DOW FROM date::date) = 0 THEN 7 ELSE EXTRACT(DOW FROM date::date) END")
+        ->orderBy('start_time')
+        ->orderBy('subject.name')
+        ->select('schedule.*');
 
         // Filter by room
         if ($request->filled('room_id')) {
@@ -42,12 +47,6 @@ class ScheduleController extends Controller
             });
         }
 
-        if ($request->filled('class_id')) {
-            $query->whereHas('assignment.kelas', function ($q) use ($request) {
-                $q->where('id', $request->input('class_id'));
-            });
-        }
-
         if ($request->filled('day_of_week')) {
             $selectedDayOfWeek = $request->input('day_of_week');
             // Convert day name to the corresponding numeric value (1 for Monday, 2 for Tuesday, etc.)
@@ -61,8 +60,6 @@ class ScheduleController extends Controller
             }
         }
 
-        // Add more filters as needed
-
         $schedules = $query->get();
         $groupedSchedules = $schedules->groupBy(function ($item) {
             $dayOfWeek = Carbon::parse($item->date)->dayOfWeek;
@@ -71,11 +68,11 @@ class ScheduleController extends Controller
 
         $title = 'Schedule';
 
-        return view('schedule.index', compact('schedules', 'title', 'groupedSchedules', 'allRoom', 'allLecturer', 'allSubject', 'allClass'));
+        return view('schedule.index', compact('schedules', 'title', 'groupedSchedules', 'allRoom', 'allLecturer', 'allSubject'));
     }
 
     public function view(Request $request, $date = null) {
-        $allRoom = Room::all();
+        $allRoom = Room::orderBy('room_number')->get();
         $selectedRoom = $request->input('room_id', null);
         $selectedDate = $date ?: today()->toDateString();
 
@@ -86,7 +83,15 @@ class ScheduleController extends Controller
 
         $title = "View";
 
-        $query = Schedule::whereDate('date', $selectedDate)->orderBy('start_time');
+        $query = Schedule::whereDate('date', $selectedDate)->orderBy('start_time')
+        ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
+        ->join('kelas', 'assignment.kelas_id', '=', 'kelas.id')
+        ->join('subject', 'kelas.subject_id', '=', 'subject.id')
+        ->orderByRaw("CASE WHEN EXTRACT(DOW FROM date::date) = 0 THEN 7 ELSE EXTRACT(DOW FROM date::date) END")
+        ->orderBy('start_time')
+        ->orderBy('subject.name')
+        ->select('schedule.*');
+
         if ($selectedRoom) {
             $query->where('room_id', $selectedRoom);
         }
@@ -247,7 +252,7 @@ class ScheduleController extends Controller
             'room_id' => $request->room_id,
         ]);
 
-        return redirect('schedule')->with('status', 'Schedule updated');
+        return redirect()->back()->with('status', 'Schedule updated');
     }
 
 
@@ -348,7 +353,7 @@ class ScheduleController extends Controller
         // Find and delete schedules with the provided IDs
         Schedule::whereIn('id', $idsArray)->delete();
 
-        return redirect()->back()->with('success', 'Schedules deleted successfully.');
+        return redirect()->back()->with('status', 'Schedules deleted successfully.');
     }
 
 

@@ -18,7 +18,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($room->sortBy('id') as $index => $item)
+                            @foreach ($room as $index => $item)
                             <tr class="user-content">
                                 <td>{{ $index + 1 }}</td>
                                 <td>R{{ $item->room_number }}</td>

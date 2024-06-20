@@ -12,7 +12,7 @@ class SubjectController extends Controller
 {
     //
     public function index() {
-        $subject = Subject::orderBy('id')->get();
+        $subject = Subject::orderBy('name')->get();
         $title = 'Subject';
         return view('subject/index', compact('subject', 'title'));
     }

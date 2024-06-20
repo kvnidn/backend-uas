@@ -42,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($assignments->sortBy('id') as $index => $item)
+                            @foreach ($assignments as $index => $item)
                             <tr class="user-content">
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->kelas->prodi }}-{{ $item->kelas->subject->name }}</td>
