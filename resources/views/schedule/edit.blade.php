@@ -51,11 +51,11 @@
 
                         <div class="form-group">
                             <label for="assignment_id">Assignment</label>
-                            <select name="assignment_id" id="assignment_id" required>
+                            <select name="assignment_id" id="assignment_id" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'disabled' : '' }}>
                                 <option value="" disabled>Select an assignment</option>
                                 @foreach($assignments as $assignment)
                                     <option value="{{ $assignment->id }}" {{ $schedule->assignment_id == $assignment->id ? 'selected' : '' }}>
-                                        {{ $assignment->user->name }} - {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }}
+                                        {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
                                     </option>
                                 @endforeach
                             </select>

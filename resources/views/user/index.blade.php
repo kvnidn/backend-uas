@@ -26,7 +26,7 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->email }}</td>
-                                <td>{{ $item->password }} </td>
+                                <td>*****</td>
                                 <td class= {{ $item->role == 'Admin' ? 'admin-status' : 'lecturer-status' }}>{{ $item->role }}</td>
                                 <td>
                                     <a href="{{ url('user/'.$item->id.'/edit') }}" class="edit-button">Edit</a>

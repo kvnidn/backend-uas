@@ -27,7 +27,7 @@
                     <a class="{{ ($title === "Class") ? "active" : "" }}"  href="/class">Class</a>
 
                     <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
-                @elseif(auth()->user()->role == 'Lecturer')
+                @elseif(in_array(auth()->user()->role, ['Lecturer', 'Assistant']))
                     <a class="{{ ($title === "Schedule") ? "active" : "" }}" href="/schedule">Schedule</a>
                 @endif
             @else

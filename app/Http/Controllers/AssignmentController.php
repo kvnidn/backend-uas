@@ -46,11 +46,11 @@ class AssignmentController extends Controller
     return view('assignment.index', compact('assignments', 'title', 'allLecturer', 'allSubject'));
 }
 
-    
+
 
     public function create() {
         $title = 'Assignment';
-        $users = User::where('role', 'Lecturer')->get();
+        $users = User::whereIn('role', ['Lecturer', 'Assistant'])->get();
         $kelas = Kelas::all();
         return view('assignment/create', [
             'title'=>$title,
@@ -91,7 +91,7 @@ class AssignmentController extends Controller
         $assignment = Assignment::findOrFail($id);
         $title = "Assignment";
         $kelas = Kelas::all();
-        $users = User::where('role', 'Lecturer')->get();
+        $users = User::whereIn('role', ['Lecturer', 'Assistant'])->get();
 
         return view("assignment/edit", compact('assignment', 'title', 'users', 'kelas'));
     }

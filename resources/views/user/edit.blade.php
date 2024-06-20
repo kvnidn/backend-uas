@@ -39,6 +39,7 @@
                             <label>Role</label>
                             <input type="radio" name="role" value="Admin" {{ $user->role == 'Admin' ? 'checked': '' }}> Admin
                             <input type="radio" name="role" value="Lecturer" {{ $user->role == 'Lecturer' ? 'checked': '' }}> Lecturer
+                            <input type="radio" name="role" value="Assistant" {{ $user->role == 'Assistant' ? 'checked': '' }}> Assistant
                             @error('role') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="save-user-button">

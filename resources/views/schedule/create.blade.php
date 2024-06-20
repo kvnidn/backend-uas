@@ -54,7 +54,7 @@
                                 <option value="" disabled selected>Select an assignment</option>
                                 @foreach($assignments as $assignment)
                                     <option value="{{ $assignment->id }}">
-                                        {{ $assignment->user->name }} - {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }}
+                                        {{ $assignment->kelas->prodi }} - {{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
                                     </option>
                                 @endforeach
                             </select>

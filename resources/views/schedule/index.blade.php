@@ -95,7 +95,7 @@
                     <td>R{{ $group->first()->room->room_number }}</td>
                     <td>
                         <div class="actions">
-                        @if(auth()->user()->role == 'Admin' || (auth()->user()->role == 'Lecturer' && auth()->user()->name == $group->first()->assignment->user->name))
+                        @if(auth()->user()->role == 'Admin' || (in_array(auth()->user()->role, ['Lecturer', 'Assistant']) && auth()->user()->name == $group->first()->assignment->user->name))
                             <div class="actions">
                                 <a href="{{ url('schedule/batch-edit?ids=' . $ids) }}" class="edit-button">Edit</a>
                             @endif
@@ -136,7 +136,7 @@
                                         <td>R{{ $item->room->room_number }}</td>
                                         <td>
                                             <div class="actions">
-                                                @if(auth()->user()->role == 'Admin' || (auth()->user()->role == 'Lecturer' && auth()->user()->name == $group->first()->assignment->user->name))
+                                                @if(auth()->user()->role == 'Admin' || (in_array(auth()->user()->role, ['Lecturer', 'Assistant']) && auth()->user()->name == $group->first()->assignment->user->name))
                                                     <a href="{{ url('schedule/'.$item->id.'/edit') }}" class="edit-button">Edit</a>
                                                 @endif
 

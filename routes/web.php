@@ -63,7 +63,7 @@ Route::prefix('schedule')->middleware(['auth', 'role:Admin'])->group(function ()
 });
 
 // Schedule Admin & Lecturer
-Route::prefix('schedule')->middleware(['auth', 'role:Admin,Lecturer'])->group(function () {
+Route::prefix('schedule')->middleware(['auth'])->group(function () {
     Route::get('/', [ScheduleController::class, 'index'])->name('schedule.index');
     Route::get('{id}/edit', [ScheduleController::class, 'edit']);
     Route::put('{id}/update', [ScheduleController::class, 'update']);
