@@ -35,7 +35,7 @@
             @endauth
 
             @auth
-            <div class="logout">
+            <!-- <div class="logout">
                 <form action="/logout" method="POST">
                     @csrf
 
@@ -43,7 +43,16 @@
                         Logout
                     </button>
                 </form>
+            </div> -->
+
+            <a class="logout-button{{ ($title === 'Logout') ? 'active' : '' }}" href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+            
+            <div class="logout">
+                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
+
             @endauth
         </nav>
     </div>

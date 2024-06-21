@@ -19,7 +19,7 @@ class SubjectController extends Controller
 
     public function create() {
         $title = 'Subject';
-        return view('subject/create', [
+        return view('subject/', [
             'title'=>$title,
         ]);
     }
@@ -39,13 +39,13 @@ class SubjectController extends Controller
 
             DB::commit();
 
-            return redirect('subject/create')->with('status', 'Subject created');
+            return redirect('subject/')->with('status', 'Subject created');
         } catch (QueryException $e) {
             DB::rollback();
 
             $errorMessage = "Subject must be unique.";
 
-        return redirect('subject/create')->with('error', $errorMessage);
+        return redirect('subject/')->with('error', $errorMessage);
         }
     }
 

@@ -36,7 +36,7 @@ class RoomController extends Controller
             'room_number' => $paddedRoomNumber
         ]);
 
-        return redirect('room/create')->with('status', 'Room created');
+        return redirect('room/')->with('status', 'Room created');
     }
 
     public function edit(int $id) {

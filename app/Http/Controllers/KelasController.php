@@ -15,10 +15,12 @@ class KelasController extends Controller
     public function index() {
         $class = Kelas::join('subject', 'kelas.subject_id', '=', 'subject.id')
                 ->orderBy('subject.name')
+                ->orderBy('class')
                 ->select('kelas.*')  // Select all columns from 'kelas' table
                 ->get();
+        $subjects = Subject::all();
         $title = 'Class';
-        return view('class/index', compact('class', 'title'));
+        return view('class/index', compact('class', 'title', 'subjects'));
     }
 
     public function create() {
@@ -47,13 +49,13 @@ class KelasController extends Controller
 
             DB::commit();
 
-            return redirect('class/create')->with('status', 'Class created');
+            return redirect('class/')->with('status', 'Class created');
         } catch (QueryException $e) {
             DB::rollback();
 
             $errorMessage = "The combination of Subject, and Class must be unique.";
 
-        return redirect('class/create')->with('error', $errorMessage);
+        return redirect('class/')->with('error', $errorMessage);
         }
     }
 

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function index() {
-        $user = User::orderBy('id')->get();
+        $user = User::orderBy('role')->orderBy('name')->get();
         $title = 'User';
         return view('user/index', compact('user', 'title'));
     }
@@ -39,7 +39,7 @@ class UserController extends Controller
             'remember_token'=>$request->remember_token,
         ]);
 
-        return redirect('user/create')->with('status', 'User created');
+        return redirect('user/')->with('status', 'User created');
     }
 
     public function edit(int $id) {

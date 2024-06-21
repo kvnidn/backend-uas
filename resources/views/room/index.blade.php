@@ -4,9 +4,14 @@
 <div class="">
     <div class="">
         <div class="">
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
             <div class="">
                 <div class="users">
-                    <h4>Rooms <a href="{{ url("room/create") }}" class="add-user"> Add Room</a></h4>
+                    <h4>Rooms <a href="#" class="add-user" id="opencreateModalRoom"> Add Room</a></h4>
                 </div>
                 <div class="table-container">
                     <table class="table">
@@ -23,7 +28,7 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>R{{ $item->room_number }}</td>
                                 <td>
-                                    <a href="{{ url('room/'.$item->id.'/edit') }}" class="edit-button">Edit</a>
+                                    <a href="#" class="edit-button-room" data-id="{{ $item->id }}" data-room_number="{{ $item->room_number }}">Edit</a>
                                     <a href="{{ url('room/'.$item->id.'/delete') }}" class="delete-button" onclick="return confirm('Are you sure ?')">Delete</a>
                                 </td>
                             </tr>
@@ -33,6 +38,46 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Create Room Modal -->
+<div id="createModalRoom" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h4>Create Room</h4>
+        <form action="{{ url('/room/create') }}" method="POST">
+            @csrf
+            <div class="form-name">
+                <label>Room Number</label>
+                <input type="text" name="room_number" value="{{ old('room_number') }}"/>
+                @error('room_number') <span class="">{{ $message }}</span> @enderror
+            </div>
+            <div class="save-user-button">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Room Modal -->
+<div id="editModalRoom" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h4>Edit Room</h4>
+        <form id="editForm" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="id" id="modalRoomId">
+            <div class="form-name">
+                <label>Room Number</label>
+                <input type="text" name="room_number" id="modalRoomNumber"/>
+                @error('room_number') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="save-user-button">
+                <button type="submit">Update</button>
+            </div>
+        </form>
     </div>
 </div>
 

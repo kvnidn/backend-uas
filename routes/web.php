@@ -66,9 +66,9 @@ Route::prefix('schedule')->middleware(['auth', 'role:Admin'])->group(function ()
 Route::prefix('schedule')->middleware(['auth'])->group(function () {
     Route::get('/', [ScheduleController::class, 'index'])->name('schedule.index');
     Route::get('{id}/edit', [ScheduleController::class, 'edit']);
-    Route::put('{id}/update', [ScheduleController::class, 'update']);
+    Route::put('{id}/edit', [ScheduleController::class, 'update']);
     Route::get('/batch-edit', [ScheduleController::class, 'batchEdit']);
-    Route::put('/batch-update', [ScheduleController::class, 'batchUpdate']);
+    Route::put('/batch-edit', [ScheduleController::class, 'batchUpdate']);
 });
 
 Route::get('/view/{date?}', [ScheduleController::class, 'view'])->name('schedule.view');

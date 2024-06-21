@@ -66,9 +66,18 @@ class ScheduleController extends Controller
             return $dayOfWeek . '|' . $item->start_time . '|' . $item->end_time . '|' . $item->assignment_id . '|' . $item->room_id;
         });
 
+        $allAssignments = Assignment::with('kelas.subject')
+            ->get()
+            ->sortBy(function($assignment) {
+                return $assignment->kelas->subject->name;
+            });
+        $rooms = Room::orderBy('room_number')->get();
+
+        $allSchedule = Schedule::all();
+
         $title = 'Schedule';
 
-        return view('schedule.index', compact('schedules', 'title', 'groupedSchedules', 'allRoom', 'allLecturer', 'allSubject'));
+        return view('schedule.index', compact('schedules', 'title', 'groupedSchedules', 'allRoom', 'allLecturer', 'allSubject', 'allAssignments', 'rooms', 'allSchedule'));
     }
 
     public function view(Request $request, $date = null) {
@@ -184,7 +193,7 @@ class ScheduleController extends Controller
 
         Schedule::insert($schedules);
 
-        return redirect('schedule/create')->with('status', 'Schedule created');
+        return redirect('schedule/')->with('status', 'Schedule created');
     }
 
 
@@ -281,7 +290,7 @@ class ScheduleController extends Controller
 
 
     public function batchUpdate(Request $request) {
-        $ids = $request->input('ids');
+        $ids = explode(',', $request->query('ids'));
         $dates = $request->input('dates'); // Retrieve dates from the request
 
         foreach ($ids as $index => $id) {

@@ -26,7 +26,11 @@ class AssignmentController extends Controller
     ->select('assignment.*');
 
     $allLecturer = User::whereIn('role', ['Lecturer', 'Assistant'])->orderBy('name')->get();
-    $allSubject = Subject::all();
+    $allSubject = Subject::orderBy('name')->get();
+    $allKelas = Kelas::join('subject', 'kelas.subject_id', '=', 'subject.id')
+    ->orderBy('subject.name')
+    ->select('kelas.*')
+    ->get();
 
     // Filter by subject_id if provided in the request
     if ($request->filled('subject_id')) {
@@ -50,7 +54,7 @@ class AssignmentController extends Controller
     $title = 'Assignment';
 
     // Pass data to the view
-    return view('assignment.index', compact('assignments', 'title', 'allLecturer', 'allSubject'));
+    return view('assignment.index', compact('assignments', 'title', 'allLecturer', 'allSubject', 'allKelas'));
 }
 
     
@@ -58,7 +62,10 @@ class AssignmentController extends Controller
     public function create() {
         $title = 'Assignment';
         $users = User::whereIn('role', ['Lecturer', 'Assistant'])->orderBy('name')->get();
-        $kelas = Kelas::all();
+        $kelas = Kelas::join('subject', 'kelas.subject_id', '=', 'subject.id')
+        ->orderBy('subject.name')
+        ->select('kelas.*')
+        ->get();
         return view('assignment/create', [
             'title'=>$title,
             'users'=>$users,
@@ -84,20 +91,23 @@ class AssignmentController extends Controller
 
             DB::commit();
 
-            return redirect('assignment/create')->with('status', 'Assignment created');
+            return redirect('assignment/')->with('status', 'Assignment created');
         } catch (QueryException $e) {
             DB::rollBack();
 
             $errorMessage = "The combination of user and class must be unique.";
 
-            return redirect('assignment/create')->with('error', $errorMessage);
+            return redirect('assignment/')->with('error', $errorMessage);
         }
     }
 
     public function edit(int $id) {
         $assignment = Assignment::findOrFail($id);
         $title = "Assignment";
-        $kelas = Kelas::all();
+        $kelas = Kelas::join('subject', 'kelas.subject_id', '=', 'subject.id')
+        ->orderBy('subject.name')
+        ->select('kelas.*')
+        ->get();
         $users = User::whereIn('role', ['Lecturer', 'Assistant'])->orderBy('name')->get();
 
         return view("assignment/edit", compact('assignment', 'title', 'users', 'kelas'));
