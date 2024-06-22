@@ -7,30 +7,32 @@
             <div class="">
                 <div class="users">
                     <h3>Schedule</h3>
+                    <h1 class="date-today">
+                        {{ date('l, j F Y', strtotime($selectedDate)) }}
+                    </h1>
                     <div class="date-navigation">
                         @if ($selectedDate > $earliestDate)
-                        <a href="{{ route('schedule.view', ['date' => $prevDate, 'room_id' => $selectedRoom]) }}" class="prev-date">Previous Date</a>
+                            <a href="{{ route('schedule.view', ['date' => $prevDate, 'room_id' => $selectedRoom]) }}" class="prev-date">Previous Date</a>
                         @else
-                        <span class="prev-date disabled">Previous Date</span>
-                        @endif
-                        <span>{{ $selectedDate }} ({{ date('l', strtotime($selectedDate)) }})</span>
-                        @if ($selectedDate < $furthestDate)
-                        <a href="{{ route('schedule.view', ['date' => $nextDate, 'room_id' => $selectedRoom]) }}" class="next-date">Next Date</a>
-                        @else
-                        <span class="next-date disabled">Next Date</span>
+                            <span class="prev-date disabled">Previous Date</span>
                         @endif
                         <a href="{{ route('schedule.view', ['date' => today()->toDateString(), 'room_id' => $selectedRoom]) }}" class="today">Today</a>
+                        @if ($selectedDate < $furthestDate)
+                            <a href="{{ route('schedule.view', ['date' => $nextDate, 'room_id' => $selectedRoom]) }}" class="next-date">Next Date</a>
+                        @else
+                            <span class="next-date disabled">Next Date</span>
+                        @endif
                     </div>
-                    <form method="GET" action="{{ route('schedule.view', ['date' => $selectedDate]) }}">
+                    <form method="GET" action="{{ route('schedule.view', ['date' => $selectedDate]) }}" class="filter-room">
                         <label for="room">Filter by Room:</label>
-                        <select name="room_id" id="room" onchange="this.form.submit()">
-                            <option value="">All Rooms</option>
-                            @foreach ($allRoom as $room)
-                                <option value="{{ $room->id }}" {{ $room->id == $selectedRoom ? 'selected' : '' }}>
-                                    Room {{ $room->room_number }}
-                                </option>
-                            @endforeach
-                        </select>
+                            <select name="room_id" id="room" onchange="this.form.submit()">
+                                <option value="">All Rooms</option>
+                                @foreach ($allRoom as $room)
+                                    <option value="{{ $room->id }}" {{ $room->id == $selectedRoom ? 'selected' : '' }}>
+                                        Room {{ $room->room_number }}
+                                    </option>
+                                @endforeach
+                            </select>
                     </form>
                 </div>                
                 <div class="table-container">
@@ -38,12 +40,12 @@
                         <thead class="table-header">
                             <tr class="table-header-row">
                                 <th class="id-heading">ID</th>
-                                <th class="user-heading">Start Time</th>
-                                <th class="user-heading">End Time</th>
-                                <th class="user-heading">Subject Name</th>
-                                <th class="user-heading">Lecturer Name</th>
-                                <th class="user-heading">Class</th>
-                                <th class="user-heading">Room Number</th>
+                                <th class="start-heading">Start Time</th>
+                                <th class="end-heading">End Time</th>
+                                <th class="subject-heading">Subject Name</th>
+                                <th class="lecturer-heading">Lecturer Name</th>
+                                <th class="class-heading">Class</th>
+                                <th class="room-heading">Room Number</th>
                             </tr>
                         </thead>
                         <tbody>

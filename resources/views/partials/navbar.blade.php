@@ -2,7 +2,7 @@
 
     <div class="tab-container">
         <div class="header">
-            <img src="assets/FTIUntar.png" alt="FTI Untar" height="60px">
+            <img src="../assets/FTIUntar.png" alt="FTI Untar" height="60px">
         </div>
 
         <nav class="sidebar">
