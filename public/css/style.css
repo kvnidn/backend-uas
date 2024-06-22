@@ -120,7 +120,7 @@ tr:nth-child(even) {
     font-weight: 600;
 }
 
-a.edit-button {
+a[class^="edit-button-"] {
     color: white;
     padding: 2px;
     background-color: green;
@@ -134,7 +134,7 @@ a.delete-button {
     border-radius: 5px;
 }
 
-a.batch-edit-button {
+a.batch-edit-button-schedule {
     color: white;
     padding: 2px;
     background-color: green;

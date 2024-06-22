@@ -1,39 +1,52 @@
 // Key Lending Script
-$(document).ready(function () {
+if(document.getElementById('keyActionModal')) {
     // Handle click on lend button
-    $('.lend-btn').click(function () {
-        var scheduleId = $(this).data('schedule-id');
-        $('#scheduleId').val(scheduleId); // Set schedule ID in the form
-        $('#actionType').val('start'); // Set action type in the form
-        $('#modalTitle').text('Lend Key Action');
-        $('#modalMessage').text('Please enter your password to lend the key:');
-        var actionUrl = '/key-lending/' + scheduleId + '/verify-update-start';
-        $('#keyActionForm').attr('action', actionUrl); // Update action URL
-        $('#keyActionModal').show(); // Show modal
+    var lendButtons = document.querySelectorAll('.lend-btn');
+    lendButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var scheduleId = this.getAttribute('data-schedule-id');
+            document.getElementById('scheduleId').value = scheduleId;
+            document.getElementById('actionType').value = 'start';
+            document.getElementById('modalTitle').textContent = 'Lend Key Action';
+            document.getElementById('modalMessage').textContent = 'Please enter your password to lend the key:';
+            var actionUrl = '/key-lending/' + scheduleId + '/verify-update-start';
+            document.getElementById('keyActionForm').setAttribute('action', actionUrl);
+            document.getElementById('keyActionModal').style.display = 'block';
+        });
     });
 
     // Handle click on return button
-    $('.return-btn').click(function () {
-        var scheduleId = $(this).data('schedule-id');
-        $('#scheduleId').val(scheduleId); // Set schedule ID in the form
-        $('#actionType').val('end'); // Set action type in the form
-        $('#modalTitle').text('Return Key Action');
-        $('#modalMessage').text('Please enter your password to return the key:');
-        var actionUrl = '/key-lending/' + scheduleId + '/verify-update-end';
-        $('#keyActionForm').attr('action', actionUrl); // Update action URL
-        $('#keyActionModal').show(); // Show modal
+    var returnButtons = document.querySelectorAll('.return-btn');
+    returnButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var scheduleId = this.getAttribute('data-schedule-id');
+            document.getElementById('scheduleId').value = scheduleId;
+            document.getElementById('actionType').value = 'end';
+            document.getElementById('modalTitle').textContent = 'Return Key Action';
+            document.getElementById('modalMessage').textContent = 'Please enter your password to return the key:';
+            var actionUrl = '/key-lending/' + scheduleId + '/verify-update-end';
+            document.getElementById('keyActionForm').setAttribute('action', actionUrl);
+            document.getElementById('keyActionModal').style.display = 'block';
+        });
     });
 
     // Handle click on close button or outside modal
-    $('.close-modal, .modal .close, .modal-overlay').click(function () {
-        $('#keyActionModal').hide(); // Hide modal
-        $('#keyActionModal').find('input[type=password]').val(''); // Clear password field
-        $('#keyActionModal').find('.alert').remove(); // Remove any alert messages
+    var closeButtons = document.querySelectorAll('.close-modal, .modal .close, .modal-overlay');
+    closeButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            document.getElementById('keyActionModal').style.display = 'none';
+            document.querySelector('#keyActionModal input[type="password"]').value = '';
+            var alerts = document.querySelectorAll('#keyActionModal .alert');
+            alerts.forEach(function (alert) {
+                alert.parentNode.removeChild(alert);
+            });
+        });
     });
-});
+};
+
 
 // Schedule Script
-document.addEventListener('DOMContentLoaded', function () {
+if(document.getElementById('createModalSchedule') || document.getElementById('editModalSchedule')) {
     // Get the modal elements
     var createModalSchedule = document.getElementById("createModalSchedule");
     var editModalSchedule = document.getElementById("editModalSchedule");
@@ -136,8 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
             editModalScheduleBatch.style.display = "none";
         }
     };
-});
-
+    
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.expand-button').forEach(button => {
             button.addEventListener('click', function() {
@@ -152,9 +164,11 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
+};
+
 
     // Assignment Script
-    document.addEventListener('DOMContentLoaded', function () {
+if(document.getElementById('createModalAssignment') || document.getElementById('editModalAssignment')) {
         // Get the modal elements
         var createModalAssignment = document.getElementById("createModalAssignment");
         var editModalAssignment = document.getElementById("editModalAssignment");
@@ -202,10 +216,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 editModalAssignment.style.display = "none";
             }
         };
-    });
+    };
 
     // Subject Script
-    document.addEventListener('DOMContentLoaded', function () {
+if(document.getElementById('createModalSubject') || document.getElementById('editModalSubject')) {
         // Get the modal elements
         var createModalSubject = document.getElementById("createModalSubject");
         var editModalSubject = document.getElementById("editModalSubject");
@@ -252,10 +266,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 editModalSubject.style.display = "none";
             }
         };
-    });
+    };
 
     // Room Script
-    document.addEventListener('DOMContentLoaded', function () {
+if(document.getElementById('createModalRoom') || document.getElementById('editModalRoom')) {
         // Get the modal elements
         var createModalRoom = document.getElementById("createModalRoom");
         var editModalRoom = document.getElementById("editModalRoom");
@@ -302,10 +316,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 editModalRoom.style.display = "none";
             }
         };
-    });
+    };
 
     // Class Script (Kelas Script)
-    document.addEventListener('DOMContentLoaded', function () {
+if(document.getElementById('createModalClass') || document.getElementById('editModalClass')) {
         // Get the modal elements
         var createModalClass = document.getElementById("createModalClass");
         var editModalClass = document.getElementById("editModalClass");
@@ -355,10 +369,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 editModalClass.style.display = "none";
             }
         };
-    });
+    };
 
     // User Script
-    document.addEventListener('DOMContentLoaded', function () {
+if(document.getElementById('createModalUser') || document.getElementById('editModalUser')) {
         // Get the modal elements
         var createModalUser = document.getElementById("createModalUser");
         var editModalUser = document.getElementById("editModalUser");
@@ -416,4 +430,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 editModalUser.style.display = "none";
             }
         };
-    });
+    };

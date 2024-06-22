@@ -123,7 +123,6 @@
                 <p id="modalMessage">Please enter your password:</p>
                 <input type="password" name="password" class="form-control" required>
                 <div id="modalAlert" style="margin-top: 10px;"></div>
-                <button type="button" class="btn close-modal">Close</button>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
