@@ -1,9 +1,14 @@
 <nav>
 
     <div class="tab-container">
+        <div class="header">
+            <img src="assets/FTIUntar.png" alt="FTI Untar" height="60px">
+        </div>
+
         <nav class="sidebar">
             @auth
-            <p>Welcome Back, <span style="font-weight: 600;">{{ auth()->user()->name }}</span> !!</p>
+            <p style="font-size: 14px;">Welcome back, </br>
+                <span style="font-weight: 900; font-size: 20px;">{{ auth()->user()->name }}</span></p>
             @endauth
 
             <a class="{{ ($title === "Home") ? "active" : ""}}" href="/">Home</a>
@@ -45,7 +50,7 @@
                 </form>
             </div> -->
 
-            <a class="logout-button{{ ($title === 'Logout') ? 'active' : '' }}" href="#" onclick="document.getElementById('logout-form').submit();">Logout</a>
+            <a class="logout-button{{ ($title === 'Logout') ? 'active' : '' }}" href="#" onclick="document.getElementById('logout-form').submit();"><i class="fa-solid fa-arrow-right-from-bracket" style="padding-right: 10px;"></i>Logout</a>
             
             <div class="logout">
                 <form id="logout-form" action="/logout" method="POST" style="display: none;">

@@ -17,7 +17,7 @@
             @endif
             <div class="">
                 <div class="users">
-                    <h4>Assignment <a href="#" class="add-user" id="opencreateModalAssignment">Add Assignment</a></h4>
+                    <h3>Assignment <a href="#" class="add-user" id="opencreateModalAssignment">Add Assignment</a></h3>
                     <form method="GET" action="{{ route('assignment.index') }}">
                         <!-- Filter by Subject -->
                         <label for="subject">Filter by Subject:</label>

@@ -17,7 +17,7 @@
             @endif
             <div class="">
                 <div class="users">
-                    <h4>Class <a href="#" class="add-user" id="opencreateModalClass">Add Classes</a></h4>
+                    <h3>Class <a href="#" class="add-user" id="opencreateModalClass">Add Classes</a></h3>
                 </div>
                 <div class="table-container">
                     <table class="table">

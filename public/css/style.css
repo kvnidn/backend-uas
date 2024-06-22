@@ -1,19 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
 :root {
     font-size: 16px;
 }
 
 body {
+    font-family: "Nunito Sans", sans-serif;
     color: black;
     background-color: white;
     margin: 0;
     padding: 0;
 }
 
+.header{
+    height: 80px;
+    background-color: #A01626;
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-bottom: 7.5px;
+    /* padding: 0 20px; */
+}
+
 .sidebar {
-    margin: 0;
-    padding: 0;
+    margin-top: 85px;
+    padding-top: 0px;
     width: 200px;
-    background-color: #f1f1f1;
+    background-color: #DADAD9;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -21,22 +38,27 @@ body {
 
 .sidebar a {
     display: block;
-    /* color: black; */
+    color: black;
     padding: 16px;
     text-decoration: none;
+    font-weight: 500;
 }
 
 .sidebar a.active {
-    background-color: #cf5604;
+    background-color: #662382;
     color: white;
+    font-weight: 700;
 }
 
 .sidebar a:hover:not(.active) {
-    background-color: #555;
+    background-color: #575757;
     color: white;
+    font-weight: 700;
+    transition: background-color 0.3s ease-out;
 }
 
 div.content-isi {
+    margin-top: 85px;
     margin-left: 200px;
     padding: 1px 16px;
     height: 1000px;
@@ -61,6 +83,10 @@ div.content-isi {
 
 
 /* Admin Table (CRUD User) */
+h3 {
+    font-weight: 800;
+}
+
 .table-container {
     overflow:auto;
     border-radius: 10px;
@@ -234,19 +260,20 @@ p {
 .logout {
 }
 
-.logout-button {
+.sidebar .logout-button {
     /* position: absolute; */
     bottom: 0;
-    background-color: #ff0404;
+    background-color: #A01626;
     color: white;
     border: none;
     font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     border-radius: 0px;
 }
 
-.logout-button:hover {
-    background-color: #ff2c2c;
+.sidebar .logout-button:hover:not(.active) {
+    background-color: #D10A10;
 }
 
 .tab-container {

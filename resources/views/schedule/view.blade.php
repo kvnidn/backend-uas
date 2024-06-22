@@ -6,7 +6,7 @@
         <div class="">
             <div class="">
                 <div class="users">
-                    <h4>Schedule</h4>
+                    <h3>Schedule</h3>
                     <div class="date-navigation">
                         @if ($selectedDate > $earliestDate)
                         <a href="{{ route('schedule.view', ['date' => $prevDate, 'room_id' => $selectedRoom]) }}" class="prev-date">Previous Date</a>

@@ -19,7 +19,7 @@
 
             <div class="">
                 <div class="">
-                    <h4>Login <a href="{{ url("subject") }}" class="back-user"> Back</a></h4>
+                    <h3>Login <a href="{{ url("subject") }}" class="back-user"> Back</a></h3>
                 </div>
                 <div class="form-content">
                     <form action="{{ url('login') }}" method="POST">

@@ -11,7 +11,7 @@
             @endif
             <div class="">
                 <div class="users">
-                    <h4>Subjects <a href="#" class="add-user" id="opencreateModalSubject"> Add Subject</a></h4>
+                    <h3>Subjects <a href="#" class="add-user" id="opencreateModalSubject"> Add Subject</a></h3>
                 </div>
                 <div class="table-container">
                     <table class="table">

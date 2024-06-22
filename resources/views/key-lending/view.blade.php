@@ -3,7 +3,7 @@
 @section('isi')
 
 <div class="users">
-    <h4>Key Lending</h4>
+    <h3>Key Lending</h3>
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}

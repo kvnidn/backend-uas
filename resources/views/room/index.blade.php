@@ -11,7 +11,7 @@
             @endif
             <div class="">
                 <div class="users">
-                    <h4>Rooms <a href="#" class="add-user" id="opencreateModalRoom"> Add Room</a></h4>
+                    <h3>Rooms <a href="#" class="add-user" id="opencreateModalRoom"> Add Room</a></h3>
                 </div>
                 <div class="table-container">
                     <table class="table">

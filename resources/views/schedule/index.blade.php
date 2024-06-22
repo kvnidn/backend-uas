@@ -14,9 +14,9 @@
 @endif
 <div class="users">
     @if(auth()->user()->role == 'Admin')
-        <h4>Schedule <a href="#" class="add-user" id="opencreateModalSchedule">Add Schedule</a></h4>
+        <h3>Schedule <a href="#" class="add-user" id="opencreateModalSchedule">Add Schedule</a></h3>
     @else
-        <h4>Schedule</h4>
+        <h3>Schedule</h3>
     @endif
 </div>
 
