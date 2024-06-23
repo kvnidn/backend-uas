@@ -168,7 +168,6 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
     });
 };
 
-
 // Assignment Script
 // Popup Open and Close Handling
 if(document.getElementById('createModalAssignment') || document.getElementById('editModalAssignment')) {
@@ -450,6 +449,7 @@ if (document.getElementById('loginModal')) {
     // Open create modal on button click
     document.getElementById('openLoginModal').onclick = function() {
         createModal.style.display = "block";
+        createModal.style.zIndex = 9999;
     };
 
     // When the user clicks on <span> (x), close the create modal

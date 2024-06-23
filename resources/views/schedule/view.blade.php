@@ -22,6 +22,10 @@
                         @else
                             <span class="next-date disabled">Next Date</span>
                         @endif
+                        <form method="GET" action="{{ route('schedule.view') }}" class="select-date">
+                            <label for="calendar">Select Date:</label>
+                            <input type="date" name="date" id="calendar" value="{{ $selectedDate }}" onchange="this.form.submit()">
+                        </form>
                     </div>
                     <form method="GET" action="{{ route('schedule.view', ['date' => $selectedDate]) }}" class="filter-room">
                         <label for="room">Filter by Room:</label>

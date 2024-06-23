@@ -23,18 +23,41 @@ body {
     z-index: 1000;
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    justify-content: space-between;
+    padding-left: 25px;
     padding-bottom: 7.5px;
     /* padding: 0 20px; */
 }
 
+.greetings {
+    align-items: center;
+    text-align: right;
+    margin-right: 60px;
+}
+
 #openLoginModal {
+    display: inline-block;
     padding: 10px 10px; 
     margin: 10px 10px; 
     cursor:pointer; 
-    background-color:white; 
-    color: #A01626;
+    background-color: transparent; 
+    color: white;
+    border-bottom: 2px solid white;
+    text-align: center;
+    text-decoration: none;
+    margin-right: 50px;
+    width: 60px;
+    font-weight: 800;
 }
+
+#openLoginModal:hover {
+    background-color: #662382;
+    color: white;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out, border-bottom 0.3s ease-out, border-radius 0.3s ease-out;   
+    font-weight: 800;
+    border-bottom: 2px solid #662382;
+    border-radius: 5px;
+} 
 
 .sidebar {
     margin-top: 85px;
@@ -120,6 +143,26 @@ div.content-isi {
     color: white;
     font-weight: 700;
     transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.select-date {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.select-date label {
+    font-weight: 500;
+}
+
+.select-date input[type="date"] {
+    margin-left: 10px;
+    border: transparent;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+}
+
+.select-date input[type="date"]:focus {
+    outline: none;
 }
 
 .filter-room {

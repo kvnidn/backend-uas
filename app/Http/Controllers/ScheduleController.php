@@ -83,7 +83,7 @@ class ScheduleController extends Controller
     public function view(Request $request, $date = null) {
         $allRoom = Room::orderBy('room_number')->get();
         $selectedRoom = $request->input('room_id', null);
-        $selectedDate = $date ?: today()->toDateString();
+        $selectedDate = $date ?: $request->input('date', today()->toDateString());
 
         $prevDate = Schedule::whereDate('date', '<', $selectedDate)->max('date');
         $nextDate = Schedule::whereDate('date', '>', $selectedDate)->min('date');

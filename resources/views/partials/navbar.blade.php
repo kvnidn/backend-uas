@@ -2,8 +2,10 @@
 
     <div class="tab-container">
         <div class="header">
-            <img src="../assets/FTIUntar.png" alt="FTI Untar" height="60px">
+            <img src="../assets/FTIUntar.png" alt="FTI Untar" height="50px">
             @auth
+            <p style="font-size: 14px;" class="greetings">Welcome back, </br>
+                <span style="font-weight: 900; font-size: 20px;">{{ auth()->user()->name }}</span></p>
             @else
                 <a class="{{ ($title === "Login") ? "active" : "" }}" id="openLoginModal">Login</a>
             @endauth
@@ -11,9 +13,12 @@
 
         <nav class="sidebar">
             @auth
-            <p style="font-size: 14px;">Welcome back, </br>
+            <p style="font-size: 14px;" class="greetings">Welcome back, </br>
                 <span style="font-weight: 900; font-size: 20px;">{{ auth()->user()->name }}</span></p>
             @endauth
+        </div>
+
+        <nav class="sidebar">
 
             <a class="{{ ($title === "Home") ? "active" : ""}}" href="/">Home</a>
 
