@@ -28,6 +28,14 @@ body {
     /* padding: 0 20px; */
 }
 
+#openLoginModal {
+    padding: 10px 10px; 
+    margin: 10px 10px; 
+    cursor:pointer; 
+    background-color:white; 
+    color: #A01626;
+}
+
 .sidebar {
     margin-top: 85px;
     padding-top: 0px;

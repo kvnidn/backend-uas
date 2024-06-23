@@ -3,6 +3,10 @@
     <div class="tab-container">
         <div class="header">
             <img src="../assets/FTIUntar.png" alt="FTI Untar" height="60px">
+            @auth
+            @else
+                <a class="{{ ($title === "Login") ? "active" : "" }}" id="openLoginModal">Login</a>
+            @endauth
         </div>
 
         <nav class="sidebar">
@@ -37,7 +41,6 @@
                     <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
                 @endif
             @else
-                <a class="{{ ($title === "Login") ? "active" : "" }}" href="/login">Login</a>
             @endauth
 
             @auth
@@ -63,3 +66,37 @@
         </nav>
     </div>
 </nav>
+
+<!-- Login User Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h4>Login User</h4>
+        <form action="{{ url('login') }}" method="POST">
+            @csrf
+            @method('POST')
+
+            <div class="form-name">
+                <label>Email</label>
+                <input type="text" name="email" value="{{  old('email') }}" autofocus/>
+                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-password">
+                <label>Password</label>
+                <input type="password" name="password" value="{{  old('password') }}"/>
+                @error('password') <span class="">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                    <label class="form-check-label" for="remember">
+                        Remember Me
+                    </label>
+                </div>
+            </div>
+            <div class="save-user-button">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
