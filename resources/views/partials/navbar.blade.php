@@ -34,6 +34,7 @@
                     <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
                 @elseif(in_array(auth()->user()->role, ['Lecturer', 'Assistant']))
                     <a class="{{ ($title === "Schedule") ? "active" : "" }}" href="/schedule">Schedule</a>
+                    <a class="{{ ($title === "User") ? "active" : "" }}" href="/user">User</a>
                 @endif
             @else
                 <a class="{{ ($title === "Login") ? "active" : "" }}" href="/login">Login</a>
@@ -51,7 +52,7 @@
             </div> -->
 
             <a class="logout-button{{ ($title === 'Logout') ? 'active' : '' }}" href="#" onclick="document.getElementById('logout-form').submit();"><i class="fa-solid fa-arrow-right-from-bracket" style="padding-right: 10px;"></i>Logout</a>
-            
+
             <div class="logout">
                 <form id="logout-form" action="/logout" method="POST" style="display: none;">
                     @csrf

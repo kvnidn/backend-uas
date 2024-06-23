@@ -83,7 +83,7 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             editModalSchedule.style.display = "block";
         };
     });
-    
+
     document.querySelectorAll('.batch-edit-button-schedule').forEach(function(button) {
         button.onclick = function() {
             var scheduleIds = this.getAttribute('data-ids').split(',');
@@ -149,7 +149,7 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             editModalScheduleBatch.style.display = "none";
         }
     };
-    
+
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.expand-button').forEach(button => {
             button.addEventListener('click', function() {
@@ -172,41 +172,41 @@ if(document.getElementById('createModalAssignment') || document.getElementById('
         // Get the modal elements
         var createModalAssignment = document.getElementById("createModalAssignment");
         var editModalAssignment = document.getElementById("editModalAssignment");
-    
+
         // Get the <span> elements that close the modals
         var closecreateModalAssignment = createModalAssignment.getElementsByClassName("close")[0];
         var closeeditModalAssignment = editModalAssignment.getElementsByClassName("close")[0];
-    
+
         // Open create modal on button click
         document.getElementById('opencreateModalAssignment').onclick = function() {
             createModalAssignment.style.display = "block";
         };
-    
+
         // Open edit modal on edit button click
         document.querySelectorAll('.edit-button-assignment').forEach(function(button) {
             button.onclick = function() {
                 var assignmentId = this.getAttribute('data-id');
                 var userId = this.getAttribute('data-user_id');
                 var kelasId = this.getAttribute('data-kelas_id');
-    
+
                 document.getElementById('modalUser').value = userId;
                 document.getElementById('modalClass').value = kelasId;
                 document.getElementById('editForm').action = 'assignment/' + assignmentId + '/edit';
-    
+
                 editModalAssignment.style.display = "block";
             };
         });
-    
+
         // When the user clicks on <span> (x), close the create modal
         closecreateModalAssignment.onclick = function() {
             createModalAssignment.style.display = "none";
         };
-    
+
         // When the user clicks on <span> (x), close the edit modal
         closeeditModalAssignment.onclick = function() {
             editModalAssignment.style.display = "none";
         };
-    
+
         // When the user clicks anywhere outside of the modals, close them
         window.onclick = function(event) {
             if (event.target == createModalAssignment) {
@@ -223,40 +223,40 @@ if(document.getElementById('createModalSubject') || document.getElementById('edi
         // Get the modal elements
         var createModalSubject = document.getElementById("createModalSubject");
         var editModalSubject = document.getElementById("editModalSubject");
-    
+
         // Get the <span> elements that close the modals
         var closecreateModalSubject = createModalSubject.getElementsByClassName("close")[0];
         var closeeditModalSubject = editModalSubject.getElementsByClassName("close")[0];
-    
+
         // Open create modal on button click
         document.getElementById('opencreateModalSubject').onclick = function() {
             createModalSubject.style.display = "block";
         };
-    
+
         // Open edit modal on edit button click
         document.querySelectorAll('.edit-button-subject').forEach(function(button) {
             button.onclick = function() {
                 var subjectId = this.getAttribute('data-id');
                 var subjectName = this.getAttribute('data-name');
-                
+
                 document.getElementById('modalSubjectId').value = subjectId;
                 document.getElementById('modalSubjectName').value = subjectName;
                 document.getElementById('editForm').action = 'subject/' + subjectId + '/edit';
-    
+
                 editModalSubject.style.display = "block";
             };
         });
-    
+
         // When the user clicks on <span> (x), close the create modal
         closecreateModalSubject.onclick = function() {
             createModalSubject.style.display = "none";
         };
-    
+
         // When the user clicks on <span> (x), close the edit modal
         closeeditModalSubject.onclick = function() {
             editModalSubject.style.display = "none";
         };
-    
+
         // When the user clicks anywhere outside of the modals, close them
         window.onclick = function(event) {
             if (event.target == createModalSubject) {
@@ -273,40 +273,40 @@ if(document.getElementById('createModalRoom') || document.getElementById('editMo
         // Get the modal elements
         var createModalRoom = document.getElementById("createModalRoom");
         var editModalRoom = document.getElementById("editModalRoom");
-    
+
         // Get the <span> elements that close the modals
         var closecreateModalRoom = createModalRoom.getElementsByClassName("close")[0];
         var closeeditModalRoom = editModalRoom.getElementsByClassName("close")[0];
-    
+
         // Open create modal on button click
         document.getElementById('opencreateModalRoom').onclick = function() {
             createModalRoom.style.display = "block";
         };
-    
+
         // Open edit modal on edit button click
         document.querySelectorAll('.edit-button-room').forEach(function(button) {
             button.onclick = function() {
                 var roomId = this.getAttribute('data-id');
                 var roomNumber = this.getAttribute('data-room_number');
-                
+
                 document.getElementById('modalRoomId').value = roomId;
                 document.getElementById('modalRoomNumber').value = roomNumber;
                 document.getElementById('editForm').action = 'room/' + roomId + '/edit';
-    
+
                 editModalRoom.style.display = "block";
             };
         });
-    
+
         // When the user clicks on <span> (x), close the create modal
         closecreateModalRoom.onclick = function() {
             createModalRoom.style.display = "none";
         };
-    
+
         // When the user clicks on <span> (x), close the edit modal
         closeeditModalRoom.onclick = function() {
             editModalRoom.style.display = "none";
         };
-    
+
         // When the user clicks anywhere outside of the modals, close them
         window.onclick = function(event) {
             if (event.target == createModalRoom) {
@@ -323,16 +323,16 @@ if(document.getElementById('createModalClass') || document.getElementById('editM
         // Get the modal elements
         var createModalClass = document.getElementById("createModalClass");
         var editModalClass = document.getElementById("editModalClass");
-    
+
         // Get the <span> elements that close the modals
         var closecreateModalClass = createModalClass.getElementsByClassName("close")[0];
         var closeeditModalClass = editModalClass.getElementsByClassName("close")[0];
-    
+
         // Open create modal on button click
         document.getElementById('opencreateModalClass').onclick = function() {
             createModalClass.style.display = "block";
         };
-    
+
         // Open edit modal on edit button click
         document.querySelectorAll('.edit-button-class').forEach(function(button) {
             button.onclick = function() {
@@ -340,26 +340,26 @@ if(document.getElementById('createModalClass') || document.getElementById('editM
                 var prodi = this.getAttribute('data-prodi');
                 var subjectId = this.getAttribute('data-subject');
                 var classChar = this.getAttribute('data-class');
-    
+
                 document.getElementById('modalProdi').value = prodi;
                 document.getElementById('modalSubject').value = subjectId;
                 document.getElementById('modalClass').value = classChar;
                 document.getElementById('editForm').action = 'class/' + classId + '/edit';
-    
+
                 editModalClass.style.display = "block";
             };
         });
-    
+
         // When the user clicks on <span> (x), close the create modal
         closecreateModalClass.onclick = function() {
             createModalClass.style.display = "none";
         };
-    
+
         // When the user clicks on <span> (x), close the edit modal
         closeeditModalClass.onclick = function() {
             editModalClass.style.display = "none";
         };
-    
+
         // When the user clicks anywhere outside of the modals, close them
         window.onclick = function(event) {
             if (event.target == createModalClass) {
@@ -376,16 +376,16 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
         // Get the modal elements
         var createModalUser = document.getElementById("createModalUser");
         var editModalUser = document.getElementById("editModalUser");
-    
+
         // Get the <span> elements that close the modals
         var closecreateModalUser = createModalUser.getElementsByClassName("close")[0];
         var closeeditModalUser = editModalUser.getElementsByClassName("close")[0];
-    
+
         // Open create modal on button click
         document.getElementById('opencreateModalUser').onclick = function() {
             createModalUser.style.display = "block";
         };
-    
+
         // Open edit modal on edit button click
         document.querySelectorAll('.edit-button-user').forEach(function(button) {
             button.onclick = function() {
@@ -393,12 +393,12 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
                 var userName = this.getAttribute('data-name');
                 var userEmail = this.getAttribute('data-email');
                 var userRole = this.getAttribute('data-role');
-    
+
                 document.getElementById('modalUserName').value = userName;
                 document.getElementById('modalUserEmail').value = userEmail;
                 document.getElementById('modalUserPassword').value = '';
                 document.getElementById('editForm').action = 'user/' + userId + '/edit';
-    
+
                 if (userRole == 'Admin') {
                     document.getElementById('modalRoleAdmin').checked = true;
                 } else if (userRole == 'Lecturer') {
@@ -406,21 +406,21 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
                 } else if (userRole == 'Assistant') {
                     document.getElementById('modalRoleAssistant').checked = true;
                 }
-    
+
                 editModalUser.style.display = "block";
             };
         });
-    
+
         // When the user clicks on <span> (x), close the create modal
         closecreateModalUser.onclick = function() {
             createModalUser.style.display = "none";
         };
-    
+
         // When the user clicks on <span> (x), close the edit modal
         closeeditModalUser.onclick = function() {
             editModalUser.style.display = "none";
         };
-    
+
         // When the user clicks anywhere outside of the modals, close them
         window.onclick = function(event) {
             if (event.target == createModalUser) {

@@ -9,6 +9,8 @@
                     {{ session('status') }}
                 </div>
             @endif
+            @auth
+            @if(auth()->user()->role == 'Admin')
             <div class="">
                 <div class="users">
                     <h4>Users <a href="#" class="add-user" id="opencreateModalUser"> Add User</a></h4>
@@ -43,6 +45,15 @@
                     </table>
                 </div>
             </div>
+            @else
+            <h2>Name    : {{ auth()->user()->name }}</h2>
+            <h2>Email   : {{ auth()->user()->email }}</h2>
+            <td>
+                <a href="{{ url('user/'.auth()->user()->id.'/edit') }}" class="edit-button-user" data-id="{{ auth()->user()->id }}" data-name="{{ auth()->user()->name }}" data-email="{{ auth()->user()->email }}" data-role="{{ auth()->user()->role }}">Edit</a>
+                <a href="{{ url('user/'.auth()->user()->id.'/delete') }}" class="delete-button" onclick="return confirm('Are you sure ?')">Delete</a>
+            </td>
+            @endif
+            @endauth
         </div>
     </div>
 </div>

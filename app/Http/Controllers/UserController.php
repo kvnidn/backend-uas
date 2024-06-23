@@ -53,21 +53,33 @@ class UserController extends Controller
         $request->validate([
             "name" => "required|max:255|string",
             "email" => "required|max:255|string|email|unique:user,email,{$id}",
-            'password' => "required|max:255|string",
+            'password' => auth()->user()->role === 'Admin' ? "nullable|max:255|string" : "required|max:255|string",
+            'new_password' => "nullable|max:255|string",
             'role' => 'required',
             'remember_token'=>'nullable|string',
         ]);
 
         $user = User::findOrFail($id);
 
+        if (auth()->user()->role !== 'Admin') {
+            if (!Hash::check($request->password, $user->password)) {
+                return redirect()->back()->withErrors(['password' => 'Current password is incorrect']);
+            }
+        }
+
         $data = [
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
         ];
-
-        if ($request->password != $user->password) {
-            $data['password'] = bcrypt($request->password);
+        if (auth()->user()->role === 'Admin') {
+            if (!empty($request->password)) {
+                $data['password'] = bcrypt($request->password);
+            }
+        } else {
+            if (!empty($request->new_password)) {
+                $data['password'] = bcrypt($request->new_password);
+            }
         }
 
         $user->update($data);
@@ -86,6 +98,7 @@ class UserController extends Controller
         }
     }
 
+    // NOT USED
     public function createUser() {
         User::create([
             'name' => 'Admin',
@@ -97,6 +110,7 @@ class UserController extends Controller
 
         return 'User created successfully!';
     }
+
 
 
 

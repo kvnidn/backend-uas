@@ -19,6 +19,11 @@ Route::prefix('user')->middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('/create', [UserController::class, 'create']);
     Route::post('/create', [UserController::class, 'store']);
+});
+
+// User Admin & Lecturer/Assistant
+Route::prefix('user')->middleware(['auth'])->group(function() {
+    Route::get('/', [UserController::class, 'index']);
     Route::get('{id}/edit', [UserController::class, 'edit']);
     Route::put('{id}/edit', [UserController::class, 'update']);
     Route::get('{id}/delete', [UserController::class, 'destroy']);
@@ -62,7 +67,7 @@ Route::prefix('schedule')->middleware(['auth', 'role:Admin'])->group(function ()
     Route::get('/batch-delete', [ScheduleController::class, 'batchDestroy']);
 });
 
-// Schedule Admin & Lecturer
+// Schedule Admin & Lecturer/Assistant
 Route::prefix('schedule')->middleware(['auth'])->group(function () {
     Route::get('/', [ScheduleController::class, 'index'])->name('schedule.index');
     Route::get('{id}/edit', [ScheduleController::class, 'edit']);
