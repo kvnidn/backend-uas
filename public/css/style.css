@@ -98,6 +98,13 @@ div.content-isi {
     overflow-y: auto;
 }
 
+.page-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0;
+}
+
 @media screen and (max-width: 700px) {
     .sidebar {
         width: 100%;
@@ -145,36 +152,30 @@ div.content-isi {
     transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
-.select-date {
+/* Filter by */
+.options {
     margin-top: 10px;
     margin-bottom: 10px;
+    justify-content: space-between;
+    width: 100%;
 }
 
-.select-date label {
+.options label {
     font-weight: 500;
 }
 
-.select-date input[type="date"] {
+.options input[type="date"] {
     margin-left: 10px;
     border: transparent;
     font-family: "Nunito Sans", sans-serif;
     font-weight: 700;
 }
 
-.select-date input[type="date"]:focus {
+.options input[type="date"]:focus {
     outline: none;
 }
 
-.filter-room {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.filter-room label {
-    font-weight: 500;
-}
-
-.filter-room select {
+.options select {
     margin-left: 5px;
     border-radius: 5px;
     border: transparent;
@@ -182,37 +183,108 @@ div.content-isi {
     font-weight: 700;
 }
 
-.filter-room select:focus {
+.options select:focus {
     outline: none;
 }
 
-.start-heading {
+.filter-container {
+    width: 100%;
+    display: flex;  
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.filter-container-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2px;
+    margin-bottom: 4px;
+}
+
+.filter-container-column {
+    flex: 1;
+    box-sizing: border-box;
+}
+
+/* Start of Table Column */
+/* View Page */
+.id-heading-view {
+    width: 3%;
+}
+
+.start-heading-view {
     width: 12%;
 }
 
-.end-heading {
+.end-heading-view {
     width: 12%;
 }
 
-.subject-heading {
+.subject-heading-view {
     width: 31%;
 }
 
-.lecturer-heading {
+.lecturer-heading-view {
     width: 26%;
 }
 
-.class-heading {
+.class-heading-view {
     width: 6%;
 }
 
-.room-heading {
+.room-heading-view {
     width: 10%;
 }
+
+/* Schedule Page */
+.id-heading-schedule {
+    width: 3%;
+}
+
+.day-heading-schedule,
+.date-heading-schedule {
+    width: 8%;
+}
+
+.start-heading-schedule {
+    width: 8%;
+}
+
+.end-heading-schedule {
+    width: 8%;
+}
+
+.subject-heading-schedule {
+    width: 22%;
+}
+
+.lecturer-heading-schedule {
+    width: 21%;
+}
+
+.class-heading-schedule {
+    width: 4%;
+}
+
+.room-heading-schedule {
+    width: 8%;
+}
+
+.action-heading-schedule {
+    width: 20%;
+}
+/* End of Table Column */
 
 /* Admin Table (CRUD User) */
 h3 {
     font-weight: 800;
+    margin-top: 20px 0 0 0;
 }
 
 .table-container {
@@ -227,7 +299,8 @@ table {
     width: 100%;
 }
 
-.table-header {
+.table-header,
+.table-header-expanded {
     background-color: #662382;
     border-bottom-width: 10px;
     border-color: #edf2f7;
@@ -235,6 +308,10 @@ table {
     position: sticky;
     top: 0;
     z-index: 1;
+}
+
+.table-header-expanded {
+    z-index: 0;
 }
 
 .table-header-row th{
@@ -246,10 +323,6 @@ table {
     text-align: center;
 }
 
-
-.id-heading {
-    width: 3%;
-}
 
 .name-heading {
     width: 100px;
@@ -267,7 +340,8 @@ table {
     width: 100px;
 }
 
-tr:nth-child(even) {
+.table .user-content:nth-of-type(even),
+.table .expanded-content:nth-of-type(even) {
     background-color: #E7CFF2;
 }
 
@@ -276,11 +350,14 @@ tr:nth-child(even) {
     text-align: left;
 }
 
-.table td:nth-child(1),
-.table td:nth-child(2), 
-.table td:nth-child(3), 
-.table td:nth-child(6), 
-.table td:nth-child(7) {
+.table .id,
+.table .day,
+.table .date,
+.table .start, 
+.table .end, 
+.table .class, 
+.table .room,
+.table .action {
     text-align: center;
 }
 
@@ -294,31 +371,82 @@ tr:nth-child(even) {
 }
 
 a[class^="edit-button-"] {
-    color: white;
-    padding: 2px;
-    background-color: green;
+    color: #2A9134;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: white;
+    border: 2px solid #2A9134;
     border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+a[class^="edit-button-"]:hover {
+    color: white;
+    background-color: #2A9134;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
 a.delete-button {
-    color: white;
-    padding: 2px;
-    background-color: red;
+    color: #D90429;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: white;
+    border: 2px solid #D90429;
     border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+a.delete-button:hover {
+    color: white;
+    background-color: #D90429;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
 a.batch-edit-button-schedule {
-    color: white;
-    padding: 2px;
-    background-color: green;
+    color: #2A9134;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: white;
+    border: 2px solid #2A9134;
     border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+a.batch-edit-button-schedule:hover {
+    color: white;
+    background-color: #2A9134;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
 a.batch-delete-button {
-    color: white;
-    padding: 2px;
-    background-color: red;
+    color: #D90429;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: white;
+    border: 2px solid #D90429;
     border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+a.batch-delete-button:hover {
+    color: white;
+    background-color: #D90429;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.expand-button {
+    color: black;
+    border: none;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: #E5E5E5;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 td {
@@ -328,19 +456,29 @@ td {
 
 .users {
     margin: 5px;
-    width: 80%;
+    width: 100%;
 }
 
 .add-user {
-    background-color: blue;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    padding: 5px;
-    text-align: center;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid #662382;
+    color: #662382;
+    padding: 10px 20px 10px 16px;
+    margin-right: 10px;
+    margin-top: 10px;
+    text-align: right;
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
+    font-weight: 700;
+}
+
+.add-user:hover {
+    background-color: #662382;
+    color: white;
+    font-weight: 700;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
 .back-user {
@@ -385,19 +523,25 @@ input[type=password], select, textarea {
 
 .save-user-button {
     padding: 10px;
+    text-align: center;
+    justify-content: center;
 }
 
 .save-user-button button {
-    font-size: 20px;
-    background-color: red;
+    font-size: 16px;
+    background-color: #51CD5D;
     color: white;
+    padding: 10px 18px 10px 18px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-weight: 600;
 }
 
 .save-user-button button:hover {
-    background-color: rgb(255, 123, 123);
+    background-color: #2A9134;
     color: white;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+    cursor: pointer;
 }
 
 p {
@@ -453,25 +597,78 @@ p {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
+    margin: 8% auto;
+    padding: 30px 30px 20px 30px;
     border: 1px solid #888;
-    width: 80%;
+    border-radius: 10px;
+    width: 40%;
+    height: 60%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.modal-content h4 {
+    text-align: center;
+    color: black;
+    font-size: 125%;
+    font-weight: 800;
+    margin: 2.5% 0 5% 0;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    width: 150px;
+    margin-right: 20px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select {
+    flex: 2;
+    padding: 8px;
+    font-size: 80%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 75%;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-actions i {
+    padding-right: 8px;
+}
+
+.form-actions .close,
+.form-actions .save-user-button {
+    margin: 0 10px; /* Adjust the spacing between buttons */
 }
 
 /* Close Button */
 .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    background-color: #D90429;
+    color: white;
+    padding: 10px 18px 10px 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
-    text-decoration: none;
+    background-color: #B40421;
+    color: white;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
     cursor: pointer;
 }
 

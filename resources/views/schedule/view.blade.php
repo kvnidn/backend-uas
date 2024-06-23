@@ -22,12 +22,12 @@
                         @else
                             <span class="next-date disabled">Next Date</span>
                         @endif
-                        <form method="GET" action="{{ route('schedule.view') }}" class="select-date">
+                        <form method="GET" action="{{ route('schedule.view') }}" class="options">
                             <label for="calendar">Select Date:</label>
                             <input type="date" name="date" id="calendar" value="{{ $selectedDate }}" onchange="this.form.submit()">
                         </form>
                     </div>
-                    <form method="GET" action="{{ route('schedule.view', ['date' => $selectedDate]) }}" class="filter-room">
+                    <form method="GET" action="{{ route('schedule.view', ['date' => $selectedDate]) }}" class="options">
                         <label for="room">Filter by Room:</label>
                             <select name="room_id" id="room" onchange="this.form.submit()">
                                 <option value="">All Rooms</option>
@@ -43,25 +43,25 @@
                     <table class="table">
                         <thead class="table-header">
                             <tr class="table-header-row">
-                                <th class="id-heading">ID</th>
-                                <th class="start-heading">Start Time</th>
-                                <th class="end-heading">End Time</th>
-                                <th class="subject-heading">Subject Name</th>
-                                <th class="lecturer-heading">Lecturer Name</th>
-                                <th class="class-heading">Class</th>
-                                <th class="room-heading">Room Number</th>
+                                <th class="id-heading-view">ID</th>
+                                <th class="start-heading-view">Start Time</th>
+                                <th class="end-heading-view">End Time</th>
+                                <th class="subject-heading-view">Subject Name</th>
+                                <th class="lecturer-heading-view">Lecturer Name</th>
+                                <th class="class-heading-view">Class</th>
+                                <th class="room-heading-view">Room Number</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($schedules as $index => $item)
                             <tr class="user-content">
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->start_time }}</td>
-                                <td>{{ $item->end_time }}</td>
-                                <td>{{ $item->assignment->kelas->prodi }}-{{ $item->assignment->kelas->subject->name}}</td>
-                                <td>{{ $item->assignment->user->name }}</td>
-                                <td>{{ $item->assignment->kelas->class }}</td>
-                                <td>R{{ $item->room->room_number }}</td>
+                                <td class="id">{{ $index + 1 }}</td>
+                                <td class="start">{{ $item->start_time }}</td>
+                                <td class="end">{{ $item->end_time }}</td>
+                                <td class="subject">{{ $item->assignment->kelas->prodi }}-{{ $item->assignment->kelas->subject->name}}</td>
+                                <td class="lecturer">{{ $item->assignment->user->name }}</td>
+                                <td class="class">{{ $item->assignment->kelas->class }}</td>
+                                <td class="room">R{{ $item->room->room_number }}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -158,10 +158,10 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
                 const expandedContent = this.closest('tr').nextElementSibling;
                 if (expandedContent.style.display === 'none' || !expandedContent.style.display) {
                     expandedContent.style.display = 'table-row';
-                    this.textContent = 'Collapse';
+                    this.innerHTML = 'Collapse <i class="fa-solid fa-caret-up" style="padding-left: 0px;"></i>';
                 } else {
                     expandedContent.style.display = 'none';
-                    this.textContent = 'Expand';
+                    this.innerHTML = 'Expand <i class="fa-solid fa-caret-down" style="padding-left: 5px;"></i>';
                 }
             });
         });
