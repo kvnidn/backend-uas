@@ -17,8 +17,11 @@
             @endif
             <div class="">
                 <div class="users">
-                    <h3>Assignment <a href="#" class="add-user" id="opencreateModalAssignment">Add Assignment</a></h3>
-                    <form method="GET" action="{{ route('assignment.index') }}">
+                    <div class="page-title">
+                        <h3>Assignment</h3>
+                        <a href="#" class="add-user" id="opencreateModalAssignment"><i class="fa-solid fa-clipboard-list fa-xl" style="padding-right: 14px;"></i>Add Assignment</a>
+                    </div>
+                    <form method="GET" action="{{ route('assignment.index') }}" class="options">
                         <!-- Filter by Subject -->
                         <label for="subject">Filter by Subject:</label>
                         <select name="subject_id" id="subject" onchange="this.form.submit()">
@@ -30,7 +33,7 @@
                             @endforeach
                         </select>
                         <!-- Filter by Lecturer -->
-                        <label for="lecturer">Filter by Lecturer:</label>
+                        <label for="lecturer" style="margin-left: 200px;">Filter by Lecturer:</label>
                         <select name="lecturer_id" id="lecturer" onchange="this.form.submit()">
                             <option value="">All Lecturer</option>
                             @foreach ($allLecturer as $lecturer)
@@ -45,23 +48,23 @@
                     <table class="table">
                         <thead class="table-header">
                             <tr class="table-header-row">
-                                <th class="id-heading">ID</th>
-                                <th class="name-heading">Subject Name</th>
-                                <th class="user-heading">User</th>
-                                <th class="kelas-heading">Class</th>
-                                <th class="action-heading">Action</th>
+                                <th class="id-heading-assignment">ID</th>
+                                <th class="subject-heading-assignment">Subject Name</th>
+                                <th class="user-heading-assignment">User</th>
+                                <th class="class-heading-assignment">Class</th>
+                                <th class="action-heading-assignment">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($assignments as $index => $item)
                             <tr class="assignment-content">
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $item->kelas->prodi }}-{{ $item->kelas->subject->name }}</td>
-                                <td>{{ $item->user->name ?? 'N/A' }}</td>
-                                <td>{{ $item->kelas->class }}</td>
-                                <td>
-                                    <a href="#" class="edit-button-assignment" data-id="{{ $item->id }}" data-user_id="{{ $item->user_id }}" data-kelas_id="{{ $item->kelas_id }}">Edit</a>
-                                    <a href="{{ url('assignment/'.$item->id.'/delete') }}" class="delete-button" onclick="return confirm('Are you sure?')">Delete</a>
+                                <td class="id">{{ $index + 1 }}</td>
+                                <td class="subject">{{ $item->kelas->prodi }}-{{ $item->kelas->subject->name }}</td>
+                                <td class="user">{{ $item->user->name ?? 'N/A' }}</td>
+                                <td class="class">{{ $item->kelas->class }}</td>
+                                <td class="action">
+                                    <a href="#" class="edit-button-assignment" data-id="{{ $item->id }}" data-user_id="{{ $item->user_id }}" data-kelas_id="{{ $item->kelas_id }}"><i class="fa-regular fa-pen-to-square" style="padding-right: 8px;"></i>Edit</a>
+                                    <a href="{{ url('assignment/'.$item->id.'/delete') }}" class="delete-button" onclick="return confirm('Are you sure?')"><i class="fa-regular fa-trash-can fa-sm" style="padding-right: 8px;"></i>Delete</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -76,7 +79,6 @@
 <!-- Create Assignment Modal -->
 <div id="createModalAssignment" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
         <h4>Create Assignment</h4>
         <form action="{{ url('/assignment/create') }}" method="POST">
             @csrf
@@ -100,8 +102,13 @@
                 </select>
                 @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
-            <div class="save-user-button">
-                <button type="submit">Save</button>
+            <div class="form-actions">
+                <div class="close-user-button">
+                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
+                </div>
+                <div class="save-user-button">
+                    <button type="submit"><i class="fa-solid fa-check"></i>Save</button>
+                </div>
             </div>
         </form>
     </div>
@@ -110,7 +117,6 @@
 <!-- Edit Assignment Modal -->
 <div id="editModalAssignment" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
         <h4>Edit Assignment</h4>
         <form id="editForm" method="POST">
             @csrf
@@ -135,8 +141,13 @@
                 </select>
                 @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
-            <div class="save-user-button">
-                <button type="submit">Update</button>
+            <div class="form-actions">
+                <div class="close-user-button">
+                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
+                </div>
+                <div class="save-user-button">
+                    <button type="submit"><i class="fa-solid fa-check"></i>Update</button>
+                </div>
             </div>
         </form>
     </div>

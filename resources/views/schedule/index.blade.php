@@ -143,10 +143,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($group as $item)
+                                @php
+                                    $groupbydate = $group->sortBy('date');
+                                @endphp
+                                @foreach ($groupbydate as $item)
                                     <tr>
                                         <td class="id">{{ $loop->parent->index + 1 }}.{{ $loop->index + 1 }}</td>
-                                        <td class="date">{{ date('d M Y', strtotime($item->first()->date)) }}</td>
+                                        <td class="date">{{ date('d M Y', strtotime($item->date)) }}</td>
                                         <td class="start">{{ $item->start_time }}</td>
                                         <td class="end">{{ $item->end_time }}</td>
                                         <td class="subject">{{ $item->assignment->kelas->prodi }}-{{ $item->assignment->kelas->subject->name }}</td>
@@ -315,7 +318,7 @@
 
 <div id="editModalScheduleBatch" class="modal">
     <div class="modal-content">
-        <h4>Edit Assignment</h4>
+        <h4>Edit Schedule</h4>
         <form id="editFormBatch" method="POST">
             @csrf
             @method('PUT')
