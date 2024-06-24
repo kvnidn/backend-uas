@@ -23,10 +23,8 @@ Route::prefix('user')->middleware(['auth', 'role:Admin'])->group(function () {
 
 // User Admin & Lecturer/Assistant
 Route::prefix('user')->middleware(['auth'])->group(function() {
-    Route::get('/', [UserController::class, 'index']);
     Route::get('{id}/edit', [UserController::class, 'edit']);
     Route::put('{id}/edit', [UserController::class, 'update']);
-    Route::get('{id}/delete', [UserController::class, 'destroy']);
 });
 
 // Room

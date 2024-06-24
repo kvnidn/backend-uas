@@ -228,7 +228,7 @@
                 <label for="repeat">Repeat (weeks)</label>
                 <input type="number" name="repeat" id="repeat" min="0" max="52" value="0">
             </div>
-            
+
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
@@ -247,7 +247,7 @@
         <form id="editForm" method="POST">
             @csrf
             @method('PUT')
-            
+
             <div class="form-group">
                 <label for="date">Date</label>
                 <input type="date" name="date" id="modalDate" value="" required>
@@ -266,19 +266,25 @@
                 @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
-            @if(auth()->user()->role === 'Admin')
             <div class="form-group">
-            @else
-            <div class="form-group" style="display:none">
-            @endif
                 <label for="assignment_id">Assignment</label>
                 <select name="assignment_id" id="modalAssignment" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'selected' : '' }}>
                     <option value="" disabled>Select an assignment</option>
-                    @foreach($allAssignments as $assignment)
-                        <option value="{{ $assignment->id }}" >
-                            {{$assignment->id}}{{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
-                        </option>
-                    @endforeach
+                    @if(auth()->user()->role === 'Admin')
+                        @foreach($allAssignments as $assignment)
+                            <option value="{{ $assignment->id }}">
+                                {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
+                            </option>
+                        @endforeach
+                    @else
+                        @foreach($allAssignments as $assignment)
+                            @if(auth()->user()->id == $assignment->user_id)
+                                <option value="{{ $assignment->id }}">
+                                    {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
+                                </option>
+                            @endif
+                        @endforeach
+                    @endif
                 </select>
                 @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
@@ -329,19 +335,25 @@
                 @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
-            @if(auth()->user()->role === 'Admin')
             <div class="form-group">
-            @else
-            <div class="form-group" style="display:none" disabled>
-            @endif
                 <label for="assignment_id">Assignment</label>
                 <select name="assignment_id" id="modalAssignmentBatch" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'selected' : '' }}>
                     <option value="" disabled>Select an assignment</option>
-                    @foreach($allAssignments as $assignment)
-                        <option value="{{ $assignment->id }}" >
-                            {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
-                        </option>
-                    @endforeach
+                    @if(auth()->user()->role === 'Admin')
+                        @foreach($allAssignments as $assignment)
+                            <option value="{{ $assignment->id }}">
+                                {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
+                            </option>
+                        @endforeach
+                    @else
+                        @foreach($allAssignments as $assignment)
+                            @if(auth()->user()->id == $assignment->user_id)
+                                <option value="{{ $assignment->id }}">
+                                    {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
+                                </option>
+                            @endif
+                        @endforeach
+                    @endif
                 </select>
                 @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror
             </div>

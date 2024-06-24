@@ -51,7 +51,7 @@
             <div class="form-name">
                 <label>Subject Name</label>
                 <input type="text" name="name" value="{{ old('name') }}"/>
-                @error('name') <span class="">{{ $message }}</span> @enderror
+                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="save-user-button">
                 <button type="submit">Save</button>

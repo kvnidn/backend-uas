@@ -34,7 +34,7 @@
                         <div class="form-password">
                             <label>Password</label>
                             <input type="password" name="password" value="{{  old('password') }}"/>
-                            @error('password') <span class="">{{ $message }}</span> @enderror
+                            @error('password') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group">
                             <div class="form-check">

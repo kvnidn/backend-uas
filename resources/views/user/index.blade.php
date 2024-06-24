@@ -9,8 +9,6 @@
                     {{ session('status') }}
                 </div>
             @endif
-            @auth
-            @if(auth()->user()->role == 'Admin')
             <div class="">
                 <div class="users">
                     <h4>Users <a href="#" class="add-user" id="opencreateModalUser"> Add User</a></h4>
@@ -45,15 +43,6 @@
                     </table>
                 </div>
             </div>
-            @else
-            <h2>Name    : {{ auth()->user()->name }}</h2>
-            <h2>Email   : {{ auth()->user()->email }}</h2>
-            <td>
-                <a href="{{ url('user/'.auth()->user()->id.'/edit') }}" class="edit-button-user" data-id="{{ auth()->user()->id }}" data-name="{{ auth()->user()->name }}" data-email="{{ auth()->user()->email }}" data-role="{{ auth()->user()->role }}">Edit</a>
-                <a href="{{ url('user/'.auth()->user()->id.'/delete') }}" class="delete-button" onclick="return confirm('Are you sure ?')">Delete</a>
-            </td>
-            @endif
-            @endauth
         </div>
     </div>
 </div>
@@ -68,24 +57,24 @@
             <div class="form-name">
                 <label>Name</label>
                 <input type="text" name="name" value="{{ old('name') }}"/>
-                @error('name') <span class="">{{ $message }}</span> @enderror
+                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-email">
                 <label>Email</label>
                 <input type="text" name="email" value="{{ old('email') }}"/>
-                @error('email') <span class="">{{ $message }}</span> @enderror
+                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-password">
                 <label>Password</label>
                 <input type="password" name="password" value="{{ old('password') }}"/>
-                @error('password') <span class="">{{ $message }}</span> @enderror
+                @error('password') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-role">
                 <label>Role</label>
                 <input type="radio" name="role" value="Admin" {{ old('role') == 'Admin' ? 'checked' : '' }}> Admin
                 <input type="radio" name="role" value="Lecturer" {{ old('role') == 'Lecturer' ? 'checked' : '' }}> Lecturer
                 <input type="radio" name="role" value="Assistant" {{ old('role') == 'Assistant' ? 'checked': '' }}> Assistant
-                @error('role') <span class="">{{ $message }}</span> @enderror
+                @error('role') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="save-user-button">
                 <button type="submit">Save</button>
