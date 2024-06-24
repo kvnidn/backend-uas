@@ -6,7 +6,9 @@
         <div class="">
             <div class="">
                 <div class="users">
-                    <h3>Schedule</h3>
+                    <div class="page-title">
+                        <h3>Schedule</h3>
+                    </div>
                     <h1 class="date-today">
                         {{ date('l, j F Y', strtotime($selectedDate)) }}
                     </h1>

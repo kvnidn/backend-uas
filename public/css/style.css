@@ -75,11 +75,13 @@ body {
 }
 
 .sidebar a {
-    display: block;
+    display: flex;
     color: black;
     padding: 16px;
     text-decoration: none;
     font-weight: 500;
+    justify-content: left;
+    align-items: center;
 }
 
 .sidebar a.active {
@@ -93,6 +95,11 @@ body {
     color: white;
     font-weight: 700;
     transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.sidebar a i {
+    padding-right: 20px;
+    width: 12px;
 }
 
 div.content-isi {
@@ -128,10 +135,12 @@ div.content-isi {
 }
 
 /* View Page */
-.date-today {
-    margin-bottom: 5px;
+.date-today,
+.date-navigation span {
+    margin: 0 0 5px 0;
     padding: 0;
     font-weight: 800;
+    font-size: 32px;
 }
 
 .date-navigation .prev-date,
@@ -247,6 +256,43 @@ div.content-isi {
     width: 10%;
 }
 
+/* Room Lending Page */
+.id-heading-lend {
+    width: 3%;
+}
+
+.start-heading-lend {
+    width: 8%;
+}
+
+.end-heading-lend {
+    width: 8%;
+}
+
+.subject-heading-lend {
+    width: 27%;
+}
+
+.lecturer-heading-lend {
+    width: 24%;
+}
+
+.class-heading-lend {
+    width: 4%;
+}
+
+.room-heading-lend {
+    width: 6%;
+}
+
+.action-heading-lend {
+    width: 10%;
+}
+
+.action-heading-return {
+    width: 10%;
+}
+
 /* Schedule Page */
 .id-heading-schedule {
     width: 3%;
@@ -306,6 +352,74 @@ div.content-isi {
     width: 20%;
 }
 
+/* Subject Page */
+.id-heading-subject {
+    width: 3%;
+}
+
+.subject-heading-subject {
+    width: 77%;
+}
+
+.action-heading-subject {
+    width: 20%;
+}
+
+/* Room Page */
+.id-heading-room {
+    width: 3%;
+}
+
+.room-heading-room {
+    width: 77%;
+}
+
+.action-heading-room {
+    width: 20%;
+}
+
+/* Class Page */
+.id-heading-class {
+    width: 3%;
+}
+
+.prodi-heading-class {
+    width: 10%;
+}
+
+.subject-heading-class {
+    width: 62%;
+}
+
+.action-heading-class {
+    width: 25%;
+}
+
+/* User Page */
+.id-heading-user {
+    width: 3%;
+}
+
+.name-heading-user {
+    width: 25%;
+}
+
+.email-heading-user {
+    width: 30%;
+}
+
+.password-heading-user {
+    width: 12%;
+}
+
+.role-heading-user {
+    width: 10%;
+}
+
+.action-heading-user {
+    width: 20%;
+}
+
 /* End of Table Column */
 
 /* Admin Table (CRUD User) */
@@ -350,26 +464,10 @@ table {
     text-align: center;
 }
 
-
-.name-heading {
-    width: 100px;
-}
-
-.email-heading {
-    width: 250px;
-}
-
-.password-heading {
-    width: 100px;
-}
-
-.role-heading {
-    width: 100px;
-}
-
 .table .user-content:nth-of-type(even),
 .table .expanded-content:nth-of-type(even),
-.table .assignment-content:nth-of-type(even) {
+.table .assignment-content:nth-of-type(even),
+.table .class-content:nth-of-type(even) {
     background-color: #E7CFF2;
 }
 
@@ -380,11 +478,13 @@ table {
 
 .table .id,
 .table .day,
+.table .prodi,
 .table .date,
 .table .start, 
 .table .end, 
 .table .class, 
 .table .room,
+.table .password,
 .table .action {
     text-align: center;
 }
@@ -714,22 +814,122 @@ p {
     box-sizing: border-box;
 }
 
-.btn {
-    padding: 10px 20px;
-    margin-top: 10px;
-    border: none;
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 4px;
+/* Lend Button */
+.btn.btn-success.lend-btn {
+    color: #2A9134;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: white;
+    border: 2px solid #2A9134;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
 }
 
-.btn:hover {
-    background-color: #45a049;
+.btn.btn-success.lend-btn:hover {
+    color: white;
+    background-color: #2A9134;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.btn.after-lend.disabled {
+    background-color: yellow;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    color: black;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.8;
+    cursor: default;
+    max-width: 110px;
+}
+
+.btn.after-lend.disabled span {
+    color: black;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.btn.cannot-lend.disabled {
+    color: white;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: #2A9134;
+    border: 2px solid #2A9134;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Return Button */
+.btn.btn-warning.return-btn {
+    color: #217AFA;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: white;
+    border: 2px solid #217AFA;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn.btn-warning.return-btn:hover {
+    color: white;
+    background-color: #217AFA;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.btn.after-return.disabled {
+    background-color: #0B2545;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    color: white;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.8;
+    cursor: default;
+    max-width: 120px;
+}
+
+.btn.after-return.disabled span {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btn.return-late.disabled {
+    background-color: red;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    color: white;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.8;
+    cursor: default;
+    max-width: 120px;
+}
+
+.btn.cannot-return.disabled {
+    color: white;
+    margin: 2px;
+    padding: 3px 8px 3px 8px;
+    background-color: #217AFA;
+    border: 2px solid #217AFA;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .alert {

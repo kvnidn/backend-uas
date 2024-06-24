@@ -19,7 +19,7 @@
                 <div class="users">
                     <div class="page-title">
                         <h3>Assignment</h3>
-                        <a href="#" class="add-user" id="opencreateModalAssignment"><i class="fa-solid fa-clipboard-list fa-xl" style="padding-right: 14px;"></i>Add Assignment</a>
+                        <a href="#" class="add-user" id="opencreateModalAssignment"><i class="fa-solid fa-notes-medical fa-xl" style="padding-right: 14px;"></i>Add Assignment</a>
                     </div>
                     <form method="GET" action="{{ route('assignment.index') }}" class="options">
                         <!-- Filter by Subject -->
