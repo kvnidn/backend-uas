@@ -231,7 +231,7 @@
             
             <div class="form-actions">
                 <div class="close-user-button">
-                    <button class="close"><i class="fa-solid fa-xmark"></i>Close</</button>
+                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
                 </div>
                 <div class="save-user-button">
                     <button type="submit"><i class="fa-solid fa-check"></i>Save</button>
@@ -266,13 +266,17 @@
                 @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
+            @if(auth()->user()->role === 'Admin')
             <div class="form-group">
+            @else
+            <div class="form-group" style="display:none">
+            @endif
                 <label for="assignment_id">Assignment</label>
-                <select name="assignment_id" id="modalAssignment" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'disabled' : '' }}>
+                <select name="assignment_id" id="modalAssignment" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'selected' : '' }}>
                     <option value="" disabled>Select an assignment</option>
                     @foreach($allAssignments as $assignment)
                         <option value="{{ $assignment->id }}" >
-                            {{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
+                            {{$assignment->id}}{{ $assignment->kelas->prodi }}-{{ $assignment->kelas->subject->name }}-{{ $assignment->kelas->class }} - {{ $assignment->user->name }}
                         </option>
                     @endforeach
                 </select>
@@ -293,7 +297,7 @@
             </div>
             <div class="form-actions">
                 <div class="close-user-button">
-                    <button class="close"><i class="fa-solid fa-xmark"></i>Close</</button>
+                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
                 </div>
                 <div class="save-user-button">
                     <button type="submit"><i class="fa-solid fa-check"></i>Update</button>
@@ -325,9 +329,13 @@
                 @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
+            @if(auth()->user()->role === 'Admin')
             <div class="form-group">
+            @else
+            <div class="form-group" style="display:none" disabled>
+            @endif
                 <label for="assignment_id">Assignment</label>
-                <select name="assignment_id" id="modalAssignmentBatch" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'disabled' : '' }}>
+                <select name="assignment_id" id="modalAssignmentBatch" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'selected' : '' }}>
                     <option value="" disabled>Select an assignment</option>
                     @foreach($allAssignments as $assignment)
                         <option value="{{ $assignment->id }}" >
@@ -352,7 +360,7 @@
             </div>
             <div class="form-actions">
                 <div class="close-user-button">
-                    <button class="close"><i class="fa-solid fa-xmark"></i>Close</</button>
+                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
                 </div>
                 <div class="save-user-button">
                     <button type="submit"><i class="fa-solid fa-check"></i>Update</button>

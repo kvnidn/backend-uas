@@ -46,7 +46,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $title = "User";
 
-        return view("user/edit", compact('user', 'title'));
+        return view("/", compact('user', 'title'));
     }
 
     public function update(Request $request, int $id) {
@@ -55,6 +55,7 @@ class UserController extends Controller
             "email" => "required|max:255|string|email|unique:user,email,{$id}",
             'password' => auth()->user()->role === 'Admin' ? "nullable|max:255|string" : "required|max:255|string",
             'new_password' => "nullable|max:255|string",
+            'confirm_new_password' => "nullable|max:255|string",
             'role' => 'required',
             'remember_token'=>'nullable|string',
         ]);
@@ -77,14 +78,19 @@ class UserController extends Controller
                 $data['password'] = bcrypt($request->password);
             }
         } else {
-            if (!empty($request->new_password)) {
-                $data['password'] = bcrypt($request->new_password);
+            if (!empty($request->new_password) || !empty($request->confirm_new_password)) {
+                if ($request->new_password === $request->confirm_new_password){
+                    $data['password'] = bcrypt($request->new_password);
+                }
+                else{
+                    return redirect()->back()->withErrors(['confirm_new_password' => 'The new password and confirmation password do not match']);
+                }
             }
         }
 
         $user->update($data);
 
-        return redirect('user/')->with('status', 'User updated');
+        return redirect()->back()->with('status', 'User updated');
     }
 
 

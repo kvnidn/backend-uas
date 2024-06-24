@@ -6,16 +6,14 @@ use App\Models\Assignment;
 use App\Models\Room;
 use App\Models\User;
 use App\Models\Subject;
-use App\Models\Kelas;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
-use DateTime;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
-    //
+    // Controller for /schedule (Schedule Page)
     public function index(Request $request)
     {
         $allRoom = Room::orderBy('room_number')->get();
@@ -35,18 +33,21 @@ class ScheduleController extends Controller
             $query->where('room_id', $request->input('room_id'));
         }
 
+        // Filter by user
         if ($request->filled('lecturer_id')) {
             $query->whereHas('assignment', function ($q) use ($request) {
                 $q->where('user_id', $request->input('lecturer_id'));
             });
         }
 
+        // Filter by subject
         if ($request->filled('subject_id')) {
             $query->whereHas('assignment.kelas.subject', function ($q) use ($request) {
                 $q->where('id', $request->input('subject_id'));
             });
         }
 
+        // Filter by day of week
         if ($request->filled('day_of_week')) {
             $selectedDayOfWeek = $request->input('day_of_week');
             // Convert day name to the corresponding numeric value (1 for Monday, 2 for Tuesday, etc.)
@@ -61,6 +62,7 @@ class ScheduleController extends Controller
         }
 
         $schedules = $query->get();
+        // Schedule grouping by day of week
         $groupedSchedules = $schedules->groupBy(function ($item) {
             $dayOfWeek = Carbon::parse($item->date)->dayOfWeek;
             return $dayOfWeek . '|' . $item->start_time . '|' . $item->end_time . '|' . $item->assignment_id . '|' . $item->room_id;
@@ -80,6 +82,8 @@ class ScheduleController extends Controller
         return view('schedule.index', compact('schedules', 'title', 'groupedSchedules', 'allRoom', 'allLecturer', 'allSubject', 'allAssignments', 'rooms', 'allSchedule'));
     }
 
+    // Controller for /view 
+    // Schedule shown by date, will show today's date by default
     public function view(Request $request, $date = null) {
         $allRoom = Room::orderBy('room_number')->get();
         $selectedRoom = $request->input('room_id', null);
@@ -109,6 +113,7 @@ class ScheduleController extends Controller
         return view('schedule.view', compact('title', 'schedules', 'selectedDate', 'prevDate', 'nextDate', 'earliestDate', 'furthestDate', 'allRoom', 'selectedRoom'));
     }
 
+    // Controller to provide create schedule form data
     public function create() {
         $title = 'Schedule';
         $assignments = Assignment::with('kelas.subject')
@@ -124,6 +129,7 @@ class ScheduleController extends Controller
         ]);
     }
 
+    // Controller to save created schedule after checking for conflict with existing schedule
     public function store(Request $request) {
         $request->validate([
             'date' => 'required|date',
@@ -197,7 +203,7 @@ class ScheduleController extends Controller
     }
 
 
-
+    // Controller to provide edit schedule form data
     public function edit(int $id) {
         $schedule = Schedule::findOrFail($id);
         $title = 'Schedule';
@@ -210,6 +216,7 @@ class ScheduleController extends Controller
         return view('schedule/edit', compact('schedule','title','assignments','rooms'));
     }
 
+    // Controller to save changes made to existing schedule data
     public function update(Request $request, int $id) {
         $request->validate([
             'date' => 'required|date',
@@ -264,7 +271,7 @@ class ScheduleController extends Controller
         return redirect()->back()->with('status', 'Schedule updated');
     }
 
-
+    // Controller to delete schedule data
     public function destroy(int $id) {
         if (Auth::check()) {
             $schedule = Schedule::findOrFail($id);
@@ -275,6 +282,7 @@ class ScheduleController extends Controller
         }
     }
 
+    // Controller to provide batch edit schedule form data
     public function batchEdit(Request $request) {
         $ids = explode(',', $request->query('ids'));
         $schedules = Schedule::whereIn('id', $ids)->get();
@@ -288,7 +296,7 @@ class ScheduleController extends Controller
         return view('schedule/batch_edit', compact('title', 'schedules', 'assignments', 'rooms'));
     }
 
-
+    // Controller to save changes made to several schedule data after checking for conflict with existing schedule
     public function batchUpdate(Request $request) {
         $ids = explode(',', $request->query('ids'));
         $dates = $request->input('dates'); // Retrieve dates from the request
@@ -341,7 +349,7 @@ class ScheduleController extends Controller
         return redirect()->back()->with('status', 'Schedules updated successfully.');
     }
 
-
+    // Controller to delete schedule data in batch
     public function batchDestroy(Request $request) {
         // Check if the user is authenticated
         if (!Auth::check()) {
@@ -364,8 +372,4 @@ class ScheduleController extends Controller
 
         return redirect()->back()->with('status', 'Schedules deleted successfully.');
     }
-
-
-
-
 }

@@ -35,6 +35,10 @@ body {
     margin-right: 60px;
 }
 
+.text-danger {
+    color: red
+}
+
 #openLoginModal {
     display: inline-block;
     padding: 10px 10px; 
@@ -57,7 +61,7 @@ body {
     font-weight: 800;
     border-bottom: 2px solid #662382;
     border-radius: 5px;
-} 
+}
 
 .sidebar {
     margin-top: 85px;

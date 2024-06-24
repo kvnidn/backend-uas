@@ -60,9 +60,11 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
     var closeeditModalScheduleBatch = editModalScheduleBatch.getElementsByClassName("close")[0];
 
     // Open create modal on button click
-    document.getElementById('opencreateModalSchedule').onclick = function() {
-        createModalSchedule.style.display = "block";
-    };
+    if (document.getElementById('opencreateModalSchedule')) {
+        document.getElementById('opencreateModalSchedule').onclick = function() {
+            createModalSchedule.style.display = "block";
+        };
+    }
 
     // Open edit modal on edit button click
     document.querySelectorAll('.edit-button-schedule').forEach(function(button) {
@@ -96,9 +98,6 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             var end = this.getAttribute('data-end');
             var assignmentId = this.getAttribute('data-assignment-id');
             var roomId = this.getAttribute('data-room-id');
-            console.log(typeof(scheduleIds));
-            console.log(scheduleIds);
-            console.log(start);
 
             scheduleIds.forEach(function(id, index) {
             var inputId = document.createElement('input');
@@ -388,9 +387,11 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
     var closeeditModalUser = editModalUser.getElementsByClassName("close")[0];
 
     // Open create modal on button click
-    document.getElementById('opencreateModalUser').onclick = function() {
-        createModalUser.style.display = "block";
-    };
+    if(document.getElementById('opencreateModalUser')){
+        document.getElementById('opencreateModalUser').onclick = function() {
+            createModalUser.style.display = "block";
+        };
+    }
 
     // Open edit modal on edit button click
     document.querySelectorAll('.edit-button-user').forEach(function(button) {
@@ -441,16 +442,18 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
 // Login Script
 // Popup Open and Close Handling
 if (document.getElementById('loginModal')) {
-    var createModal = document.getElementById("loginModal");
+    var loginModal = document.getElementById("loginModal");
 
     // Get the <span> elements that close the modals
-    var closeloginModal = createModal.getElementsByClassName("close")[0];
+    var closeloginModal = loginModal.getElementsByClassName("close")[0];
 
     // Open create modal on button click
-    document.getElementById('openLoginModal').onclick = function() {
-        createModal.style.display = "block";
-        createModal.style.zIndex = 9999;
-    };
+    if (document.getElementById('openLoginModal')) {
+        document.getElementById('openLoginModal').onclick = function() {
+            loginModal.style.display = "block";
+            loginModal.style.zIndex = 9999;
+        };
+    }
 
     // When the user clicks on <span> (x), close the create modal
     closeloginModal.onclick = function() {
@@ -461,6 +464,35 @@ if (document.getElementById('loginModal')) {
     window.onclick = function(event) {
         if (event.target == loginModal) {
             loginModal.style.display = "none";
+        }
+    };
+}
+
+// Edit Profile Script
+// Popup Open and Close Handling
+if (document.getElementById('editProfileModal')) {
+    var editProfileModal = document.getElementById("editProfileModal");
+
+    // Get the <span> elements that close the modals
+    var closeEditProfileModal = editProfileModal.getElementsByClassName("close")[0];
+
+    // Open create modal on button click
+    if (document.getElementById('openEditProfileModal')) {
+        document.getElementById('openEditProfileModal').onclick = function() {
+            editProfileModal.style.display = "block";
+            editProfileModal.style.zIndex = 9999;
+        };
+    }
+
+    // When the user clicks on <span> (x), close the create modal
+    closeEditProfileModal.onclick = function() {
+        editProfileModal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modals, close them
+    window.onclick = function(event) {
+        if (event.target == editProfileModal) {
+            editProfileModal.style.display = "none";
         }
     };
 }
