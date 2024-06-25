@@ -6,7 +6,7 @@
         <div class="">
             <div class="">
                 <div class="users">
-                    <div class="page-title">
+                    <div class="page-title" style="margin-bottom: 0;">
                         <h3>Schedule</h3>
                     </div>
                     <h1 class="date-today">

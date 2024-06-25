@@ -3,18 +3,18 @@
 @section('isi')
 
 <div class="users">
-    <div class="page-title">
+    <div class="page-title" style="margin-bottom: 0;">
         <h3>Key Lending</h3>
     </div>
     @if (session('status'))
         <div class="alert alert-success">
-            {{ session('status') }}
+            <i class="fa-solid fa-circle-check"></i>{{ session('status') }}
         </div>
     @endif
 
     @if (session('error'))
         <div class="alert alert-danger">
-            {{ session('error') }}
+            <i class="fa-solid fa-circle-xmark"></i>{{ session('error') }}
         </div>
     @endif
     <div class="date-navigation">

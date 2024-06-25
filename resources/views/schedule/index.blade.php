@@ -1,17 +1,6 @@
 @extends('layouts.main')
 
 @section('isi')
-@if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
-@endif
-
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
 <div class="users">
     <div class="page-title">
         @if(auth()->user()->role == 'Admin')
@@ -21,6 +10,17 @@
             <h3>Schedule</h3>
         @endif
     </div>
+    @if (session('status'))
+        <div class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i>{{ session('status') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            <i class="fa-solid fa-circle-xmark"></i>{{ session('error') }}
+        </div>
+    @endif
 
     <div class="filter-container">
         <form method="GET" action="{{ route('schedule.index') }}" class="options">

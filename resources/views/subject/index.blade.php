@@ -4,17 +4,17 @@
 <div class="">
     <div class="">
         <div class="">
-        @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
             <div class="">
                 <div class="users">
-                    <div class="page-title" style="margin-bottom: 20px;">
+                    <div class="page-title">
                         <h3>Subjects</h3>
                         <a href="#" class="add-user" id="opencreateModalSubject"><i class="fa-regular fa-file-lines fa-xl" style="padding-right: 14px;"></i>Add Subject</a>
                     </div>
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            <i class="fa-solid fa-circle-check"></i>{{ session('status') }}
+                        </div>
+                    @endif
                 </div>
                 <div class="table-container">
                     <table class="table">

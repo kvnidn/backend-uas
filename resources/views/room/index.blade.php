@@ -4,17 +4,17 @@
 <div class="">
     <div class="">
         <div class="">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
             <div class="">
                 <div class="users">
                     <div class="page-title" style="margin-bottom: 20px;">
                         <h3>Rooms</h3>
                         <a href="#" class="add-user" id="opencreateModalRoom"><i class="fa-solid fa-chalkboard-user fa-xl" style="padding-right: 14px;"></i>Add Room</a>
                     </div>
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            <i class="fa-solid fa-circle-check"></i>{{ session('status') }}
+                        </div>
+                    @endif
                 </div>
                 <div class="table-container">
                     <table class="table">
