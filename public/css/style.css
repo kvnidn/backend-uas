@@ -14,6 +14,10 @@ body {
     /* overflow-x: hidden; */
 }
 
+p {
+    margin: 16px;
+}
+
 .header{
     height: 80px;
     background-color: #A01626;
@@ -204,7 +208,6 @@ h4 {
     display: inline-block;
     padding: 2px 20px;
     text-decoration: none;
-    z-index: 1;
     line-height: 40px;
     position: relative;
     text-align: center;
@@ -228,6 +231,73 @@ h4 {
 
 .active-content {
     display: block;
+}
+
+/* About Page */
+.about-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.about-title {
+    font-weight: 800;
+    margin: 16px 0;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.about-text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.about-text p {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 20px 5px;
+    text-align: justify;
+}
+
+.about-side {
+    max-height: 300px;
+    margin-right: 10px;
+}
+
+.about-side img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    width: 450px;
+}
+
+.about-side figcaption {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.creator {
+    margin-top: 40px;
+}
+
+.creator p {
+    margin-bottom: 0px;
+}
+
+.creator td {
+    padding: 0 4px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.creator td:nth-child(2) {
+    color: #A01626;
 }
 
 /* View Page */
@@ -766,10 +836,6 @@ input[type=password], select, textarea {
     color: white;
     transition: background-color 0.3s ease-out, color 0.3s ease-out;
     cursor: pointer;
-}
-
-p {
-    margin: 16px;
 }
 
 .logout {

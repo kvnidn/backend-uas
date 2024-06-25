@@ -2,7 +2,7 @@
     
     <div class="tab-container">
         <div class="header">
-            <img src="../assets/FTIUntar.png" alt="FTI Untar" height="50px">
+            <img src="../assets/FTIUntarWhite.png" alt="FTI Untar" height="50px">
             @auth
             @if (auth()->user()->role != 'Admin')
             <a id="openEditProfileModal">Edit Profile <i class="fa-solid fa-pen-to-square"></i></a>

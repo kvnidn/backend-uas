@@ -25,7 +25,7 @@
 
         <div id="incoming-schedule" class="table-container content active-content">
             <table class="table">
-                <thead class="table-header">
+                <thead class="table-header" style="z-index: 0;">
                     <tr class="table-header-row">
                         <th class="id-heading-view">ID</th>
                         <th class="start-heading-view">Start Time</th>
