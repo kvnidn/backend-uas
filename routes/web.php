@@ -3,6 +3,7 @@
 use App\Http\Controllers\KeyLendingController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KelasController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AssignmentController;
 
-Route::view('/', 'home', ["title" => "Home"]);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::view('/about', 'about', ["title" => "About"]);
 
 // User

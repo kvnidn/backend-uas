@@ -1,3 +1,61 @@
+// Home Script
+// Display current time
+function updateClock() {
+    var currentDate = document.getElementById('current-date');
+    var currentTime = document.getElementById('current-time');
+
+    if (currentDate && currentTime) {
+        var now = new Date();
+        var day = now.toLocaleDateString('en-US', { weekday: 'long' });
+        var date = now.getDate();
+        var month = now.toLocaleDateString('en-US', { month: 'long' });
+        var year = now.getFullYear();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+    
+        // Pad single digit numbers with a leading zero
+        date = (date < 10 ? '0' : '') + date;
+        hours = (hours < 10 ? '0' : '') + hours;
+        minutes = (minutes < 10 ? '0' : '') + minutes;
+        seconds = (seconds < 10 ? '0' : '') + seconds;
+    
+        var currentDateString = day + ', ' + date + ' ' + month + ' ' + year;
+        var currentTimeString =  hours + ':' + minutes + ':' + seconds;
+    
+        currentDate.textContent = currentDateString;
+        currentTime.textContent = currentTimeString;
+    }
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+
+// Initial call to display the clock immediately
+updateClock();
+
+// Home Section
+function showContent(contentId, element) {
+    // Hide all content elements
+    var contentElements = document.getElementsByClassName('content');
+    for (var i = 0; i < contentElements.length; i++) {
+        contentElements[i].classList.remove('active-content');
+    }
+
+    // Show the selected content
+    document.getElementById(contentId).classList.add('active-content');
+
+    // Remove 'active-link' class from all nav links
+    var navLinks = document.querySelectorAll('.section-navbar a');
+    for (var j = 0; j < navLinks.length; j++) {
+        navLinks[j].classList.remove('active-link');
+    }
+
+    // Add 'active-link' class to the clicked nav link
+    element.classList.add('active-link');
+}
+
+
 // Key Lending Script
 // Popup Open and Close Handling
 if(document.getElementById('keyActionModal')) {

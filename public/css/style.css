@@ -134,6 +134,101 @@ div.content-isi {
     }
 }
 
+/* Home Page */
+.home-page {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.home-title {
+    font-weight: 800;
+    margin: 16px 0;
+}
+
+h4 {
+    margin: 8px 0;
+}
+
+.date-and-time-container {
+    width: 40%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 40px;
+}
+
+.date-and-time {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-right: 0px;
+}
+
+.current-date,
+.current-time {
+    margin: 0;
+}
+
+.date-and-time h5 {
+    text-align: right;
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0;
+    padding: 0;
+}
+
+#current-time {
+    font-size: 24px;
+}
+
+.date-and-time-container i {
+    margin-left: 10px;
+    width: 20px;
+}
+
+.section-navbar {
+    margin: 30px 5px 10px 5px;
+    font-weight: 700;
+    height: 50px;
+    background-color: transparent;
+}
+
+.section-navbar a {
+    color: black;
+    margin: 0 10px;
+    display: inline-block;
+    padding: 2px 20px;
+    text-decoration: none;
+    z-index: 1;
+    line-height: 40px;
+    position: relative;
+    text-align: center;
+}
+
+.section-navbar a:hover {
+    color: white;
+    background-color: #662382;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+.section-navbar a.active-link {
+    color: black;
+    background-color: white;
+    border-bottom: 4px solid #662382;
+}
+
+.content {
+    display: none;
+}
+
+.active-content {
+    display: block;
+}
+
 /* View Page */
 .date-today,
 .date-navigation span {
@@ -880,11 +975,11 @@ p {
 
 /* Return Button */
 .btn.btn-warning.return-btn {
-    color: #217AFA;
+    color: #2A9134;
     margin: 2px;
     padding: 3px 8px 3px 8px;
     background-color: white;
-    border: 2px solid #217AFA;
+    border: 2px solid #2A9134;
     border-radius: 5px;
     font-size: 14px;
     font-weight: 600;
@@ -893,12 +988,12 @@ p {
 
 .btn.btn-warning.return-btn:hover {
     color: white;
-    background-color: #217AFA;
+    background-color: #2A9134;
     transition: background-color 0.3s ease-out, color 0.3s ease-out;
 }
 
 .btn.after-return.disabled {
-    background-color: #0B2545;
+    background-color: #217AFA;
     margin: 2px;
     padding: 3px 8px 3px 8px;
     color: white;
@@ -935,8 +1030,8 @@ p {
     color: white;
     margin: 2px;
     padding: 3px 8px 3px 8px;
-    background-color: #217AFA;
-    border: 2px solid #217AFA;
+    background-color: #2A9134;
+    border: 2px solid #2A9134;
     border-radius: 5px;
     font-size: 14px;
     font-weight: 600;
@@ -957,8 +1052,18 @@ p {
     color: #155724;
 }
 
+.alert-success i {
+    color: #388E3C;
+    padding-right: 16px;
+}
+
 .alert-danger {
     background-color: #f8d7da;
     border-color: #f5c6cb;
     color: #721c24;
+}
+
+.alert-danger i {
+    color: #D32F2F;
+    padding-right: 16px;
 }
