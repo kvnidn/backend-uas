@@ -51,36 +51,89 @@
 </div>
 
 <!-- Create User Modal -->
-<div id="createModalUser" class="modal">
+<div id="createModalUser" class="modal {{ $errors->createUser->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Create User</h4>
         <form action="{{ url('/user/create') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" name="name" value="{{ old('name') }}"/>
-                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="name" id="name" value="" data-old-value="{{ old('name') }}" placeholder="Required"/>
+                <br>
+                @error('name', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" name="email" value="{{ old('email') }}"/>
-                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="email" id="email" value="" data-old-value="{{ old('email') }}" placeholder="Required"/>
+                <br>
+                @error('email', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" value="{{ old('password') }}"/>
-                @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="password" name="password" id="password" value="" data-old-value="{{ old('password') }}" placeholder="Required"/>
+                <br>
+                @error('password', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label>Role</label>
-                <input type="radio" name="role" value="Admin" {{ old('role') == 'Admin' ? 'checked' : '' }}> Admin
-                <input type="radio" name="role" value="Lecturer" {{ old('role') == 'Lecturer' ? 'checked' : '' }}> Lecturer
-                <input type="radio" name="role" value="Assistant" {{ old('role') == 'Assistant' ? 'checked': '' }}> Assistant
-                @error('role') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="radio" name="role" value="Admin" id="roleAdmin" data-old-value="{{ old('role') }}"> Admin
+                <input type="radio" name="role" value="Lecturer" id="roleLecturer" data-old-value="{{ old('role') }}"> Lecturer
+                <input type="radio" name="role" value="Assistant" id="roleAssistant" data-old-value="{{ old('role') }}"> Assistant
+                <br>
+                @error('role', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">
-                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
+                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</span>
+                </div>
+                <div class="save-user-button">
+                    <button type="submit"><i class="fa-solid fa-check"></i>Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Edit User Modal -->
+<div id="editModalUser" class="modal {{ $errors->editUser->any() ? 'open' : '' }}">
+    <div class="modal-content">
+        <h4>Edit User</h4>
+        <form id="editForm" method="POST" action="">
+            @csrf
+            @method('PUT')
+            
+            <input type="hidden" id="modalUserAction" name="formAction" value='' data-old-action="{{ old('formAction') }}">
+            
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" id="modalUserName" value="" data-old-value="{{ old('name') }}"/>
+                <br>
+                @error('name', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" name="email" id="modalUserEmail" value="" data-old-value="{{ old('email') }}"/>
+                <br>
+                @error('email', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" name="password" id="modalUserPassword" value="" data-old-value="{{ old('password') }}" placeholder="Optional"/>
+                <br>
+                @error('password', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <input type="radio" name="role" value="Admin" id="modalRoleAdmin" {{ old('role') == 'Admin' ? 'checked' : '' }} data-old-value="{{ old('role') }}"> Admin
+                <input type="radio" name="role" value="Lecturer" id="modalRoleLecturer" {{ old('role') == 'Lecturer' ? 'checked' : '' }} data-old-value="{{ old('role') }}"> Lecturer
+                <input type="radio" name="role" value="Assistant" id="modalRoleAssistant" {{ old('role') == 'Assistant' ? 'checked' : '' }} data-old-value="{{ old('role') }}"> Assistant
+                <br>
+                @error('role', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+            <div class="form-actions">
+                <div class="close-user-button">
+                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</span>
                 </div>
                 <div class="save-user-button">
                     <button type="submit"><i class="fa-solid fa-check"></i>Update</button>
@@ -90,45 +143,5 @@
     </div>
 </div>
 
-<!-- Edit User Modal -->
-<div id="editModalUser" class="modal">
-    <div class="modal-content">
-        <h4>Edit User</h4>
-        <form id="editForm" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" id="modalUserName"/>
-                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="text" name="email" id="modalUserEmail"/>
-                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" id="modalUserPassword"/>
-                @error('password') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
-            <div class="form-group">
-                <label>Role</label>
-                <input type="radio" name="role" value="Admin" id="modalRoleAdmin"> Admin
-                <input type="radio" name="role" value="Lecturer" id="modalRoleLecturer"> Lecturer
-                <input type="radio" name="role" value="Assistant" id="modalRoleAssistant"> Assistant
-                @error('role') <span class="text-danger">{{ $message }}</span> @enderror
-            </div>
-            <div class="form-actions">
-                <div class="close-user-button">
-                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
-                </div>
-                <div class="save-user-button">
-                    <button type="submit"><i class="fa-solid fa-check"></i>Update</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 
 @endsection

@@ -7,6 +7,7 @@ use App\Models\Subject;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
 class SubjectController extends Controller
 {
@@ -26,10 +27,15 @@ class SubjectController extends Controller
 
     public function store(Request $request) {
 
-
-        $request->validate([
-            'name'=>'required|string|max:100',
+        $validator = Validator::make($request->all(),[
+            'name'=>'required|unique:subject,name|string|max:100',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'createSubject')
+                        ->withInput();
+        }
 
         try {
             DB::beginTransaction();
@@ -58,9 +64,15 @@ class SubjectController extends Controller
 
     public function update(Request $request, int $id) {
 
-        $request->validate([
-            'name' => 'required|string|max:50',
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|string|max:50|unique:subject,name,' . $id,
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'editSubject')
+                        ->withInput();
+        }
 
         try {
             DB::beginTransaction();

@@ -178,32 +178,32 @@
     </table>
 </div>
 
-<div id="createModalSchedule" class="modal">
+<div id="createModalSchedule" class="modal {{ $errors->createSchedule->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Create Schedule</h4>
         <form action="{{ url('/schedule/create') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="date">Date</label>
-                <input type="date" name="date" id="date" required>
-                @error('date') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="date" name="date" id="date" data-old-value="{{ old('date') }}" required>
+                @error('date', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="start_time">Start Time</label>
-                <input type="time" name="start_time" id="start_time" required>
-                @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="time" name="start_time" id="start_time" data-old-value="{{ old('start_time') }}" required>
+                @error('start_time', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="end_time">End Time</label>
-                <input type="time" name="end_time" id="end_time" required>
-                @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="time" name="end_time" id="end_time" data-old-value="{{ old('end_time') }}" required>
+                @error('end_time', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="assignment_id">Assignment</label>
-                <select name="assignment_id" id="assignment_id" required>
+                <select name="assignment_id" id="assignment_id" data-old-value="{{ old('assignment_id') }}" required>
                     <option value="" disabled selected>Select an assignment</option>
                     @foreach($allAssignments as $assignment)
                         <option value="{{ $assignment->id }}">
@@ -211,12 +211,12 @@
                         </option>
                     @endforeach
                 </select>
-                @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('assignment_id', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="room_id">Room</label>
-                <select name="room_id" id="room_id" required>
+                <select name="room_id" id="room_id" data-old-value="{{ old('room_id') }}" required>
                     <option value="" disabled selected>Select a room</option>
                     @foreach($rooms as $room)
                         <option value="{{ $room->id }}">
@@ -224,12 +224,13 @@
                         </option>
                     @endforeach
                 </select>
-                @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('room_id', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="repeat">Repeat (weeks)</label>
-                <input type="number" name="repeat" id="repeat" min="0" max="52" value="0">
+                <input type="number" name="repeat" id="repeat" min="0" max="52" value="0" data-old-value="{{ old('repeat') }}">
+                @error('schedule', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-actions">
@@ -244,34 +245,36 @@
     </div>
 </div>
 
-<div id="editModalSchedule" class="modal">
+<div id="editModalSchedule" class="modal {{ $errors->editSchedule->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Edit Schedule</h4>
         <form id="editForm" method="POST">
             @csrf
             @method('PUT')
 
+            <input type="hidden" id="modalScheduleAction" name="formAction" value='' data-old-action="{{ old('formAction') }}">
+            
             <div class="form-group">
                 <label for="date">Date</label>
-                <input type="date" name="date" id="modalDate" value="" required>
-                @error('date') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="date" name="date" id="modalDate" value="" data-old-value="{{ old('date') }}" required>
+                @error('date', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="start_time">Start Time</label>
-                <input type="time" name="start_time" id="modalStart" value="" required>
-                @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="time" name="start_time" id="modalStart" value="" data-old-value="{{ old('start_time') }}" required>
+                @error('start_time', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="end_time">End Time</label>
-                <input type="time" name="end_time" id="modalEnd" value="" required>
-                @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="time" name="end_time" id="modalEnd" value="" data-old-value="{{ old('end_time') }}" required>
+                @error('end_time', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="assignment_id">Assignment</label>
-                <select name="assignment_id" id="modalAssignment" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'selected' : '' }}>
+                <select name="assignment_id" id="modalAssignment" data-old-value="{{ old('assignment_id') }}" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'selected' : '' }}>
                     <option value="" disabled>Select an assignment</option>
                     @if(auth()->user()->role === 'Admin')
                         @foreach($allAssignments as $assignment)
@@ -289,12 +292,12 @@
                         @endforeach
                     @endif
                 </select>
-                @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('assignment_id', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="room_id">Room</label>
-                <select name="room_id" id="modalRoom" required>
+                <select name="room_id" id="modalRoom" data-old-value="{{ old('room_id') }}" required>
                     <option value="" disabled>Select a room</option>
                     @foreach($rooms as $room)
                         <option value="{{ $room->id }}" >
@@ -302,7 +305,8 @@
                         </option>
                     @endforeach
                 </select>
-                @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('room_id', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('schedule', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">
@@ -316,31 +320,39 @@
     </div>
 </div>
 
-<div id="editModalScheduleBatch" class="modal">
+<div id="editModalScheduleBatch" class="modal {{ $errors->editScheduleBatch->any() ? 'open' : '' }}">
     <div class="modal-content">
-        <h4>Edit Schedule</h4>
-        <form id="editFormBatch" method="POST">
+        <h4>Batch Edit Schedule</h4>
+        <form id="editFormBatch" method="POST" action="">
             @csrf
             @method('PUT')
 
+            <input type="hidden" id="modalScheduleActionBatch" name="formActionBatch" value='' data-old-action="{{ old('formActionBatch') }}">
+            
             <div id="idsContainer"></div>
-            <div id="datesContainer"></div>
+            <div id="datesContainer" style="display:none">
+                @if(old('dates'))
+                    @foreach(old('dates') as $index => $date)
+                        <input type="date" name="dates[]" value="{{ $date }}" data-old-value="{{ $date }}">
+                    @endforeach
+                @endif
+            </div>
 
             <div class="form-group">
                 <label for="start_time">Start Time</label>
-                <input type="time" name="start_time" id="modalStartBatch" value="" required>
-                @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="time" name="start_time" id="modalStartBatch" value="" data-old-value="{{ old('start_time') }}" required>
+                @error('start_time', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="end_time">End Time</label>
-                <input type="time" name="end_time" id="modalEndBatch" value="" required>
-                @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="time" name="end_time" id="modalEndBatch" value="" data-old-value="{{ old('end_time') }}" required>
+                @error('end_time', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="assignment_id">Assignment</label>
-                <select name="assignment_id" id="modalAssignmentBatch" required {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'selected' : '' }}>
+                <select name="assignment_id" id="modalAssignmentBatch" required data-old-value="{{ old('assignment_id') }}" {{ in_array(auth()->user()->role, ['Lecturer', 'Assistant']) ? 'selected' : '' }}>
                     <option value="" disabled>Select an assignment</option>
                     @if(auth()->user()->role === 'Admin')
                         @foreach($allAssignments as $assignment)
@@ -358,12 +370,12 @@
                         @endforeach
                     @endif
                 </select>
-                @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('assignment_id', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="room_id">Room</label>
-                <select name="room_id" id="modalRoomBatch" required>
+                <select name="room_id" id="modalRoomBatch" data-old-value="{{ old('room_id') }}" required>
                     <option value="" disabled>Select a room</option>
                     @foreach($rooms as $room)
                         <option value="{{ $room->id }}" >
@@ -371,7 +383,8 @@
                         </option>
                     @endforeach
                 </select>
-                @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('room_id', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('schedule', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">

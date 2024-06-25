@@ -8,9 +8,10 @@ use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\Assignment;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class AssignmentController extends Controller
 {
@@ -76,10 +77,19 @@ class AssignmentController extends Controller
     public function store(Request $request) {
 
 
-        $request->validate([
-            'user_id'=>'required|exists:user,id',
-            'kelas_id'=>'required|exists:kelas,id',
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:user,id',
+            'kelas_id' => 'required|unique:assignment,kelas_id,NULL,id,user_id,' . $request->user_id,
+        ],[
+            'kelas_id.unique' => 'This assignment already exists'
         ]);
+        
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'createAssignment')
+                        ->withInput();
+        }
 
         try {
             DB::beginTransaction();
@@ -97,7 +107,7 @@ class AssignmentController extends Controller
 
             $errorMessage = "The combination of user and class must be unique.";
 
-            return redirect('assignment/')->with('error', $errorMessage);
+            return redirect('assignment/')->with('error', $errorMessage)->withInput();
         }
     }
 
@@ -115,10 +125,24 @@ class AssignmentController extends Controller
 
     public function update(Request $request, int $id) {
 
-        $request->validate([
-            'user_id'=>'required|exists:user,id',
-            'kelas_id' => 'required|exists:kelas,id',
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:user,id',
+            'kelas_id' => [
+                'required',
+                Rule::unique('assignment')->ignore($id)->where(function ($query) use ($request) {
+                    return $query->where('user_id', $request->user_id);
+                }),
+            ],
+        ],[
+            'kelas_id.unique' => 'This assignment already exists'
         ]);
+        
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'editAssignment')
+                        ->withInput();
+        }
 
         try {
             DB::beginTransaction();
@@ -137,7 +161,7 @@ class AssignmentController extends Controller
 
             $errorMessage = "The combination of user and class must be unique.";
 
-            return redirect()->back()->with('error', $errorMessage);
+            return redirect()->back()->with('error', $errorMessage)->withInput();
         }
     }
 

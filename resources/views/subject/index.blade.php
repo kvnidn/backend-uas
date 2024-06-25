@@ -45,22 +45,22 @@
 </div>
 
 <!-- Create Subject Modal -->
-<div id="createModalSubject" class="modal">
+<div id="createModalSubject" class="modal {{ $errors->createSubject->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Create Subject</h4>
         <form action="{{ url('/subject/create') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label>Subject Name</label>
-                <input type="text" name="name" value="{{ old('name') }}"/>
-                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="name" id="name" value="" data-old-value="{{ old('name') }}"/>
+                @error('name', 'createSubject') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
                 </div>
                 <div class="save-user-button">
-                    <button type="submit"><i class="fa-solid fa-check"></i>Update</button>
+                    <button type="submit"><i class="fa-solid fa-check"></i>Create</button>
                 </div>
             </div>
         </form>
@@ -68,17 +68,20 @@
 </div>
 
 <!-- Edit Subject Modal -->
-<div id="editModalSubject" class="modal">
+<div id="editModalSubject" class="modal {{ $errors->editSubject->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Edit Subject</h4>
-        <form id="editForm" method="POST">
+        <form id="editForm" method="POST" action="">
             @csrf
             @method('PUT')
+
+            <input type="hidden" id="modalSubjectAction" name="formAction" value='' data-old-action="{{ old('formAction') }}">
+
             <input type="hidden" name="id" id="modalSubjectId">
             <div class="form-group">
                 <label>Subject Name</label>
-                <input type="text" name="name" id="modalSubjectName"/>
-                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="name" id="modalSubjectName" data-old-value="{{ old('name') }}"/>
+                @error('name', 'editSubject') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">

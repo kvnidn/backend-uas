@@ -25,6 +25,8 @@ Route::prefix('user')->middleware(['auth', 'role:Admin'])->group(function () {
 Route::prefix('user')->middleware(['auth'])->group(function() {
     Route::get('{id}/edit', [UserController::class, 'edit']);
     Route::put('{id}/edit', [UserController::class, 'update']);
+    Route::get('{id}/editProfile', [UserController::class, 'editProfile']);
+    Route::put('{id}/editProfile', [UserController::class, 'updateProfile']);
 });
 
 // Room

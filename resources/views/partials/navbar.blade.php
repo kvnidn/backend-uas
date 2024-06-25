@@ -1,5 +1,5 @@
 <nav>
-
+    
     <div class="tab-container">
         <div class="header">
             <img src="../assets/FTIUntar.png" alt="FTI Untar" height="50px">
@@ -65,7 +65,7 @@
 </nav>
 
 <!-- Login User Modal -->
-<div id="loginModal" class="modal">
+<div id="loginModal" class="modal {{ $errors->login->any() || session('loginError') ? 'open' : ''}}">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h4>Login User</h4>
@@ -75,13 +75,13 @@
 
             <div class="form-name">
                 <label>Email</label>
-                <input type="text" name="email" value="{{  old('email') }}" autofocus/>
-                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="email" id="email" value="{{old('email')}}" data-old-value="{{ old('email') }}" autofocus/>
+                @error('email', 'login') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-password">
                 <label>Password</label>
-                <input type="password" name="password" value="{{  old('password') }}"/>
-                @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="password" name="password" id="password" value=""/>
+                @error('password', 'login') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <div class="form-check">
@@ -90,6 +90,11 @@
                         Remember Me
                     </label>
                 </div>
+                @if (session('loginError'))
+                <span class="text-danger">
+                    {{ session('loginError') }}
+                </span>
+                @endif
             </div>
             <div class="save-user-button">
                 <button type="submit">Login</button>
@@ -100,40 +105,40 @@
 
 @auth
 <!-- Edit User Profile Modal -->
-<div id="editProfileModal" class="modal">
+<div id="editProfileModal" class="modal {{ $errors->editProfile->any() ? 'open' : '' }}">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h4>Edit User</h4>
-        <form action="{{ url('user/'.auth()->user()->id.'/edit') }}" method="POST">
+        <form action="{{ url('user/'.auth()->user()->id.'/editProfile') }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="form-name">
                 <label>Name</label>
-                <input type="text" name="name" value="{{  auth()->user()->name }}"/>
-                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="name" id="modalProfileName" value="{{  auth()->user()->name }}" data-old-value="{{ old('name') }}"/>
+                @error('name', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-email">
                 <label>Email</label>
-                <input type="text" name="email" value="{{  auth()->user()->email }}"/>
-                @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="email" id="modalProfileEmail" value="{{  auth()->user()->email }}" data-old-value="{{ old('email') }}"/>
+                @error('email', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-password">
                 <label>Current Password</label>
                 <input type="password" name="password" value="" placeholder="required"/>
-                @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
                 <br>
             </div>
             <div class="form-password">
                 <label>New Password</label>
                 <input type="password" name="new_password" value="" placeholder="optional"/>
                 <br>
-                @error('new_password') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('new_password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-password">
                 <label>Confirm Password</label>
                 <input type="password" name="confirm_new_password" value="" placeholder="optional"/>
-                @error('confirm_new_password') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('confirm_new_password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-role">
                 <label>Role</label>

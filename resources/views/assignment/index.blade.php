@@ -77,30 +77,30 @@
 </div>
 
 <!-- Create Assignment Modal -->
-<div id="createModalAssignment" class="modal">
+<div id="createModalAssignment" class="modal {{ $errors->createAssignment->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Create Assignment</h4>
         <form action="{{ url('/assignment/create') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label>User</label>
-                <select name="user_id">
+                <select name="user_id" id="user_id" data-old-value="{{ old('user_id') }}">
                     <option value="" disabled selected>Select a user</option>
                     @foreach($allLecturer as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
                 </select>
-                @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('user_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label>Class</label>
-                <select name="kelas_id">
+                <select name="kelas_id" id="kelas_id" data-old-value="{{ old('kelas_id') }}">
                     <option value="" disabled selected>Select a Class</option>
                     @foreach($allKelas as $kelas)
                         <option value="{{ $kelas->id }}">{{ $kelas->prodi }}-{{ $kelas->subject->name }}-{{ $kelas->class }}</option>
                     @endforeach
                 </select>
-                @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('kelas_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">
@@ -115,31 +115,34 @@
 </div>
 
 <!-- Edit Assignment Modal -->
-<div id="editModalAssignment" class="modal">
+<div id="editModalAssignment" class="modal {{ $errors->editAssignment->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Edit Assignment</h4>
         <form id="editForm" method="POST">
             @csrf
             @method('PUT')
+
+            <input type="hidden" id="modalAssignmentAction" name="formAction" value='' data-old-action="{{ old('formAction') }}">
+
             <div class="form-group">
                 <label>User</label>
-                <select name="user_id" id="modalUser">
+                <select name="user_id" id="modalUser" data-old-value="{{ old('user_id') }}">
                     <option value="" disabled>Select a user</option>
                     @foreach($allLecturer as $user)
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
                 </select>
-                @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('user_id', 'editAssignment') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label>Class</label>
-                <select name="kelas_id" id="modalClass">
+                <select name="kelas_id" id="modalClass" data-old-value="{{ old('kelas_id') }}">
                     <option value="" disabled>Select a Class</option>
                     @foreach($allKelas as $kelas)
                         <option value="{{ $kelas->id }}">{{ $kelas->prodi }}-{{ $kelas->subject->name }}-{{ $kelas->class }}</option>
                     @endforeach
                 </select>
-                @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('kelas_id', 'editAssignment') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">

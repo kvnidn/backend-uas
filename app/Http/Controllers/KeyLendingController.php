@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\KeyLending;
 use App\Models\Schedule;
 use App\Models\Room;
+use App\Rules\VerifyKeyLending;
+use App\Rules\VerifyKeyLendingEnd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
 class KeyLendingController extends Controller
 {
@@ -93,58 +96,52 @@ class KeyLendingController extends Controller
 
     public function verifyAndUpdateStart(Request $request, $id)
     {
+        $validator = Validator::make($request->all(),[
+            'password' => 'required',
+        ]);
+
         $password = $request->input('password');
 
-        // Find the schedule and ensure it exists
-        $schedule = Schedule::findOrFail($id);
-
-        // Retrieve the user associated with the schedule
-        $user = $schedule->assignment->user;
-
-        
-        
-        // Check if the password matches using Hash::check
-        if (Hash::check($password, $user->password)) {
-            try {
-                KeyLending::create([
-                    'schedule_id' => $schedule->id,
-                    'start_time' => now(),
-                    'end_time' => now(),
-                ]);
-                return redirect()->back()->with('status', 'Key lending start time saved.');
-            } catch (QueryException $e) {
-                return redirect()->back()->with('error', 'Failed to save key lending.');
+        $validator->after(function ($validator) use ($id, $password) {
+            $uniqueLendRule = new VerifyKeyLending($id, $password);
+            if (!$uniqueLendRule->passes(null, $password)) {
+                $validator->errors()->add('password', $uniqueLendRule->message());
             }
-        } else {
-            // Password verification failed
-            return redirect()->back()->with('error', 'Password verification failed.');
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'keyLending')
+                        ->withInput();
         }
+    
+        return redirect()->back()->with('status', 'Key lending start time saved.');
     }
 
 
 
     public function verifyAndUpdateEnd(Request $request, $id)
     {
+        $validator = Validator::make($request->all(),[
+            'password' => 'required',
+        ]);
+
         $password = $request->input('password');
 
-        // Find the schedule and ensure it exists
-        $schedule = Schedule::findOrFail($id);
-
-        // Retrieve the user associated with the schedule
-        $user = $schedule->assignment->user;
-
-        if (Hash::check($password, $user->password)) {
-            $keyLending = KeyLending::where('schedule_id', $id)->first();
-            if ($keyLending) {
-                $keyLending->end_time = now();
-                $keyLending->save();
-                return redirect()->back()->with('status', 'Key lending end time saved.');
-            } else {
-                return redirect()->back()->with('error', 'Key lending entry not found.');
+        $validator->after(function ($validator) use ($id, $password) {
+            $uniqueLendRule = new VerifyKeyLendingEnd($id, $password);
+            if (!$uniqueLendRule->passes(null, $password)) {
+                $validator->errors()->add('password', $uniqueLendRule->message());
             }
-        } else {
-            return redirect()->back()->with('error', 'Password verification failed.');
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'keyLending')
+                        ->withInput();
         }
+    
+        return redirect()->back()->with('status', 'Key lending end time saved.');
     }
     
     public function viewToday(Request $request)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
 {
@@ -27,10 +28,15 @@ class RoomController extends Controller
 
         $request->merge(['room_number' => $paddedRoomNumber]);
 
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'room_number'=>'required|unique:room,room_number|string|max:4'
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'createRoom')
+                        ->withInput();
+        }
 
         Room::create([
             'room_number' => $paddedRoomNumber
@@ -51,10 +57,15 @@ class RoomController extends Controller
 
         $request->merge(['room_number' => $paddedRoomNumber]);
 
-        $request->validate([
-            'room_number' => 'required|unique:room,room_number|string|max:4'
+        $validator = Validator::make($request->all(),[
+            'room_number' => 'required|string|max:4|unique:room,room_number,' . $id,
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'editRoom')
+                        ->withInput();
+        }
 
         Room::findOrFail($id)->update([
             'room_number' => $paddedRoomNumber

@@ -45,15 +45,15 @@
 </div>
 
 <!-- Create Room Modal -->
-<div id="createModalRoom" class="modal">
+<div id="createModalRoom" class="modal {{ $errors->createRoom->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Create Room</h4>
         <form action="{{ url('/room/create') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label>Room Number</label>
-                <input type="text" name="room_number" value="{{ old('room_number') }}"/>
-                @error('room_number') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="room_number" id="room_number" data-old-value="{{ old('room_number') }}"/>
+                @error('room_number', 'createRoom') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">
@@ -68,17 +68,20 @@
 </div>
 
 <!-- Edit Room Modal -->
-<div id="editModalRoom" class="modal">
+<div id="editModalRoom" class="modal {{ $errors->editRoom->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Edit Room</h4>
-        <form id="editForm" method="POST">
+        <form id="editForm" method="POST" action="">
             @csrf
             @method('PUT')
+
+            <input type="hidden" id="modalRoomAction" name="formAction" value='' data-old-action="{{ old('formAction') }}">
+
             <input type="hidden" name="id" id="modalRoomId">
             <div class="form-group">
                 <label>Room Number</label>
-                <input type="text" name="room_number" id="modalRoomNumber"/>
-                @error('room_number') <span class="text-danger">{{ $message }}</span> @enderror
+                <input type="text" name="room_number" id="modalRoomNumber" value="" data-old-value="{{ old('room_number') }}"/>
+                @error('room_number', 'editRoom') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
                 <div class="close-user-button">

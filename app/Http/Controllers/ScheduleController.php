@@ -7,9 +7,13 @@ use App\Models\Room;
 use App\Models\User;
 use App\Models\Subject;
 use App\Models\Schedule;
+use App\Rules\UpdateUniqueSchedule;
+use App\Rules\CreateUniqueSchedule;
+use App\Rules\BatchUpdateUniqueSchedule;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -131,7 +135,7 @@ class ScheduleController extends Controller
 
     // Controller to save created schedule after checking for conflict with existing schedule
     public function store(Request $request) {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'date' => 'required|date',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
@@ -141,50 +145,26 @@ class ScheduleController extends Controller
             'interval' => 'nullable|string|in:weekly,biweekly',
         ]);
 
+        // Add the custom validation rule after the built-in rules
+        $validator->after(function ($validator) use ($request) {
+            $uniqueScheduleRule = new CreateUniqueSchedule($request);
+            if (!$uniqueScheduleRule->passes(null, null)) {
+                $validator->errors()->add('schedule', $uniqueScheduleRule->message());
+            }
+        });
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'createSchedule')
+                        ->withInput();
+        }
+
         $repeats = $request->input('repeat', 0);
         $intervalDays = 7;
 
         $schedules = [];
         for ($i = 0; $i <= $repeats; $i++) {
             $date = \Carbon\Carbon::parse($request->date)->addDays($i * $intervalDays);
-
-            $conflict = \DB::table('schedule')
-                ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
-                ->where('schedule.date', $date->toDateString())
-                ->where(function($query) use ($request) {
-                    $query->where('schedule.room_id', $request->room_id)
-                          ->orWhere(function($query) use ($request) {
-                              $query->where('assignment.user_id', function($query) use ($request) {
-                                        $query->select('user_id')
-                                              ->from('assignment')
-                                              ->where('id', $request->assignment_id);
-                                    })
-                                    ->orWhere('assignment.kelas_id', function($query) use ($request) {
-                                        $query->select('kelas_id')
-                                              ->from('assignment')
-                                              ->where('id', $request->assignment_id);
-                                    });
-                          });
-                })
-                ->where(function($query) use ($request) {
-                    $query->where(function($query) use ($request) {
-                            $query->where('schedule.start_time', '>=', $request->start_time)
-                                  ->where('schedule.start_time', '<', $request->end_time);
-                        })
-                        ->orWhere(function($query) use ($request) {
-                            $query->where('schedule.end_time', '>', $request->start_time)
-                                  ->where('schedule.end_time', '<=', $request->end_time);
-                        })
-                        ->orWhere(function($query) use ($request) {
-                            $query->where('schedule.start_time', '<', $request->start_time)
-                                  ->where('schedule.end_time', '>', $request->end_time);
-                        });
-                })
-                ->exists();
-
-            if ($conflict) {
-                return redirect()->back()->withErrors(['time' => 'The selected time slot conflicts with an existing schedule on ' . $date->toDateString() . '.']);
-            }
 
             $schedules[] = [
                 'date' => $date->toDateString(),
@@ -218,7 +198,7 @@ class ScheduleController extends Controller
 
     // Controller to save changes made to existing schedule data
     public function update(Request $request, int $id) {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'date' => 'required|date',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
@@ -226,37 +206,17 @@ class ScheduleController extends Controller
             'room_id' => 'required|exists:room,id',
         ]);
 
-        $conflict = \DB::table('schedule')
-            ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
-            ->where('schedule.date', $request->date)
-            ->where('schedule.id', '!=', $id)
-            ->where(function($query) use ($request) {
-                $query->where('schedule.room_id', $request->room_id)
-                      ->orWhere(function($query) use ($request) {
-                          $query->where('assignment.user_id', function($query) use ($request) {
-                                    $query->select('user_id')
-                                          ->from('assignment')
-                                          ->where('id', $request->assignment_id);
-                                })
-                                ->orWhere('assignment.kelas_id', function($query) use ($request) {
-                                    $query->select('kelas_id')
-                                          ->from('assignment')
-                                          ->where('id', $request->assignment_id);
-                                });
-                      });
-            })
-            ->where(function($query) use ($request) {
-                $query->whereBetween('schedule.start_time', [$request->start_time, $request->end_time])
-                      ->orWhereBetween('schedule.end_time', [$request->start_time, $request->end_time])
-                      ->orWhere(function($query) use ($request) {
-                          $query->where('schedule.start_time', '<=', $request->start_time)
-                                ->where('schedule.end_time', '>=', $request->end_time);
-                      });
-            })
-            ->exists();
+        $validator->after(function ($validator) use ($request, $id) {
+            $uniqueScheduleRule = new UpdateUniqueSchedule($request, $id);
+            if (!$uniqueScheduleRule->passes(null, null)) {
+                $validator->errors()->add('schedule', $uniqueScheduleRule->message());
+            }
+        });
 
-        if ($conflict) {
-            return redirect()->back()->withErrors(['time' => 'The selected time slot conflicts with an existing schedule.']);
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'editSchedule')
+                        ->withInput();
         }
 
         $schedule = Schedule::findOrFail($id);
@@ -300,52 +260,61 @@ class ScheduleController extends Controller
     public function batchUpdate(Request $request) {
         $ids = explode(',', $request->query('ids'));
         $dates = $request->input('dates'); // Retrieve dates from the request
-
+    
+        $data = [];
         foreach ($ids as $index => $id) {
-            $schedule = Schedule::find($id);
+            $data[] = [
+                'id' => $id,
+                'date' => $dates[$index],
+                'start_time' => $request->input('start_time'),
+                'end_time' => $request->input('end_time'),
+                'assignment_id' => $request->input('assignment_id'),
+                'room_id' => $request->input('room_id'),
+            ];
+        }
+    
+        foreach ($data as $index => $scheduleData) {
+            $schedule = Schedule::find($scheduleData['id']);
             if ($schedule) {
-                // Use the date from the request for each schedule
-                $schedule->date = $dates[$index];
-                $schedule->start_time = $request->input('start_time');
-                $schedule->end_time = $request->input('end_time');
-                $schedule->assignment_id = $request->input('assignment_id');
-                $schedule->room_id = $request->input('room_id');
-
-                // Get the lecturer and class IDs from the assignment
-                $assignment = Assignment::findOrFail($schedule->assignment_id);
+                $assignment = Assignment::findOrFail($scheduleData['assignment_id']);
                 $user_id = $assignment->user_id;
                 $kelas_id = $assignment->kelas_id;
+    
+                $validator = Validator::make($scheduleData, [
+                    'date' => 'required|date',
+                    'start_time' => 'required',
+                    'end_time' => 'required|after:start_time',
+                    'assignment_id' => 'required|exists:assignment,id',
+                    'room_id' => 'required|exists:room,id',
+                ]);
 
-                // Check for conflicts
-                $conflict = \DB::table('schedule')
-                    ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
-                    ->where('schedule.date', $schedule->date)
-                    ->where('schedule.id', '!=', $id)
-                    ->where(function($query) use ($schedule, $user_id, $kelas_id) {
-                        $query->where('schedule.room_id', $schedule->room_id)
-                              ->orWhere(function($query) use ($user_id, $kelas_id) {
-                                  $query->where('assignment.user_id', $user_id)
-                                        ->orWhere('assignment.kelas_id', $kelas_id);
-                              });
-                    })
-                    ->where(function($query) use ($schedule) {
-                        $query->whereBetween('schedule.start_time', [$schedule->start_time, $schedule->end_time])
-                              ->orWhereBetween('schedule.end_time', [$schedule->start_time, $schedule->end_time])
-                              ->orWhere(function($query) use ($schedule) {
-                                  $query->where('schedule.start_time', '<=', $schedule->start_time)
-                                        ->where('schedule.end_time', '>=', $schedule->end_time);
-                              });
-                    })
-                    ->exists();
-
-                if ($conflict) {
-                    return redirect()->back()->withErrors(['time' => 'The selected time slot conflicts with an existing schedule.']);
+                $validator->after(function ($validator) use ($scheduleData, $user_id, $kelas_id) {
+                    $uniqueScheduleRule = new BatchUpdateUniqueSchedule($scheduleData, $user_id, $kelas_id);
+                    if (!$uniqueScheduleRule->passes(null, null)) {
+                        $validator->errors()->add('schedule', $uniqueScheduleRule->message());
+                    }
+                });
+    
+                if ($validator->fails()) {
+                    return redirect()->back()
+                                ->withErrors($validator, 'editScheduleBatch')
+                                ->withInput();
                 }
-
+            }
+        }
+    
+        foreach ($data as $scheduleData) {
+            $schedule = Schedule::find($scheduleData['id']);
+            if ($schedule) {
+                $schedule->date = $scheduleData['date'];
+                $schedule->start_time = $scheduleData['start_time'];
+                $schedule->end_time = $scheduleData['end_time'];
+                $schedule->assignment_id = $scheduleData['assignment_id'];
+                $schedule->room_id = $scheduleData['room_id'];
                 $schedule->save();
             }
         }
-
+    
         return redirect()->back()->with('status', 'Schedules updated successfully.');
     }
 

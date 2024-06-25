@@ -1,6 +1,27 @@
 // Key Lending Script
 // Popup Open and Close Handling
 if(document.getElementById('keyActionModal')) {
+    keyModal = document.getElementById('keyActionModal');
+
+    const editForm = document.getElementById('keyActionForm');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    if (getComputedStyle(keyModal).display === 'block' || keyModal.classList.contains('open')) {
+        const formAction = document.getElementById('modalLendAction');
+        const modalTitleField = document.getElementById('modalTitleForm');
+        const modalMsgField = document.getElementById('modalMsgForm');
+
+        modalTitleField.value = modalTitleField.getAttribute('data-old-value');
+        modalTitle.textContent = modalTitleField.getAttribute('data-old-value');
+
+        modalMsgField.value = modalMsgField.getAttribute('data-old-value');
+        modalMessage.textContent = modalMsgField.getAttribute('data-old-value');
+
+        formAction.value = formAction.getAttribute('data-old-action');
+        editForm.action = formAction.getAttribute('data-old-action');
+        console.log(formAction.value);
+    }
+    
     // Handle click on lend button
     var lendButtons = document.querySelectorAll('.lend-btn');
     lendButtons.forEach(function (button) {
@@ -8,14 +29,23 @@ if(document.getElementById('keyActionModal')) {
             var scheduleId = this.getAttribute('data-schedule-id');
             document.getElementById('scheduleId').value = scheduleId;
             document.getElementById('actionType').value = 'start';
-            document.getElementById('modalTitle').textContent = 'Lend Key Action';
+
+            document.getElementById('modalTitle').textContent = 'Lend Key';
+            document.getElementById('modalTitleForm').value = 'Lend Key';
+            modalTitle.value = 'Lend Key';
+            
             document.getElementById('modalMessage').textContent = 'Please enter your password to lend the key:';
+            document.getElementById('modalMsgForm').value = 'Please enter your password to lend the key:';
+            modalMessage.value = 'Please enter your password to lend the key:';
+            
             var actionUrl = '/key-lending/' + scheduleId + '/verify-update-start';
-            document.getElementById('keyActionForm').setAttribute('action', actionUrl);
-            document.getElementById('keyActionModal').style.display = 'block';
+            document.getElementById('modalLendAction').value = '/key-lending/' + scheduleId + '/verify-update-start';
+            editForm.action = actionUrl;
+            
+            keyModal.style.display = 'block';
         });
     });
-
+    
     // Handle click on return button
     var returnButtons = document.querySelectorAll('.return-btn');
     returnButtons.forEach(function (button) {
@@ -23,11 +53,20 @@ if(document.getElementById('keyActionModal')) {
             var scheduleId = this.getAttribute('data-schedule-id');
             document.getElementById('scheduleId').value = scheduleId;
             document.getElementById('actionType').value = 'end';
-            document.getElementById('modalTitle').textContent = 'Return Key Action';
+
+            document.getElementById('modalTitle').textContent = 'Return Key';
+            document.getElementById('modalTitleForm').value = 'Return Key';
+            modalTitle.value = 'Return Key';
+
             document.getElementById('modalMessage').textContent = 'Please enter your password to return the key:';
+            document.getElementById('modalMsgForm').value = 'Please enter your password to return the key:';
+            modalMessage.value = 'Please enter your password to return the key:';
+
             var actionUrl = '/key-lending/' + scheduleId + '/verify-update-end';
-            document.getElementById('keyActionForm').setAttribute('action', actionUrl);
-            document.getElementById('keyActionModal').style.display = 'block';
+            document.getElementById('modalLendAction').value = '/key-lending/' + scheduleId + '/verify-update-end';
+            editForm.action = actionUrl;
+            
+            keyModal.style.display = 'block';
         });
     });
 
@@ -66,6 +105,41 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
         };
     }
 
+    if (getComputedStyle(createModalSchedule).display === 'block' || createModalSchedule.classList.contains('open')) {
+        const dateField = document.getElementById('date');
+        const startField = document.getElementById('start_time');
+        const endField = document.getElementById('end_time');
+        const assignmentField = document.getElementById('assignment_id');
+        const roomField = document.getElementById('room_id');
+        const repeatField = document.getElementById('repeat');
+        
+        dateField.value = dateField.getAttribute('data-old-value');
+        startField.value = startField.getAttribute('data-old-value');
+        endField.value = endField.getAttribute('data-old-value');
+        assignmentField.value = assignmentField.getAttribute('data-old-value');
+        roomField.value = roomField.getAttribute('data-old-value');
+        repeatField.value = repeatField.getAttribute('data-old-value');
+        
+    }
+    
+    const editForm = document.getElementById('editForm');
+    if (getComputedStyle(editModalSchedule).display === 'block' || editModalSchedule.classList.contains('open')) {
+        const dateField = document.getElementById('modalDate');
+        const startField = document.getElementById('modalStart');
+        const endField = document.getElementById('modalEnd');
+        const assignmentField = document.getElementById('modalAssignment');
+        const roomField = document.getElementById('modalRoom');
+        const formAction = document.getElementById('modalScheduleAction');
+        
+        dateField.value = dateField.getAttribute('data-old-value');
+        startField.value = startField.getAttribute('data-old-value');
+        endField.value = endField.getAttribute('data-old-value');
+        assignmentField.value = assignmentField.getAttribute('data-old-value');
+        roomField.value = roomField.getAttribute('data-old-value');
+        formAction.value = formAction.getAttribute('data-old-action');
+        editForm.action = formAction.getAttribute('data-old-action');
+    }
+
     // Open edit modal on edit button click
     document.querySelectorAll('.edit-button-schedule').forEach(function(button) {
         button.onclick = function() {
@@ -75,19 +149,41 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             var end = this.getAttribute('data-end');
             var assignmentId = this.getAttribute('data-assignment-id');
             var roomId = this.getAttribute('data-room-id');
-            console.log(scheduleId);
-
+            
             document.getElementById('modalDate').value = date;
             document.getElementById('modalStart').value = start;
             document.getElementById('modalEnd').value = end;
             document.getElementById('modalAssignment').value = assignmentId;
             document.getElementById('modalRoom').value = roomId;
-            document.getElementById('editForm').action = 'schedule/' + scheduleId + '/edit';
-
+            document.getElementById('modalScheduleAction').value = 'schedule/' + scheduleId + '/edit';
+            editForm.action = 'schedule/' + scheduleId + '/edit';
+            
             editModalSchedule.style.display = "block";
         };
     });
+    
+    const editFormBatch = document.getElementById('editFormBatch');
+    if (getComputedStyle(editModalScheduleBatch).display === 'block' || editModalScheduleBatch.classList.contains('open')) {
+        // const dateField = document.getElementById('modalDateBatch');
+        const startField = document.getElementById('modalStartBatch');
+        const endField = document.getElementById('modalEndBatch');
+        const assignmentField = document.getElementById('modalAssignmentBatch');
+        const roomField = document.getElementById('modalRoomBatch');
+        const formActionBatch = document.getElementById('modalScheduleActionBatch');
+        
+        // dateField.value = dateField.getAttribute('dataoldvalue');
+        startField.value = startField.getAttribute('data-old-value');
+        endField.value = endField.getAttribute('data-old-value');
+        assignmentField.value = assignmentField.getAttribute('data-old-value');
+        roomField.value = roomField.getAttribute('data-old-value');
+        formActionBatch.value = formActionBatch.getAttribute('data-old-action');
+        editFormBatch.action = formActionBatch.getAttribute('data-old-action');
 
+        const datesContainer = document.getElementById('datesContainer');
+        datesContainer.querySelectorAll('input[type="date"]').forEach(input => {
+            input.value = input.getAttribute('data-old-value');
+        });
+    }
     
     // Open batch edit modal on edit button click
     document.querySelectorAll('.batch-edit-button-schedule').forEach(function(button) {
@@ -107,9 +203,10 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             idsContainer.appendChild(inputId);
 
             var inputDate = document.createElement('input');
-            inputDate.type = 'hidden';
+            inputDate.type = 'date';
             inputDate.name = 'dates[]';
             inputDate.value = dates[index];
+            inputDate.setAttribute('data-old-value', dates[index]);
             datesContainer.appendChild(inputDate);
         });
 
@@ -117,7 +214,8 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             document.getElementById('modalEndBatch').value = end;
             document.getElementById('modalAssignmentBatch').value = assignmentId;
             document.getElementById('modalRoomBatch').value = roomId;
-            document.getElementById('editFormBatch').action = 'schedule/batch-edit?ids=' + scheduleIds.join(',');
+            document.getElementById('modalScheduleActionBatch').value = 'schedule/batch-edit?ids=' + scheduleIds.join(',');
+            editFormBatch.action = 'schedule/batch-edit?ids=' + scheduleIds.join(',');
 
             editModalScheduleBatch.style.display = "block";
         };
@@ -183,6 +281,31 @@ if(document.getElementById('createModalAssignment') || document.getElementById('
         createModalAssignment.style.display = "block";
     };
 
+    if (getComputedStyle(createModalAssignment).display === 'block' || createModalAssignment.classList.contains('open')) {
+        const userField = document.getElementById('user_id');
+        const subjectField = document.getElementById('subject_id');
+        const classField = document.getElementById('kelas_id');
+        
+        if (userField) {
+            userField.value = userField.getAttribute('data-old-value');
+        }
+        if (classField) {
+            classField.value = classField.getAttribute('data-old-value');
+        }
+    }
+    
+    const editForm = document.getElementById('editForm');
+    if (getComputedStyle(editModalAssignment).display === 'block' || editModalAssignment.classList.contains('open')) {
+        const userField = document.getElementById('modalUser');
+        const classField = document.getElementById('modalClass');
+        const formAction = document.getElementById('modalAssignmentAction');
+        
+        userField.value = userField.getAttribute('data-old-value');
+        classField.value = classField.getAttribute('data-old-value');
+        formAction.value = formAction.getAttribute('data-old-action');
+        editForm.action = formAction.getAttribute('data-old-action');
+    }
+
     // Open edit modal on edit button click
     document.querySelectorAll('.edit-button-assignment').forEach(function(button) {
         button.onclick = function() {
@@ -192,7 +315,8 @@ if(document.getElementById('createModalAssignment') || document.getElementById('
 
             document.getElementById('modalUser').value = userId;
             document.getElementById('modalClass').value = kelasId;
-            document.getElementById('editForm').action = 'assignment/' + assignmentId + '/edit';
+            document.getElementById('modalAssignmentAction').value = 'assignment/' + assignmentId + '/edit';
+            editForm.action = 'assignment/' + assignmentId + '/edit';
 
             editModalAssignment.style.display = "block";
         };
@@ -235,6 +359,22 @@ if(document.getElementById('createModalSubject') || document.getElementById('edi
         createModalSubject.style.display = "block";
     };
 
+    if (getComputedStyle(createModalSubject).display === 'block' || createModalSubject.classList.contains('open')) {
+        const nameField = document.getElementById('name');
+        
+        nameField.value = nameField.getAttribute('data-old-value');
+    }
+    
+    const editForm = document.getElementById('editForm');
+    if (getComputedStyle(editModalSubject).display === 'block' || editModalSubject.classList.contains('open')) {
+        const nameField = document.getElementById('modalSubjectName');
+        const formAction = document.getElementById('modalSubjectAction');
+        
+        nameField.value = nameField.getAttribute('data-old-value');
+        formAction.value = formAction.getAttribute('data-old-action');
+        editForm.action = formAction.getAttribute('data-old-action');
+    }
+
     // Open edit modal on edit button click
     document.querySelectorAll('.edit-button-subject').forEach(function(button) {
         button.onclick = function() {
@@ -243,7 +383,8 @@ if(document.getElementById('createModalSubject') || document.getElementById('edi
 
             document.getElementById('modalSubjectId').value = subjectId;
             document.getElementById('modalSubjectName').value = subjectName;
-            document.getElementById('editForm').action = 'subject/' + subjectId + '/edit';
+            document.getElementById('modalSubjectAction').value = 'subject/' + subjectId + '/edit';
+            editForm.action = 'subject/' + subjectId + '/edit';
 
             editModalSubject.style.display = "block";
         };
@@ -286,6 +427,24 @@ if(document.getElementById('createModalRoom') || document.getElementById('editMo
         createModalRoom.style.display = "block";
     };
 
+    if (getComputedStyle(createModalRoom).display === 'block' || createModalRoom.classList.contains('open')) {
+        const roomField = document.getElementById('room_number');
+        
+        if (roomField) {
+            roomField.value = roomField.getAttribute('data-old-value');
+        }
+    }
+    
+    const editForm = document.getElementById('editForm');
+    if (getComputedStyle(editModalRoom).display === 'block' || editModalRoom.classList.contains('open')) {
+        const roomField = document.getElementById('modalRoomNumber');
+        const formAction = document.getElementById('modalRoomAction');
+        
+        roomField.value = roomField.getAttribute('data-old-value');
+        formAction.value = formAction.getAttribute('data-old-action');
+        editForm.action = formAction.getAttribute('data-old-action');
+    }
+
     // Open edit modal on edit button click
     document.querySelectorAll('.edit-button-room').forEach(function(button) {
         button.onclick = function() {
@@ -294,7 +453,8 @@ if(document.getElementById('createModalRoom') || document.getElementById('editMo
 
             document.getElementById('modalRoomId').value = roomId;
             document.getElementById('modalRoomNumber').value = roomNumber;
-            document.getElementById('editForm').action = 'room/' + roomId + '/edit';
+            document.getElementById('modalRoomAction').value = 'room/' + roomId + '/edit';
+            editForm.action = 'room/' + roomId + '/edit';
 
             editModalRoom.style.display = "block";
         };
@@ -337,6 +497,36 @@ if(document.getElementById('createModalClass') || document.getElementById('editM
         createModalClass.style.display = "block";
     };
 
+    if (getComputedStyle(createModalClass).display === 'block' || createModalClass.classList.contains('open')) {
+        const prodiField = document.getElementById('prodi');
+        const subjectField = document.getElementById('subject_id');
+        const classField = document.getElementById('class');
+        
+        if (prodiField) {
+            prodiField.value = prodiField.getAttribute('data-old-value');
+        }
+        if (subjectField) {
+            subjectField.value = subjectField.getAttribute('data-old-value');
+        }
+        if (classField) {
+            classField.value = classField.getAttribute('data-old-value');
+        }
+    }
+    
+    const editForm = document.getElementById('editForm');
+    if (getComputedStyle(editModalClass).display === 'block' || editModalClass.classList.contains('open')) {
+        const prodiField = document.getElementById('modalProdi');
+        const subjectField = document.getElementById('modalSubject');
+        const classField = document.getElementById('modalClass');
+        const formAction = document.getElementById('modalClassAction');
+        
+        prodiField.value = prodiField.getAttribute('data-old-value');
+        subjectField.value = subjectField.getAttribute('data-old-value');
+        classField.value = classField.getAttribute('data-old-value');
+        formAction.value = formAction.getAttribute('data-old-action');
+        editForm.action = formAction.getAttribute('data-old-action');
+    }
+
     // Open edit modal on edit button click
     document.querySelectorAll('.edit-button-class').forEach(function(button) {
         button.onclick = function() {
@@ -348,7 +538,8 @@ if(document.getElementById('createModalClass') || document.getElementById('editM
             document.getElementById('modalProdi').value = prodi;
             document.getElementById('modalSubject').value = subjectId;
             document.getElementById('modalClass').value = classChar;
-            document.getElementById('editForm').action = 'class/' + classId + '/edit';
+            document.getElementById('modalClassAction').value = 'class/' + classId + '/edit';
+            editForm.action = 'class/' + classId + '/edit';
 
             editModalClass.style.display = "block";
         };
@@ -393,6 +584,41 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
         };
     }
 
+    if (getComputedStyle(createModalUser).display === 'block' || createModalUser.classList.contains('open')) {
+        const nameField = document.getElementById('name');
+        const emailField = document.getElementById('email');
+        const passwordField = document.getElementById('password');
+        
+        nameField.value = nameField.getAttribute('data-old-value');
+        emailField.value = emailField.getAttribute('data-old-value');
+        passwordField.value = passwordField.getAttribute('data-old-value');
+        
+        if (document.querySelector('input[name="role"][data-old-value]:checked')) {
+            const oldRole = document.querySelector('input[name="role"][data-old-value]:checked').getAttribute('data-old-value');
+            if (oldRole === 'Admin') {
+                document.getElementById('roleAdmin').checked = true;
+            } else if (oldRole === 'Lecturer') {
+                document.getElementById('roleLecturer').checked = true;
+            } else if (oldRole === 'Assistant') {
+                document.getElementById('roleAssistant').checked = true;
+            }
+        }
+    }
+    
+    const editForm = document.getElementById('editForm');
+    if (getComputedStyle(editModalUser).display === 'block' || editModalUser.classList.contains('open')) {
+        const nameField = document.getElementById('modalUserName');
+        const emailField = document.getElementById('modalUserEmail');
+        const passwordField = document.getElementById('modalUserPassword');
+        const formAction = document.getElementById('modalUserAction');
+        
+        nameField.value = nameField.getAttribute('data-old-value');
+        emailField.value = emailField.getAttribute('data-old-value');
+        passwordField.value = passwordField.getAttribute('data-old-value');
+        formAction.value = formAction.getAttribute('data-old-action');
+        editForm.action = formAction.getAttribute('data-old-action');
+    }
+
     // Open edit modal on edit button click
     document.querySelectorAll('.edit-button-user').forEach(function(button) {
         button.onclick = function() {
@@ -404,7 +630,8 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
             document.getElementById('modalUserName').value = userName;
             document.getElementById('modalUserEmail').value = userEmail;
             document.getElementById('modalUserPassword').value = '';
-            document.getElementById('editForm').action = 'user/' + userId + '/edit';
+            document.getElementById('modalUserAction').value = 'user/' + userId + '/edit';
+            editForm.action = 'user/' + userId + '/edit';
 
             if (userRole == 'Admin') {
                 document.getElementById('modalRoleAdmin').checked = true;
@@ -451,8 +678,13 @@ if (document.getElementById('loginModal')) {
     if (document.getElementById('openLoginModal')) {
         document.getElementById('openLoginModal').onclick = function() {
             loginModal.style.display = "block";
-            loginModal.style.zIndex = 9999;
         };
+    }
+
+    if (getComputedStyle(loginModal).display === 'block' || loginModal.classList.contains('open')) {
+        const emailField = document.getElementById('email');
+
+        emailField.value = emailField.getAttribute('data-old-value');
     }
 
     // When the user clicks on <span> (x), close the create modal
@@ -480,8 +712,16 @@ if (document.getElementById('editProfileModal')) {
     if (document.getElementById('openEditProfileModal')) {
         document.getElementById('openEditProfileModal').onclick = function() {
             editProfileModal.style.display = "block";
-            editProfileModal.style.zIndex = 9999;
         };
+    }
+
+    const editForm = document.getElementById('editForm');
+    if (getComputedStyle(editProfileModal).display === 'block' || editProfileModal.classList.contains('open')) {
+        const nameField = document.getElementById('modalProfileName');
+        const emailField = document.getElementById('modalProfileEmail');
+        
+        nameField.value = nameField.getAttribute('data-old-value');
+        emailField.value = emailField.getAttribute('data-old-value');
     }
 
     // When the user clicks on <span> (x), close the create modal

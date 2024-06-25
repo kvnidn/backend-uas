@@ -34,7 +34,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($class->sortBy('year')->sortBy('prodi') as $index => $item)
+                            @foreach ($class->sortBy('prodi') as $index => $item)
                             @php $counter = $loop->iteration @endphp
                             <tr class="class-content">
                                 <td class="id">{{ $counter }}</td>
@@ -56,41 +56,41 @@
 </div>
 
 <!-- Create Class Modal -->
-<div id="createModalClass" class="modal">
+<div id="createModalClass" class="modal {{ $errors->createClass->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Create Class</h4>
         <form action="{{ url('/class/create') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label>Prodi</label>
-                <select name="prodi">
+                <select name="prodi" id="prodi" data-old-value="{{ old('prodi') }}">
                     <option value="" disabled selected>Select a Prodi</option>
                     <option value="TI">TI</option>
                     <option value="SI">SI</option>
                 </select>
-                @error('prodi') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('prodi', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label>Subject Name</label>
-                <select name="subject_id">
+                <select name="subject_id" id="subject_id" data-old-value="{{ old('subject_id') }}">
                     <option value="" disabled selected>Select a Subject</option>
                     @foreach($subjects as $subject)
                         <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                     @endforeach
                 </select>
-                @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('subject_id', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label>Class</label>
-                <select name="class">
+                <select name="class" id="class" data-old-value="{{ old('class') }}">
                     <option value="" disabled selected>Select Class</option>
                     @foreach (range('A', 'Z') as $char)
                         <option value="{{ $char }}">{{ $char }}</option>
                     @endforeach
                 </select>
-                @error('class') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('class', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-actions">
@@ -106,42 +106,45 @@
 </div>
 
 <!-- Edit Class Modal -->
-<div id="editModalClass" class="modal">
+<div id="editModalClass" class="modal {{ $errors->editClass->any() ? 'open' : '' }}">
     <div class="modal-content">
         <h4>Edit Class</h4>
-        <form id="editForm" method="POST">
+        <form id="editForm" method="POST" action="">
             @csrf
             @method('PUT')
+
+            <input type="hidden" id="modalClassAction" name="formAction" value='' data-old-action="{{ old('formAction') }}">
+
             <div class="form-group">
                 <label>Prodi</label>
-                <select name="prodi" id="modalProdi">
+                <select name="prodi" id="modalProdi" data-old-value="{{ old('prodi') }}">
                     <option value="" disabled>Select a Prodi</option>
                     <option value="TI">TI</option>
                     <option value="SI">SI</option>
                 </select>
-                @error('prodi') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('prodi', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label>Subject Name</label>
-                <select name="subject_id" id="modalSubject">
+                <select name="subject_id" id="modalSubject" data-old-value="{{ old('subject_id') }}">
                     <option value="" disabled>Select a Subject</option>
                     @foreach($subjects as $subject)
                         <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                     @endforeach
                 </select>
-                @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('subject_id', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label>Class</label>
-                <select name="class" id="modalClass">
+                <select name="class" id="modalClass" data-old-value="{{ old('class') }}">
                     <option value="" disabled>Select Class</option>
                     @foreach (range('A', 'Z') as $char)
                         <option value="{{ $char }}">{{ $char }}</option>
                     @endforeach
                 </select>
-                @error('class') <span class="text-danger">{{ $message }}</span> @enderror
+                @error('class', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-actions">

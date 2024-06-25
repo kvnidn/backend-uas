@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class KelasController extends Controller
 {
@@ -18,7 +20,7 @@ class KelasController extends Controller
                 ->orderBy('class')
                 ->select('kelas.*')  // Select all columns from 'kelas' table
                 ->get();
-        $subjects = Subject::all();
+        $subjects = Subject::orderBy('subject.name')->select('subject.*')->get();
         $title = 'Class';
         return view('class/index', compact('class', 'title', 'subjects'));
     }
@@ -33,11 +35,19 @@ class KelasController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'prodi'=> 'required|string',
             'subject_id'=>'required|exists:subject,id',
-            'class'=>'required|string',
+            'class'=>'required|string|unique:kelas,class,NULL,id,subject_id,'.$request->subject_id.',prodi,'.$request->prodi,
+        ], [
+            'class.unique' => 'This class already exists',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'createClass')
+                        ->withInput();
+        }
 
         try {
             DB::beginTransaction();
@@ -55,24 +65,39 @@ class KelasController extends Controller
 
             $errorMessage = "The combination of Subject, and Class must be unique.";
 
-        return redirect('class/')->with('error', $errorMessage);
+        return redirect()->back()->with('error', $errorMessage)->withInput();
         }
     }
 
     public function edit(int $id) {
         $class = Kelas::findOrFail($id);
-        $subjects = Subject::all();
+        $subjects = Subject::orderBy('subject.name')->select('subject.*')->get();
         $title = "Class";
 
         return view('class/edit', compact('class', 'title', 'subjects'));
     }
 
     public function update(Request $request, int $id) {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'prodi'=> 'required|string',
             'subject_id'=>'required|exists:subject,id',
-            'class'=>'required|string',
+            'class'=>[
+                'required',
+                'string',
+                Rule::unique('kelas')->ignore($id, 'id')->where(function ($query) use ($request) {
+                    return $query->where('subject_id', $request->subject_id)
+                                 ->where('prodi', $request->prodi);
+                }),
+            ]
+        ], [
+            'class.unique' => 'This class already exists',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator, 'editClass')
+                        ->withInput();
+        }
 
         try {
             DB::beginTransaction();
@@ -88,7 +113,7 @@ class KelasController extends Controller
         } catch (QueryException $e) {
             DB::rollBack();
             $errorMessage = "The combination of Subject, and Class must be unique.";
-            return redirect()->back()->with('error', $errorMessage);
+            return redirect()->back()->with('error', $errorMessage)->withInput();
         }
     }
 
