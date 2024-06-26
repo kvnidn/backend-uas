@@ -873,6 +873,7 @@ input[type=password], select, textarea {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+    z-index: 9999;
 }
 
 .modal.open {
@@ -920,13 +921,19 @@ input[type=password], select, textarea {
     margin: 10px 0 20px 0;
 }
 
-.form-group {
+.form-group,
+.form-remember {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.form-group label {
+.form-remember {
+    justify-content: center;
+}
+
+.form-group label,
+.form-remember label {
     width: 150px;
     margin-right: 20px;
     text-align: right;
@@ -942,6 +949,16 @@ input[type=password], select, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 75%;
+}
+
+.form-check {
+    justify-content: center;
+    align-items: center;
+}
+
+.form-check-input {
+    justify-content: center;
+    align-items: center;
 }
 
 .form-actions {
