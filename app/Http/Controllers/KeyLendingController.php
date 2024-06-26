@@ -127,7 +127,7 @@ class KeyLendingController extends Controller
     {
         if (auth()->check() && auth()->user()->role == 'Admin') {
             $this->createKeyLendingEnd($id);
-            return redirect()->back()->with('status', 'Key lending start time saved.');
+            return redirect()->back()->with('status', 'Key lending end time saved.');
         }
 
         $validator = Validator::make($request->all(),[

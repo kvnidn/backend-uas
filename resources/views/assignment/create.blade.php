@@ -33,8 +33,9 @@
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
                             </select>
-                            @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
+
                         <div class="form-user">
                             <label>Class</label>
                             <select name="kelas_id">
@@ -43,8 +44,29 @@
                                     <option value="{{ $kelas->id }}">{{ $kelas->prodi }}-{{ $kelas->subject->name }}-{{ $kelas->class }}</option>
                                 @endforeach
                             </select>
-                            @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
+
+                        @if($errors->any())
+                            <div class="form-errors">
+                                @error('user_id') 
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> 
+                                    @endif
+                                @enderror
+                                
+                                @error('kelas_id') 
+                                    @if ($message) 
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> 
+                                    @endif
+                                @enderror
+                            </div>
+                        @endif
+
                         <div class="save-user-button">
                             <button type="submit">Save</button>
                         </div>

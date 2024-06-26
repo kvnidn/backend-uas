@@ -29,8 +29,21 @@
                         <div class="form-name">
                             <label>Subject Name</label>
                             <input type="text" name="name" value="{{  $subject->name }}"/>
-                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('name') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
+
+                        @if($errors->any())
+                            <div class="form-errors">
+                                @error('name')
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> 
+                                    @endif
+                                @enderror
+                            </div>
+                        @endif
+
                         <div class="save-user-button">
                             <button type="submit">Update</button>
                         </div>

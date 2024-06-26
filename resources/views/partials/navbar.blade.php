@@ -67,39 +67,73 @@
 <!-- Login User Modal -->
 <div id="loginModal" class="modal {{ $errors->login->any() || session('loginError') ? 'open' : ''}}">
     <div class="modal-content">
-        <span class="close">&times;</span>
         <h4>Login User</h4>
         <form action="{{ url('login') }}" method="POST">
             @csrf
             @method('POST')
 
-            <div class="form-name">
+            <div class="form-group">
                 <label>Email</label>
                 <input type="text" name="email" id="email" value="{{old('email')}}" data-old-value="{{ old('email') }}" autofocus/>
                 <br>
-                @error('email', 'login') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('email', 'login') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
-            <div class="form-password">
+
+            <div class="form-group">
                 <label>Password</label>
                 <input type="password" name="password" id="password" value=""/>
                 <br>
-                @error('password', 'login') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('password', 'login') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
-            <div class="form-group">
+
+            <div class="form-remember">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="remember" id="remember">
                     <label class="form-check-label" for="remember">
                         Remember Me
                     </label>
                 </div>
-                @if (session('loginError'))
+
+                <!-- @if (session('loginError'))
                 <span class="text-danger">
                     {{ session('loginError') }}
                 </span>
-                @endif
+                @endif -->
             </div>
-            <div class="save-user-button">
-                <button type="submit">Login</button>
+
+            @if ($errors->login->any() || session('loginError'))
+                <div class="form-errors">
+                    @error('email', 'login') 
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('password', 'login')
+                        @if ($message) 
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @endif 
+                    @enderror
+                    
+                    @if (session('loginError'))
+                        <span class="text-danger">
+                            {{ session('loginError') }}
+                        </span>
+                    @endif
+                </div>
+            @endif
+
+            <div class="form-actions">
+                <div class="close-user-button">
+                    <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
+                </div>
+                <div class="save-user-button">
+                    <button type="submit"><i class="fa-solid fa-check"></i>Login</button>
+                </div>
             </div>
         </form>
     </div>
