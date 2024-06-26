@@ -879,7 +879,7 @@ input[type=password], select, textarea {
 .modal.open {
     display: block;
     position: fixed;
-    z-index: 1;
+    z-index: 99999;
     left: 0;
     top: 0;
     width: 100%;
@@ -930,6 +930,12 @@ input[type=password], select, textarea {
 
 .form-remember {
     justify-content: center;
+}
+
+.form-errors {
+    /* align-items: center; */
+    text-align: center;
+    margin-bottom: 8px;
 }
 
 .form-group label,
