@@ -123,11 +123,12 @@
             <input type="hidden" id="modalLendAction" name="formActionLend" value='' data-old-action="{{ old('formActionLend') }}">
             <input type="hidden" id="modalTitleForm" name="modalTitle" value='' data-old-value="{{ old('modalTitle') }}">
             <input type="hidden" id="modalMsgForm" name="modalMsg" value='' data-old-value="{{ old('modalMsg') }}">
+            <input type="hidden" id="modalMsgFormAdmin" name="modalMsgAdmin" value='' data-old-value="{{ old('modalMsgAdmin') }}">
             <input type="hidden" id="scheduleId" name="schedule_id">
             <input type="hidden" id="actionType" name="action_type">
             <div class="modal-body">
                 @if(auth()->user() && auth()->user()->role === 'Admin')
-                <p id="">Are you sure you want to Lend Key?</p>
+                <p id="modalMessageAdmin">Are you sure you want to Lend Key?</p>
                 @else
                 <p id="modalMessage">Please enter your password:</p>
                 <input type="password" name="password" class="form-control" required>

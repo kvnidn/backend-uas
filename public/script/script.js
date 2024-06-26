@@ -64,16 +64,25 @@ if(document.getElementById('keyActionModal')) {
     const editForm = document.getElementById('keyActionForm');
     const modalTitle = document.getElementById('modalTitle');
     const modalMessage = document.getElementById('modalMessage');
+    const modalMessageAdmin = document.getElementById('modalMessageAdmin');
     if (getComputedStyle(keyModal).display === 'block' || keyModal.classList.contains('open')) {
         const formAction = document.getElementById('modalLendAction');
         const modalTitleField = document.getElementById('modalTitleForm');
         const modalMsgField = document.getElementById('modalMsgForm');
+        const modalMsgFieldAdmin = document.getElementById('modalMsgFormAdmin');
 
         modalTitleField.value = modalTitleField.getAttribute('data-old-value');
         modalTitle.textContent = modalTitleField.getAttribute('data-old-value');
 
-        modalMsgField.value = modalMsgField.getAttribute('data-old-value');
-        modalMessage.textContent = modalMsgField.getAttribute('data-old-value');
+        if (modalMessage) {
+            modalMsgField.value = modalMsgField.getAttribute('data-old-value');
+            modalMessage.textContent = modalMsgField.getAttribute('data-old-value');
+        }
+
+        if (modalMessageAdmin) {
+            modalMsgFieldAdmin.value = modalMsgFieldAdmin.getAttribute('data-old-value');
+            modalMessageAdmin.textContent = modalMsgFieldAdmin.getAttribute('data-old-value');
+        }
 
         formAction.value = formAction.getAttribute('data-old-action');
         editForm.action = formAction.getAttribute('data-old-action');
@@ -96,6 +105,11 @@ if(document.getElementById('keyActionModal')) {
                 document.getElementById('modalMessage').textContent = 'Please enter your password to lend the key:';
                 document.getElementById('modalMsgForm').value = 'Please enter your password to lend the key:';
                 modalMessage.value = 'Please enter your password to lend the key:';
+            }
+            if (document.getElementById('modalMessageAdmin')) {
+                document.getElementById('modalMessageAdmin').textContent = 'Are you sure you want to lend key?';
+                document.getElementById('modalMsgFormAdmin').value = 'Are you sure you want to lend key?';
+                modalMessageAdmin.value = 'Are you sure you want to lend key?';
             }
 
             var actionUrl = '/key-lending/' + scheduleId + '/verify-update-start';
@@ -124,6 +138,12 @@ if(document.getElementById('keyActionModal')) {
                 modalMessage.value = 'Please enter your password to return the key:';
             }
 
+            if (document.getElementById('modalMessageAdmin')) {
+                document.getElementById('modalMessageAdmin').textContent = 'Are you sure you want to return key?';
+                document.getElementById('modalMsgFormAdmin').value = 'Are you sure you want to return key?';
+                modalMessageAdmin.value = 'Are you sure you want to return key?';
+            }
+
             var actionUrl = '/key-lending/' + scheduleId + '/verify-update-end';
             document.getElementById('modalLendAction').value = '/key-lending/' + scheduleId + '/verify-update-end';
             editForm.action = actionUrl;
@@ -137,7 +157,9 @@ if(document.getElementById('keyActionModal')) {
     closeButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             document.getElementById('keyActionModal').style.display = 'none';
-            document.querySelector('#keyActionModal input[type="password"]').value = '';
+            if (document.querySelector('#keyActionModal input[type="password"]')) {
+                document.querySelector('#keyActionModal input[type="password"]').value = '';
+            }
             var alerts = document.querySelectorAll('#keyActionModal .alert');
             alerts.forEach(function (alert) {
                 alert.parentNode.removeChild(alert);
@@ -295,6 +317,13 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
         errorMessages.forEach(function (error) {
             error.parentNode.removeChild(error);
         });
+
+        document.getElementById('date').value = '';
+        document.getElementById('start_time').value = '';
+        document.getElementById('end_time').value = '';
+        document.getElementById('assignment_id').value = '';
+        document.getElementById('room_id').value = '';
+        document.getElementById('repeat').value = '';
     };
 
     // When the user clicks on <span> (x), close the edit modal
@@ -408,6 +437,8 @@ if(document.getElementById('createModalAssignment') || document.getElementById('
         errorMessages.forEach(function (error) {
             error.parentNode.removeChild(error);
         });
+        document.getElementById('user_id').value = '';
+        document.getElementById('kelas_id').value = '';
     };
 
     // When the user clicks on <span> (x), close the edit modal
@@ -484,6 +515,7 @@ if(document.getElementById('createModalSubject') || document.getElementById('edi
         errorMessages.forEach(function (error) {
             error.parentNode.removeChild(error);
         });
+        document.getElementById('name').value = '';
     };
 
 
@@ -564,6 +596,8 @@ if(document.getElementById('createModalRoom') || document.getElementById('editMo
         errorMessages.forEach(function (error) {
             error.parentNode.removeChild(error);
         });
+
+        document.getElementById('room_number').value = '';
     };
 
     // When the user clicks on <span> (x), close the edit modal
@@ -657,6 +691,10 @@ if(document.getElementById('createModalClass') || document.getElementById('editM
         errorMessages.forEach(function (error) {
             error.parentNode.removeChild(error);
         });
+
+        document.getElementById('prodi').value = '';
+            document.getElementById('subject_id').value = '';
+        document.getElementById('class').value = '';
     };
 
     // When the user clicks on <span> (x), close the edit modal
@@ -764,6 +802,13 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
         var errorMessages = document.querySelectorAll('#createModalUser .text-danger');
         errorMessages.forEach(function (error) {
             error.parentNode.removeChild(error);
+        });
+
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+        document.querySelectorAll('input[name="role"]').forEach(function (radio) {
+            radio.checked = false;
         });
     };
 
