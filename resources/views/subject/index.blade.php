@@ -54,8 +54,21 @@
                 <label>Subject Name</label>
                 <input type="text" name="name" id="name" value="" data-old-value="{{ old('name') }}"/>
                 <br>
-                @error('name', 'createSubject') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('name', 'createSubject') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->createSubject->any())
+                <div class="form-errors">
+                    @error('name', 'createSubject') 
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> 
+                        @endif
+                    @enderror
+                </div>
+            @endif
+
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
