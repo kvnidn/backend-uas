@@ -53,6 +53,7 @@
             <div class="form-group">
                 <label>Room Number</label>
                 <input type="text" name="room_number" id="room_number" data-old-value="{{ old('room_number') }}"/>
+                <br>
                 @error('room_number', 'createRoom') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
@@ -81,6 +82,7 @@
             <div class="form-group">
                 <label>Room Number</label>
                 <input type="text" name="room_number" id="modalRoomNumber" value="" data-old-value="{{ old('room_number') }}"/>
+                <br>
                 @error('room_number', 'editRoom') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">

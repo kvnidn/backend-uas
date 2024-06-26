@@ -68,6 +68,7 @@
                     <option value="TI">TI</option>
                     <option value="SI">SI</option>
                 </select>
+                <br>
                 @error('prodi', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
@@ -79,6 +80,7 @@
                         <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                     @endforeach
                 </select>
+                <br>
                 @error('subject_id', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
@@ -90,6 +92,7 @@
                         <option value="{{ $char }}">{{ $char }}</option>
                     @endforeach
                 </select>
+                <br>
                 @error('class', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
@@ -122,6 +125,7 @@
                     <option value="TI">TI</option>
                     <option value="SI">SI</option>
                 </select>
+                <br>
                 @error('prodi', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
@@ -133,6 +137,7 @@
                         <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                     @endforeach
                 </select>
+                <br>
                 @error('subject_id', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
@@ -144,6 +149,7 @@
                         <option value="{{ $char }}">{{ $char }}</option>
                     @endforeach
                 </select>
+                <br>
                 @error('class', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 

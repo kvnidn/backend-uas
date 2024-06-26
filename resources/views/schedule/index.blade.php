@@ -253,22 +253,25 @@
             @method('PUT')
 
             <input type="hidden" id="modalScheduleAction" name="formAction" value='' data-old-action="{{ old('formAction') }}">
-            
+
             <div class="form-group">
                 <label for="date">Date</label>
                 <input type="date" name="date" id="modalDate" value="" data-old-value="{{ old('date') }}" required>
+                <br>
                 @error('date', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="start_time">Start Time</label>
                 <input type="time" name="start_time" id="modalStart" value="" data-old-value="{{ old('start_time') }}" required>
+                <br>
                 @error('start_time', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="end_time">End Time</label>
                 <input type="time" name="end_time" id="modalEnd" value="" data-old-value="{{ old('end_time') }}" required>
+                <br>
                 @error('end_time', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
@@ -292,6 +295,7 @@
                         @endforeach
                     @endif
                 </select>
+                <br>
                 @error('assignment_id', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
 
@@ -305,6 +309,7 @@
                         </option>
                     @endforeach
                 </select>
+                <br>
                 @error('room_id', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
                 @error('schedule', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
@@ -328,7 +333,7 @@
             @method('PUT')
 
             <input type="hidden" id="modalScheduleActionBatch" name="formActionBatch" value='' data-old-action="{{ old('formActionBatch') }}">
-            
+
             <div id="idsContainer"></div>
             <div id="datesContainer" style="display:none">
                 @if(old('dates'))

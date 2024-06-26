@@ -53,6 +53,7 @@
             <div class="form-group">
                 <label>Subject Name</label>
                 <input type="text" name="name" id="name" value="" data-old-value="{{ old('name') }}"/>
+                <br>
                 @error('name', 'createSubject') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
@@ -81,6 +82,7 @@
             <div class="form-group">
                 <label>Subject Name</label>
                 <input type="text" name="name" id="modalSubjectName" data-old-value="{{ old('name') }}"/>
+                <br>
                 @error('name', 'editSubject') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">

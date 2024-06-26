@@ -20,7 +20,7 @@
     <div class="date-navigation">
         <span>{{ date('l, j F Y', strtotime($selectedDate)) }}</span>
     </div>
-    
+
     <form method="GET" action="{{ route('key-lending.viewToday') }}" class="options">
         <label for="room">Filter by Room:</label>
         <select name="room_id" id="room" onchange="this.form.submit()">
@@ -119,24 +119,33 @@
         <h4 id="modalTitle">Modal Title</h4>
         <form id="keyActionForm" method="POST" value="">
             @csrf
-            
+
             <input type="hidden" id="modalLendAction" name="formActionLend" value='' data-old-action="{{ old('formActionLend') }}">
             <input type="hidden" id="modalTitleForm" name="modalTitle" value='' data-old-value="{{ old('modalTitle') }}">
             <input type="hidden" id="modalMsgForm" name="modalMsg" value='' data-old-value="{{ old('modalMsg') }}">
             <input type="hidden" id="scheduleId" name="schedule_id">
             <input type="hidden" id="actionType" name="action_type">
             <div class="modal-body">
+                @if(auth()->user() && auth()->user()->role === 'Admin')
+                <p id="">Are you sure you want to Lend Key?</p>
+                @else
                 <p id="modalMessage">Please enter your password:</p>
                 <input type="password" name="password" class="form-control" required>
                 <div id="modalAlert" style="margin-top: 10px;"></div>
-                
+                @endif
+
                 @error('password', 'keyLending') <span class="text-danger">{{ $message }}</span> @enderror
                 <div class="form-actions">
                     <div class="close-user-button">
                         <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
                     </div>
+
                     <div class="save-user-button">
+                        @if(auth()->user() && auth()->user()->role === 'Admin')
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>Yes</button>
+                        @else
                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>Submit</button>
+                        @endif
                     </div>
                 </div>
             </div>

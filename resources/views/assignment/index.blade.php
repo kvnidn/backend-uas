@@ -90,6 +90,7 @@
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
                 </select>
+                <br>
                 @error('user_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
@@ -100,6 +101,7 @@
                         <option value="{{ $kelas->id }}">{{ $kelas->prodi }}-{{ $kelas->subject->name }}-{{ $kelas->class }}</option>
                     @endforeach
                 </select>
+                <br>
                 @error('kelas_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">
@@ -132,6 +134,7 @@
                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
                 </select>
+                <br>
                 @error('user_id', 'editAssignment') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
@@ -142,6 +145,7 @@
                         <option value="{{ $kelas->id }}">{{ $kelas->prodi }}-{{ $kelas->subject->name }}-{{ $kelas->class }}</option>
                     @endforeach
                 </select>
+                <br>
                 @error('kelas_id', 'editAssignment') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-actions">

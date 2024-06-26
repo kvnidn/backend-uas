@@ -72,7 +72,7 @@ class KeyLendingController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
         ]);
-       
+
         return redirect('key-lending/')->with('status', 'Key lending updated');
     }
 
@@ -96,6 +96,11 @@ class KeyLendingController extends Controller
 
     public function verifyAndUpdateStart(Request $request, $id)
     {
+        if (auth()->check() && auth()->user()->role == 'Admin') {
+            $this->createKeyLending($id);
+            return redirect()->back()->with('status', 'Key lending start time saved.');
+        }
+
         $validator = Validator::make($request->all(),[
             'password' => 'required',
         ]);
@@ -114,14 +119,17 @@ class KeyLendingController extends Controller
                         ->withErrors($validator, 'keyLending')
                         ->withInput();
         }
-    
+
         return redirect()->back()->with('status', 'Key lending start time saved.');
     }
 
-
-
     public function verifyAndUpdateEnd(Request $request, $id)
     {
+        if (auth()->check() && auth()->user()->role == 'Admin') {
+            $this->createKeyLendingEnd($id);
+            return redirect()->back()->with('status', 'Key lending start time saved.');
+        }
+
         $validator = Validator::make($request->all(),[
             'password' => 'required',
         ]);
@@ -140,19 +148,19 @@ class KeyLendingController extends Controller
                         ->withErrors($validator, 'keyLending')
                         ->withInput();
         }
-    
+
         return redirect()->back()->with('status', 'Key lending end time saved.');
     }
-    
+
     public function viewToday(Request $request)
     {
         $selectedRoomId = $request->input('room_id');
         $selectedDate = now()->format('Y-m-d');
         $title = "KeyLending";
-    
+
         // Fetch all rooms
         $allRoom = Room::orderBy('room_number')->get();
-    
+
         // Fetch key lending records for today
         $query = Schedule::whereDate('date', $selectedDate)->orderBy('start_time')
         ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
@@ -160,16 +168,34 @@ class KeyLendingController extends Controller
         ->join('subject', 'kelas.subject_id', '=', 'subject.id')
         ->orderBy('subject.name')
         ->select('schedule.*');
-    
+
         if ($selectedRoomId) {
             $query->where('room_id', $selectedRoomId);
         }
-    
+
         $schedule = $query
         ->get();
         $keyLendings = KeyLending::whereDate('created_at', $selectedDate)->orderBy('start_time')->get();
-    
+
         return view('key-lending.view', compact('title', 'keyLendings', 'selectedDate', 'schedule', 'selectedRoomId', 'allRoom'));
     }
-    
+
+    // Only available for Admin
+    private function createKeyLending($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        KeyLending::create([
+            'schedule_id' => $schedule->id,
+            'start_time' => now(),
+            'end_time' => now(),
+        ]);
+    }
+
+    private function createKeyLendingEnd($id)
+    {
+        $schedule = Schedule::findOrFail($id);
+        KeyLending::where('schedule_id', $schedule->id)->update([
+            'end_time' => now(),
+        ]);
+    }
 }

@@ -13,16 +13,16 @@ function updateClock() {
         var hours = now.getHours();
         var minutes = now.getMinutes();
         var seconds = now.getSeconds();
-    
+
         // Pad single digit numbers with a leading zero
         date = (date < 10 ? '0' : '') + date;
         hours = (hours < 10 ? '0' : '') + hours;
         minutes = (minutes < 10 ? '0' : '') + minutes;
         seconds = (seconds < 10 ? '0' : '') + seconds;
-    
+
         var currentDateString = day + ', ' + date + ' ' + month + ' ' + year;
         var currentTimeString =  hours + ':' + minutes + ':' + seconds;
-    
+
         currentDate.textContent = currentDateString;
         currentTime.textContent = currentTimeString;
     }
@@ -79,7 +79,7 @@ if(document.getElementById('keyActionModal')) {
         editForm.action = formAction.getAttribute('data-old-action');
         console.log(formAction.value);
     }
-    
+
     // Handle click on lend button
     var lendButtons = document.querySelectorAll('.lend-btn');
     lendButtons.forEach(function (button) {
@@ -91,19 +91,21 @@ if(document.getElementById('keyActionModal')) {
             document.getElementById('modalTitle').textContent = 'Lend Key';
             document.getElementById('modalTitleForm').value = 'Lend Key';
             modalTitle.value = 'Lend Key';
-            
-            document.getElementById('modalMessage').textContent = 'Please enter your password to lend the key:';
-            document.getElementById('modalMsgForm').value = 'Please enter your password to lend the key:';
-            modalMessage.value = 'Please enter your password to lend the key:';
-            
+
+            if (document.getElementById('modalMessage')) {
+                document.getElementById('modalMessage').textContent = 'Please enter your password to lend the key:';
+                document.getElementById('modalMsgForm').value = 'Please enter your password to lend the key:';
+                modalMessage.value = 'Please enter your password to lend the key:';
+            }
+
             var actionUrl = '/key-lending/' + scheduleId + '/verify-update-start';
             document.getElementById('modalLendAction').value = '/key-lending/' + scheduleId + '/verify-update-start';
             editForm.action = actionUrl;
-            
+
             keyModal.style.display = 'block';
         });
     });
-    
+
     // Handle click on return button
     var returnButtons = document.querySelectorAll('.return-btn');
     returnButtons.forEach(function (button) {
@@ -116,14 +118,16 @@ if(document.getElementById('keyActionModal')) {
             document.getElementById('modalTitleForm').value = 'Return Key';
             modalTitle.value = 'Return Key';
 
-            document.getElementById('modalMessage').textContent = 'Please enter your password to return the key:';
-            document.getElementById('modalMsgForm').value = 'Please enter your password to return the key:';
-            modalMessage.value = 'Please enter your password to return the key:';
+            if (document.getElementById('modalMessage')) {
+                document.getElementById('modalMessage').textContent = 'Please enter your password to return the key:';
+                document.getElementById('modalMsgForm').value = 'Please enter your password to return the key:';
+                modalMessage.value = 'Please enter your password to return the key:';
+            }
 
             var actionUrl = '/key-lending/' + scheduleId + '/verify-update-end';
             document.getElementById('modalLendAction').value = '/key-lending/' + scheduleId + '/verify-update-end';
             editForm.action = actionUrl;
-            
+
             keyModal.style.display = 'block';
         });
     });
@@ -137,6 +141,11 @@ if(document.getElementById('keyActionModal')) {
             var alerts = document.querySelectorAll('#keyActionModal .alert');
             alerts.forEach(function (alert) {
                 alert.parentNode.removeChild(alert);
+            });
+
+            var errorMessages = document.querySelectorAll('#keyActionModal .text-danger');
+            errorMessages.forEach(function (error) {
+                error.parentNode.removeChild(error);
             });
         });
     });
@@ -170,16 +179,16 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
         const assignmentField = document.getElementById('assignment_id');
         const roomField = document.getElementById('room_id');
         const repeatField = document.getElementById('repeat');
-        
+
         dateField.value = dateField.getAttribute('data-old-value');
         startField.value = startField.getAttribute('data-old-value');
         endField.value = endField.getAttribute('data-old-value');
         assignmentField.value = assignmentField.getAttribute('data-old-value');
         roomField.value = roomField.getAttribute('data-old-value');
         repeatField.value = repeatField.getAttribute('data-old-value');
-        
+
     }
-    
+
     const editForm = document.getElementById('editForm');
     if (getComputedStyle(editModalSchedule).display === 'block' || editModalSchedule.classList.contains('open')) {
         const dateField = document.getElementById('modalDate');
@@ -188,7 +197,7 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
         const assignmentField = document.getElementById('modalAssignment');
         const roomField = document.getElementById('modalRoom');
         const formAction = document.getElementById('modalScheduleAction');
-        
+
         dateField.value = dateField.getAttribute('data-old-value');
         startField.value = startField.getAttribute('data-old-value');
         endField.value = endField.getAttribute('data-old-value');
@@ -207,7 +216,7 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             var end = this.getAttribute('data-end');
             var assignmentId = this.getAttribute('data-assignment-id');
             var roomId = this.getAttribute('data-room-id');
-            
+
             document.getElementById('modalDate').value = date;
             document.getElementById('modalStart').value = start;
             document.getElementById('modalEnd').value = end;
@@ -215,11 +224,11 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             document.getElementById('modalRoom').value = roomId;
             document.getElementById('modalScheduleAction').value = 'schedule/' + scheduleId + '/edit';
             editForm.action = 'schedule/' + scheduleId + '/edit';
-            
+
             editModalSchedule.style.display = "block";
         };
     });
-    
+
     const editFormBatch = document.getElementById('editFormBatch');
     if (getComputedStyle(editModalScheduleBatch).display === 'block' || editModalScheduleBatch.classList.contains('open')) {
         // const dateField = document.getElementById('modalDateBatch');
@@ -228,7 +237,7 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
         const assignmentField = document.getElementById('modalAssignmentBatch');
         const roomField = document.getElementById('modalRoomBatch');
         const formActionBatch = document.getElementById('modalScheduleActionBatch');
-        
+
         // dateField.value = dateField.getAttribute('dataoldvalue');
         startField.value = startField.getAttribute('data-old-value');
         endField.value = endField.getAttribute('data-old-value');
@@ -242,7 +251,7 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
             input.value = input.getAttribute('data-old-value');
         });
     }
-    
+
     // Open batch edit modal on edit button click
     document.querySelectorAll('.batch-edit-button-schedule').forEach(function(button) {
         button.onclick = function() {
@@ -282,16 +291,28 @@ if(document.getElementById('createModalSchedule') || document.getElementById('ed
     // When the user clicks on <span> (x), close the create modal
     closecreateModalSchedule.onclick = function() {
         createModalSchedule.style.display = "none";
+        var errorMessages = document.querySelectorAll('#createModalSchedule .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks on <span> (x), close the edit modal
     closeeditModalSchedule.onclick = function() {
         editModalSchedule.style.display = "none";
+        var errorMessages = document.querySelectorAll('#editModalSchedule .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
-    
+
     // When the user clicks on <span> (x), close the batch edit modal
     closeeditModalScheduleBatch.onclick = function() {
         editModalScheduleBatch.style.display = "none";
+        var errorMessages = document.querySelectorAll('#editModalScheduleBatch .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks anywhere outside of the modals, close them
@@ -343,7 +364,7 @@ if(document.getElementById('createModalAssignment') || document.getElementById('
         const userField = document.getElementById('user_id');
         const subjectField = document.getElementById('subject_id');
         const classField = document.getElementById('kelas_id');
-        
+
         if (userField) {
             userField.value = userField.getAttribute('data-old-value');
         }
@@ -351,13 +372,13 @@ if(document.getElementById('createModalAssignment') || document.getElementById('
             classField.value = classField.getAttribute('data-old-value');
         }
     }
-    
+
     const editForm = document.getElementById('editForm');
     if (getComputedStyle(editModalAssignment).display === 'block' || editModalAssignment.classList.contains('open')) {
         const userField = document.getElementById('modalUser');
         const classField = document.getElementById('modalClass');
         const formAction = document.getElementById('modalAssignmentAction');
-        
+
         userField.value = userField.getAttribute('data-old-value');
         classField.value = classField.getAttribute('data-old-value');
         formAction.value = formAction.getAttribute('data-old-action');
@@ -383,11 +404,19 @@ if(document.getElementById('createModalAssignment') || document.getElementById('
     // When the user clicks on <span> (x), close the create modal
     closecreateModalAssignment.onclick = function() {
         createModalAssignment.style.display = "none";
+        var errorMessages = document.querySelectorAll('#createModalAssignment .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks on <span> (x), close the edit modal
     closeeditModalAssignment.onclick = function() {
         editModalAssignment.style.display = "none";
+        var errorMessages = document.querySelectorAll('#editModalAssignment .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks anywhere outside of the modals, close them
@@ -419,15 +448,15 @@ if(document.getElementById('createModalSubject') || document.getElementById('edi
 
     if (getComputedStyle(createModalSubject).display === 'block' || createModalSubject.classList.contains('open')) {
         const nameField = document.getElementById('name');
-        
+
         nameField.value = nameField.getAttribute('data-old-value');
     }
-    
+
     const editForm = document.getElementById('editForm');
     if (getComputedStyle(editModalSubject).display === 'block' || editModalSubject.classList.contains('open')) {
         const nameField = document.getElementById('modalSubjectName');
         const formAction = document.getElementById('modalSubjectAction');
-        
+
         nameField.value = nameField.getAttribute('data-old-value');
         formAction.value = formAction.getAttribute('data-old-action');
         editForm.action = formAction.getAttribute('data-old-action');
@@ -451,12 +480,22 @@ if(document.getElementById('createModalSubject') || document.getElementById('edi
     // When the user clicks on <span> (x), close the create modal
     closecreateModalSubject.onclick = function() {
         createModalSubject.style.display = "none";
+        var errorMessages = document.querySelectorAll('#createModalSubject .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
+
 
     // When the user clicks on <span> (x), close the edit modal
     closeeditModalSubject.onclick = function() {
         editModalSubject.style.display = "none";
+        var errorMessages = document.querySelectorAll('#editModalSubject .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
+
 
     // When the user clicks anywhere outside of the modals, close them
     window.onclick = function(event) {
@@ -487,17 +526,17 @@ if(document.getElementById('createModalRoom') || document.getElementById('editMo
 
     if (getComputedStyle(createModalRoom).display === 'block' || createModalRoom.classList.contains('open')) {
         const roomField = document.getElementById('room_number');
-        
+
         if (roomField) {
             roomField.value = roomField.getAttribute('data-old-value');
         }
     }
-    
+
     const editForm = document.getElementById('editForm');
     if (getComputedStyle(editModalRoom).display === 'block' || editModalRoom.classList.contains('open')) {
         const roomField = document.getElementById('modalRoomNumber');
         const formAction = document.getElementById('modalRoomAction');
-        
+
         roomField.value = roomField.getAttribute('data-old-value');
         formAction.value = formAction.getAttribute('data-old-action');
         editForm.action = formAction.getAttribute('data-old-action');
@@ -521,11 +560,19 @@ if(document.getElementById('createModalRoom') || document.getElementById('editMo
     // When the user clicks on <span> (x), close the create modal
     closecreateModalRoom.onclick = function() {
         createModalRoom.style.display = "none";
+        var errorMessages = document.querySelectorAll('#createModalRoom .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks on <span> (x), close the edit modal
     closeeditModalRoom.onclick = function() {
         editModalRoom.style.display = "none";
+        var errorMessages = document.querySelectorAll('#editModalRoom .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks anywhere outside of the modals, close them
@@ -559,7 +606,7 @@ if(document.getElementById('createModalClass') || document.getElementById('editM
         const prodiField = document.getElementById('prodi');
         const subjectField = document.getElementById('subject_id');
         const classField = document.getElementById('class');
-        
+
         if (prodiField) {
             prodiField.value = prodiField.getAttribute('data-old-value');
         }
@@ -570,14 +617,14 @@ if(document.getElementById('createModalClass') || document.getElementById('editM
             classField.value = classField.getAttribute('data-old-value');
         }
     }
-    
+
     const editForm = document.getElementById('editForm');
     if (getComputedStyle(editModalClass).display === 'block' || editModalClass.classList.contains('open')) {
         const prodiField = document.getElementById('modalProdi');
         const subjectField = document.getElementById('modalSubject');
         const classField = document.getElementById('modalClass');
         const formAction = document.getElementById('modalClassAction');
-        
+
         prodiField.value = prodiField.getAttribute('data-old-value');
         subjectField.value = subjectField.getAttribute('data-old-value');
         classField.value = classField.getAttribute('data-old-value');
@@ -606,11 +653,19 @@ if(document.getElementById('createModalClass') || document.getElementById('editM
     // When the user clicks on <span> (x), close the create modal
     closecreateModalClass.onclick = function() {
         createModalClass.style.display = "none";
+        var errorMessages = document.querySelectorAll('#createModalClass .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks on <span> (x), close the edit modal
     closeeditModalClass.onclick = function() {
         editModalClass.style.display = "none";
+        var errorMessages = document.querySelectorAll('#editModalClass .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks anywhere outside of the modals, close them
@@ -646,11 +701,11 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
         const nameField = document.getElementById('name');
         const emailField = document.getElementById('email');
         const passwordField = document.getElementById('password');
-        
+
         nameField.value = nameField.getAttribute('data-old-value');
         emailField.value = emailField.getAttribute('data-old-value');
         passwordField.value = passwordField.getAttribute('data-old-value');
-        
+
         if (document.querySelector('input[name="role"][data-old-value]:checked')) {
             const oldRole = document.querySelector('input[name="role"][data-old-value]:checked').getAttribute('data-old-value');
             if (oldRole === 'Admin') {
@@ -662,14 +717,14 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
             }
         }
     }
-    
+
     const editForm = document.getElementById('editForm');
     if (getComputedStyle(editModalUser).display === 'block' || editModalUser.classList.contains('open')) {
         const nameField = document.getElementById('modalUserName');
         const emailField = document.getElementById('modalUserEmail');
         const passwordField = document.getElementById('modalUserPassword');
         const formAction = document.getElementById('modalUserAction');
-        
+
         nameField.value = nameField.getAttribute('data-old-value');
         emailField.value = emailField.getAttribute('data-old-value');
         passwordField.value = passwordField.getAttribute('data-old-value');
@@ -706,11 +761,19 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
     // When the user clicks on <span> (x), close the create modal
     closecreateModalUser.onclick = function() {
         createModalUser.style.display = "none";
+        var errorMessages = document.querySelectorAll('#createModalUser .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks on <span> (x), close the edit modal
     closeeditModalUser.onclick = function() {
         editModalUser.style.display = "none";
+        var errorMessages = document.querySelectorAll('#editModalUser .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks anywhere outside of the modals, close them
@@ -748,6 +811,10 @@ if (document.getElementById('loginModal')) {
     // When the user clicks on <span> (x), close the create modal
     closeloginModal.onclick = function() {
         loginModal.style.display = "none";
+        var errorMessages = document.querySelectorAll('#loginModal .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks anywhere outside of the modals, close them
@@ -777,7 +844,7 @@ if (document.getElementById('editProfileModal')) {
     if (getComputedStyle(editProfileModal).display === 'block' || editProfileModal.classList.contains('open')) {
         const nameField = document.getElementById('modalProfileName');
         const emailField = document.getElementById('modalProfileEmail');
-        
+
         nameField.value = nameField.getAttribute('data-old-value');
         emailField.value = emailField.getAttribute('data-old-value');
     }
@@ -785,6 +852,10 @@ if (document.getElementById('editProfileModal')) {
     // When the user clicks on <span> (x), close the create modal
     closeEditProfileModal.onclick = function() {
         editProfileModal.style.display = "none";
+        var errorMessages = document.querySelectorAll('#editProfileModal .text-danger');
+        errorMessages.forEach(function (error) {
+            error.parentNode.removeChild(error);
+        });
     };
 
     // When the user clicks anywhere outside of the modals, close them
