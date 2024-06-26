@@ -58,19 +58,19 @@
             @csrf
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" name="name" id="name" value="" data-old-value="{{ old('name') }}" placeholder="Required"/>
+                <input type="text" name="name" id="nameCreate" value="" data-old-value="{{ old('name') }}" placeholder="Required"/>
                 <br>
                 @error('name', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="text" name="email" id="email" value="" data-old-value="{{ old('email') }}" placeholder="Required"/>
+                <input type="text" name="email" id="emailCreate" value="" data-old-value="{{ old('email') }}" placeholder="Required"/>
                 <br>
                 @error('email', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" id="password" value="" data-old-value="{{ old('password') }}" placeholder="Required"/>
+                <input type="password" name="password" id="passwordCreate" value="" data-old-value="{{ old('password') }}" placeholder="Required"/>
                 <br>
                 @error('password', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
             </div>

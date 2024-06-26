@@ -736,9 +736,9 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
     }
 
     if (getComputedStyle(createModalUser).display === 'block' || createModalUser.classList.contains('open')) {
-        const nameField = document.getElementById('name');
-        const emailField = document.getElementById('email');
-        const passwordField = document.getElementById('password');
+        const nameField = document.getElementById('nameCreate');
+        const emailField = document.getElementById('emailCreate');
+        const passwordField = document.getElementById('passwordCreate');
 
         nameField.value = nameField.getAttribute('data-old-value');
         emailField.value = emailField.getAttribute('data-old-value');
@@ -804,9 +804,9 @@ if(document.getElementById('createModalUser') || document.getElementById('editMo
             error.parentNode.removeChild(error);
         });
 
-        document.getElementById('name').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('password').value = '';
+        document.getElementById('nameCreate').value = '';
+        document.getElementById('emailCreate').value = '';
+        document.getElementById('passwordCreate').value = '';
         document.querySelectorAll('input[name="role"]').forEach(function (radio) {
             radio.checked = false;
         });

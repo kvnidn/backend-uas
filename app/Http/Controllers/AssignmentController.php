@@ -79,15 +79,24 @@ class AssignmentController extends Controller
 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:user,id',
-            'kelas_id' => 'required|unique:assignment,kelas_id,NULL,id,user_id,' . $request->user_id,
-        ],[
-            'kelas_id.unique' => 'This assignment already exists'
+            'kelas_id' => 'required|exists:kelas,id',
         ]);
         
-
         if ($validator->fails()) {
             return redirect()->back()
                         ->withErrors($validator, 'createAssignment')
+                        ->withInput();
+        }
+        
+        $uniqueValidator = Validator::make($request->all(), [
+            'kelas_id' => 'unique:assignment,kelas_id,NULL,id,user_id,' . $request->user_id,
+        ], [
+            'kelas_id.unique' => 'This assignment already exists'
+        ]);
+        
+        if ($uniqueValidator->fails()) {
+            return redirect()->back()
+                        ->withErrors($uniqueValidator, 'createAssignment')
                         ->withInput();
         }
 

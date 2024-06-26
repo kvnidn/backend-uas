@@ -35,17 +35,26 @@ class KelasController extends Controller
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'prodi'=> 'required|string',
-            'subject_id'=>'required|exists:subject,id',
-            'class'=>'required|string|unique:kelas,class,NULL,id,subject_id,'.$request->subject_id.',prodi,'.$request->prodi,
+        $initialValidator = Validator::make($request->all(), [
+            'prodi' => 'required|string',
+            'subject_id' => 'required|exists:subject,id',
+        ]);
+        
+        if ($initialValidator->fails()) {
+            return redirect()->back()
+                        ->withErrors($initialValidator, 'createClass')
+                        ->withInput();
+        }
+        
+        $uniqueValidator = Validator::make($request->all(), [
+            'class' => 'required|string|unique:kelas,class,NULL,id,subject_id,' . $request->subject_id . ',prodi,' . $request->prodi,
         ], [
             'class.unique' => 'This class already exists',
         ]);
-
-        if ($validator->fails()) {
+        
+        if ($uniqueValidator->fails()) {
             return redirect()->back()
-                        ->withErrors($validator, 'createClass')
+                        ->withErrors($uniqueValidator, 'createClass')
                         ->withInput();
         }
 
