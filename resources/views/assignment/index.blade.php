@@ -91,8 +91,9 @@
                     @endforeach
                 </select>
                 <br>
-                @error('user_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('user_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-group">
                 <label>Class</label>
                 <select name="kelas_id" id="kelas_id" data-old-value="{{ old('kelas_id') }}">
@@ -102,8 +103,29 @@
                     @endforeach
                 </select>
                 <br>
-                @error('kelas_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('kelas_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->createAssignment->any())
+                <div class="form-errors">
+                    @error('user_id', 'createAssignment') 
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                    
+                    @error('kelas_id', 'createAssignment')
+                        @if ($message) 
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> 
+                        @endif
+                    @enderror
+                </div>
+            @endif
+
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
