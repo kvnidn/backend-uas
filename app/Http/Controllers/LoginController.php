@@ -10,8 +10,7 @@ class LoginController extends Controller
 {
     //
     public function index() {
-        $title = 'Login';
-        return view('login/index', compact('title'));
+        return redirect('/');
     }
 
     public function authentication(Request $request) {
@@ -35,7 +34,7 @@ class LoginController extends Controller
                 $request->session()->regenerate();
             }
 
-            return redirect()->intended('/');
+            return redirect('/');
         }
 
         return back()->with('loginError', 'Incorrect e-mail or password');
