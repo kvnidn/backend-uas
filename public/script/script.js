@@ -857,6 +857,8 @@ if (document.getElementById('loginModal')) {
     closeloginModal.onclick = function() {
         loginModal.style.display = "none";
         var errorMessages = document.querySelectorAll('#loginModal .text-danger');
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
         errorMessages.forEach(function (error) {
             error.parentNode.removeChild(error);
         });

@@ -28,6 +28,7 @@ Route::prefix('user')->middleware(['auth'])->group(function() {
     Route::put('{id}/edit', [UserController::class, 'update']);
     Route::get('{id}/editProfile', [UserController::class, 'editProfile']);
     Route::put('{id}/editProfile', [UserController::class, 'updateProfile']);
+    Route::get('{id}/delete', [UserController::class, 'destroy']);
 });
 
 // Room
@@ -104,13 +105,6 @@ Route::prefix('class')->middleware(['auth', 'role:Admin'])->group(function () {
     Route::put('{id}/edit', [KelasController::class, 'update']);
     Route::get('{id}/delete', [KelasController::class, 'destroy']);
 });
-
-// Route::get('/key-lending', [KeyLendingController::class, 'index'])->middleware('auth')->name('key-lending.index');
-// Route::get('/key-lending/create', [KeyLendingController::class, 'create'])->middleware('auth');
-// Route::post('/key-lending/create', [KeyLendingController::class, 'store']);
-// Route::get('/key-lending/{id}/edit', [KeyLendingController::class, 'edit'])->middleware('auth');
-// Route::put('/key-lending/{id}/edit', [KeyLendingController::class, 'update']);
-// Route::get('/key-lending/{id}/delete', [KeyLendingController::class, 'destroy'])->middleware('auth');
 
 Route::get('/create-user', [UserController::class,'createUser']);
 
