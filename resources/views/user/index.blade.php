@@ -60,28 +60,68 @@
                 <label>Name</label>
                 <input type="text" name="name" id="nameCreate" value="" data-old-value="{{ old('name') }}" placeholder="Required"/>
                 <br>
-                @error('name', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('name', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-group">
                 <label>Email</label>
                 <input type="text" name="email" id="emailCreate" value="" data-old-value="{{ old('email') }}" placeholder="Required"/>
                 <br>
-                @error('email', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('email', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" name="password" id="passwordCreate" value="" data-old-value="{{ old('password') }}" placeholder="Required"/>
                 <br>
-                @error('password', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('password', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-group">
                 <label>Role</label>
                 <input type="radio" name="role" value="Admin" id="roleAdmin" data-old-value="{{ old('role') }}"> Admin
                 <input type="radio" name="role" value="Lecturer" id="roleLecturer" data-old-value="{{ old('role') }}"> Lecturer
                 <input type="radio" name="role" value="Assistant" id="roleAssistant" data-old-value="{{ old('role') }}"> Assistant
                 <br>
-                @error('role', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('role', 'createUser') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->createUser->any())
+                <div class="form-errors">
+                    @error('name', 'createUser')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('email', 'createUser')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('password', 'createUser')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('role', 'createUser')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
+
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</span>
@@ -109,28 +149,68 @@
                 <label>Name</label>
                 <input type="text" name="name" id="modalUserName" value="" data-old-value="{{ old('name') }}"/>
                 <br>
-                @error('name', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('name', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-group">
                 <label>Email</label>
                 <input type="text" name="email" id="modalUserEmail" value="" data-old-value="{{ old('email') }}"/>
                 <br>
-                @error('email', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('email', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-group">
                 <label>New Password</label>
                 <input type="password" name="password" id="modalUserPassword" value="" data-old-value="{{ old('password') }}" placeholder="Optional"/>
                 <br>
-                @error('password', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('password', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-group">
                 <label>Role</label>
                 <input type="radio" name="role" value="Admin" id="modalRoleAdmin" {{ old('role') == 'Admin' ? 'checked' : '' }} data-old-value="{{ old('role') }}"> Admin
                 <input type="radio" name="role" value="Lecturer" id="modalRoleLecturer" {{ old('role') == 'Lecturer' ? 'checked' : '' }} data-old-value="{{ old('role') }}"> Lecturer
                 <input type="radio" name="role" value="Assistant" id="modalRoleAssistant" {{ old('role') == 'Assistant' ? 'checked' : '' }} data-old-value="{{ old('role') }}"> Assistant
                 <br>
-                @error('role', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('role', 'editUser') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->editUser->any())
+                <div class="form-errors">
+                    @error('name', 'editUser')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('email', 'editUser')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('password', 'editUser')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('role', 'editUser')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
+            
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</span>
