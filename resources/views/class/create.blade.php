@@ -32,7 +32,7 @@
                                 <option value="TI">TI</option>
                                 <option value="SI">SI</option>
                             </select>
-                            @error('prodi') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('prodi') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-name">
@@ -43,7 +43,7 @@
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
                             </select>
-                            @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-class">
@@ -54,8 +54,36 @@
                                     <option value="{{ $char }}">{{ $char }}</option>
                                 @endforeach
                             </select>
-                            @error('class') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('class') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
+
+                        @if($errors->any())
+                            <div class="form-errors">
+                                @error('prodi') 
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> <br>
+                                    @endif
+                                @enderror
+                                
+                                @error('subject_id')
+                                    @if ($message) 
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> <br>
+                                    @endif
+                                @enderror
+
+                                @error('class')
+                                    @if ($message) 
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> 
+                                    @endif
+                                @enderror
+                            </div>
+                        @endif
 
                         <div class="save-user-button">
                             <button type="submit">Save</button>

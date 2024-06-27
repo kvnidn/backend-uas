@@ -69,7 +69,7 @@
                     <option value="SI">SI</option>
                 </select>
                 <br>
-                @error('prodi', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('prodi', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -81,7 +81,7 @@
                     @endforeach
                 </select>
                 <br>
-                @error('subject_id', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('subject_id', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -93,8 +93,36 @@
                     @endforeach
                 </select>
                 <br>
-                @error('class', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('class', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->createClass->any())
+                <div class="form-errors">
+                    @error('prodi', 'createClass')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                    
+                    @error('subject_id', 'createClass')
+                        @if ($message) 
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('class', 'createClass')
+                        @if ($message) 
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
 
             <div class="form-actions">
                 <div class="close-user-button">
@@ -126,7 +154,7 @@
                     <option value="SI">SI</option>
                 </select>
                 <br>
-                @error('prodi', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('prodi', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -138,7 +166,7 @@
                     @endforeach
                 </select>
                 <br>
-                @error('subject_id', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('subject_id', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -150,8 +178,36 @@
                     @endforeach
                 </select>
                 <br>
-                @error('class', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('class', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->editClass->any())
+                <div class="form-errors">
+                    @error('prodi', 'editClass')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                    
+                    @error('subject_id', 'editClass')
+                        @if ($message) 
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('class', 'editClass')
+                        @if ($message) 
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @endif
+                    @enderror
+                </div>
+            @endif
 
             <div class="form-actions">
                 <div class="close-user-button">
