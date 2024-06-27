@@ -153,33 +153,38 @@
                 <label>Name</label>
                 <input type="text" name="name" id="modalProfileName" value="{{  auth()->user()->name }}" data-old-value="{{ old('name') }}"/>
                 <br>
-                @error('name', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('name', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-email">
                 <label>Email</label>
                 <input type="text" name="email" id="modalProfileEmail" value="{{  auth()->user()->email }}" data-old-value="{{ old('email') }}"/>
                 <br>
-                @error('email', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('email', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-password">
                 <label>Current Password</label>
                 <input type="password" name="password" value="" placeholder="required"/>
                 <br>
-                @error('password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
                 <br>
             </div>
+
             <div class="form-password">
                 <label>New Password</label>
                 <input type="password" name="new_password" value="" placeholder="optional"/>
                 <br>
-                @error('new_password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('new_password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-password">
                 <label>Confirm Password</label>
                 <input type="password" name="confirm_new_password" value="" placeholder="optional"/>
                 <br>
-                @error('confirm_new_password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('confirm_new_password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
             <div class="form-role">
                 <label>Role</label>
                 @if (auth()->user()->role == 'Lecturer')
@@ -192,8 +197,61 @@
                 <input type="radio" name="role" value="Assistant" {{ auth()->user()->role == 'Assistant' ? 'checked': '' }}> Assistant
                 @endif
                 <br>
-                @error('role') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('role') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->editProfile->any() || $errors->any())
+                <div class="form-errors">
+                    @error('name', 'editProfile')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('email', 'editProfile')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('password', 'editProfile')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('new_password', 'editProfile')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('confirm_new_password', 'editProfile') 
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('role')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
+
             <div class="save-user-button">
                 <button type="submit">Update</button>
             </div>

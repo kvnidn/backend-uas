@@ -922,7 +922,11 @@ input[type=password], select, textarea {
 }
 
 .form-group,
-.form-remember {
+.form-remember,
+.form-name,
+.form-email,
+.form-password,
+.form-role {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
@@ -939,7 +943,12 @@ input[type=password], select, textarea {
 }
 
 .form-group label,
-.form-remember label {
+.form-remember label,
+.form-name label,
+.form-email label,
+.form-password label,
+.form-role label {
+    flex: 1;
     width: 150px;
     margin-right: 20px;
     text-align: right;
@@ -948,7 +957,11 @@ input[type=password], select, textarea {
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-name input,
+.form-email input,
+.form-password input,
+.form-role input {
     flex: 2;
     padding: 8px;
     font-size: 80%;
