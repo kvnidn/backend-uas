@@ -148,7 +148,7 @@ class UserController extends Controller
         // Validate current password if user is not admin
         if (auth()->user()->role !== 'Admin') {
             if (!Hash::check($request->input('password'), $user->password)) {
-                return redirect()->back()->withErrors(['password' => 'Current password is incorrect']);
+                return redirect()->back()->with(['password' => 'Current password is incorrect']);
             }
         }
     

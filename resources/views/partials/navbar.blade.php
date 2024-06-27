@@ -4,11 +4,16 @@
         <div class="header">
             <img src="../assets/FTIUntarWhite.png" alt="FTI Untar" height="50px">
             @auth
-            @if (auth()->user()->role != 'Admin')
-            <a id="openEditProfileModal">Edit Profile <i class="fa-solid fa-pen-to-square"></i></a>
-            @endif
             <p style="font-size: 14px;" class="greetings">Welcome back, </br>
-                <span style="font-weight: 900; font-size: 20px;">{{ auth()->user()->name }}</span></p>
+                <span @if (auth()->user()->role != 'Admin')
+                        id="openEditProfileModal" style="cursor:pointer;font-weight: 900; font-size: 20px;"
+                    @endif
+                    style="font-weight: 900; font-size: 20px;">{{ auth()->user()->name }}
+                    @if (auth()->user()->role != 'Admin')
+                        <a><i class="fa-solid fa-pen-to-square fa-xs"></i></a>
+                    @endif
+                </span>
+            </p>
             @else
                 <a class="{{ ($title === "Login") ? "active" : "" }}" id="openLoginModal">Login</a>
             @endauth
@@ -133,7 +138,7 @@
 
 @auth
 <!-- Edit User Profile Modal -->
-<div id="editProfileModal" class="modal {{ $errors->editProfile->any() ? 'open' : '' }}">
+<div id="editProfileModal" class="modal {{ $errors->editProfile->any() || session('password') ? 'open' : '' }}">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h4>Edit User</h4>
@@ -143,13 +148,13 @@
 
             <div class="form-name">
                 <label>Name</label>
-                <input type="text" name="name" id="modalProfileName" value="{{  auth()->user()->name }}" data-old-value="{{ old('name') }}"/>
+                <input type="text" name="name" id="modalProfileName" value="{{  old('name', auth()->user()->name) }}" data-old-value="{{ auth()->user()->name }}"/>
                 <br>
             </div>
 
             <div class="form-email">
                 <label>Email</label>
-                <input type="text" name="email" id="modalProfileEmail" value="{{  auth()->user()->email }}" data-old-value="{{ old('email') }}"/>
+                <input type="text" name="email" id="modalProfileEmail" value="{{  old('email', auth()->user()->email) }}" data-old-value="{{ auth()->user()->email }}"/>
                 <br>
             </div>
 
@@ -186,7 +191,7 @@
                 <br>
             </div>
 
-            @if($errors->editProfile->any() || $errors->any())
+            @if($errors->editProfile->any() || $errors->any() || session('password'))
                 <div class="form-errors">
                     @error('name', 'editProfile')
                         @if ($message)
@@ -210,6 +215,12 @@
                                 {{ $message }}
                             </span> <br>
                         @endif
+                    @enderror
+                    
+                    @if(session('password'))
+                        <span class="text-danger">
+                            {{ session('password') }}
+                        </span> <br>
                     @enderror
 
                     @error('new_password', 'editProfile')
