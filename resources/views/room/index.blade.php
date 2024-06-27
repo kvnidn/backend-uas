@@ -73,7 +73,7 @@
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
                 </div>
                 <div class="save-user-button">
-                    <button type="submit"><i class="fa-solid fa-check"></i>Update</button>
+                    <button type="submit"><i class="fa-solid fa-check"></i>Save</button>
                 </div>
             </div>
         </form>
