@@ -54,8 +54,21 @@
                 <label>Room Number</label>
                 <input type="text" name="room_number" id="room_number" data-old-value="{{ old('room_number') }}"/>
                 <br>
-                @error('room_number', 'createRoom') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('room_number', 'createRoom') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->createRoom->any())
+                <div class="form-errors">
+                    @error('room_number', 'createRoom')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
+
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
@@ -83,8 +96,21 @@
                 <label>Room Number</label>
                 <input type="text" name="room_number" id="modalRoomNumber" value="" data-old-value="{{ old('room_number') }}"/>
                 <br>
-                @error('room_number', 'editRoom') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('room_number', 'editRoom') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->editRoom->any())
+                <div class="form-errors">
+                    @error('room_number', 'editRoom')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
+
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>

@@ -22,8 +22,21 @@
                         <div class="form-name">
                             <label>Room Number</label>
                             <input type="text" name="room_number" value="{{  old('room_number') }}"/>
-                            @error('room_number') <span class="">{{ $message }}</span> @enderror
+                            <!-- @error('room_number') <span class="">{{ $message }}</span> @enderror -->
                         </div>
+
+                        @if($errors->any())
+                            <div class="form-errors">
+                                @error('room_number')
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> <br>
+                                    @endif
+                                @enderror
+                            </div>
+                        @endif
+
                         <div class="save-user-button">
                             <button type="submit">Save</button>
                         </div>
