@@ -43,13 +43,13 @@
                             <div class="form-group">
                                 <label for="start_time">Start Time</label>
                                 <input type="time" name="start_time" id="start_time" value="{{$schedule->start_time}}" required>
-                                @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror
+                                <!-- @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror -->
                             </div>
 
                             <div class="form-group">
                                 <label for="end_time">End Time</label>
                                 <input type="time" name="end_time" id="end_time" value="{{$schedule->end_time}}" required>
-                                @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
+                                <!-- @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror -->
                             </div>
 
                             <div class="form-group">
@@ -62,7 +62,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                <!-- @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                             </div>
 
                             <div class="form-group">
@@ -75,10 +75,46 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                <!-- @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                             </div>
 
                             <hr>
+
+                            @if($errors->any())
+                                <div class="form-errors">
+                                    @error('start_time')
+                                        @if ($message)
+                                            <span class="text-danger">
+                                                {{ $message }}
+                                            </span> <br>
+                                        @endif
+                                    @enderror
+
+                                    @error('end_time')
+                                        @if ($message)
+                                            <span class="text-danger">
+                                                {{ $message }}
+                                            </span> <br>
+                                        @endif
+                                    @enderror
+
+                                    @error('assignment_id')
+                                        @if ($message)
+                                            <span class="text-danger">
+                                                {{ $message }}
+                                            </span> <br>
+                                        @endif
+                                    @enderror
+
+                                    @error('room_id')
+                                        @if ($message)
+                                            <span class="text-danger">
+                                                {{ $message }}
+                                            </span> <br>
+                                        @endif
+                                    @enderror
+                                </div>
+                            @endif
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Update Schedules</button>

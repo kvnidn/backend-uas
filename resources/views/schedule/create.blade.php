@@ -33,19 +33,19 @@
                         <div class="form-group">
                             <label for="date">Date</label>
                             <input type="date" name="date" id="date" required>
-                            @error('date') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('date') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
                             <label for="start_time">Start Time</label>
                             <input type="time" name="start_time" id="start_time" required>
-                            @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
                             <label for="end_time">End Time</label>
                             <input type="time" name="end_time" id="end_time" required>
-                            @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
@@ -58,7 +58,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
@@ -71,13 +71,57 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror
+                            <!-- @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
                             <label for="repeat">Repeat (weeks)</label>
                             <input type="number" name="repeat" id="repeat" min="0" max="52" value="0">
                         </div>
+
+                        @if($errors->any())
+                            <div class="form-errors">
+                                @error('date')
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> <br>
+                                    @endif
+                                @enderror
+
+                                @error('start_time')
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> <br>
+                                    @endif
+                                @enderror
+
+                                @error('end_time')
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> <br>
+                                    @endif
+                                @enderror
+
+                                @error('assignment_id')
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> <br>
+                                    @endif
+                                @enderror
+
+                                @error('room_id')
+                                    @if ($message)
+                                        <span class="text-danger">
+                                            {{ $message }}
+                                        </span> <br>
+                                    @endif
+                                @enderror
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Create</button>

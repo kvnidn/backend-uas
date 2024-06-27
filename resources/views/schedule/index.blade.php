@@ -186,19 +186,19 @@
             <div class="form-group">
                 <label for="date">Date</label>
                 <input type="date" name="date" id="date" data-old-value="{{ old('date') }}" required>
-                @error('date', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('date', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
                 <label for="start_time">Start Time</label>
                 <input type="time" name="start_time" id="start_time" data-old-value="{{ old('start_time') }}" required>
-                @error('start_time', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('start_time', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
                 <label for="end_time">End Time</label>
                 <input type="time" name="end_time" id="end_time" data-old-value="{{ old('end_time') }}" required>
-                @error('end_time', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('end_time', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -211,7 +211,7 @@
                         </option>
                     @endforeach
                 </select>
-                @error('assignment_id', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('assignment_id', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -224,14 +224,66 @@
                         </option>
                     @endforeach
                 </select>
-                @error('room_id', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('room_id', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
                 <label for="repeat">Repeat (weeks)</label>
                 <input type="number" name="repeat" id="repeat" min="0" max="52" value="0" data-old-value="{{ old('repeat') }}">
-                @error('schedule', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('schedule', 'createSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->createSchedule->any())
+                <div class="form-errors">
+                    @error('date', 'createSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('start_time', 'createSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('end_time', 'createSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('assignment_id', 'createSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('room_id', 'createSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('schedule', 'createSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
 
             <div class="form-actions">
                 <div class="close-user-button">
@@ -258,21 +310,21 @@
                 <label for="date">Date</label>
                 <input type="date" name="date" id="modalDate" value="" data-old-value="{{ old('date') }}" required>
                 <br>
-                @error('date', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('date', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
                 <label for="start_time">Start Time</label>
                 <input type="time" name="start_time" id="modalStart" value="" data-old-value="{{ old('start_time') }}" required>
                 <br>
-                @error('start_time', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('start_time', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
                 <label for="end_time">End Time</label>
                 <input type="time" name="end_time" id="modalEnd" value="" data-old-value="{{ old('end_time') }}" required>
                 <br>
-                @error('end_time', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('end_time', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -296,7 +348,7 @@
                     @endif
                 </select>
                 <br>
-                @error('assignment_id', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('assignment_id', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -310,9 +362,62 @@
                     @endforeach
                 </select>
                 <br>
-                @error('room_id', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
-                @error('schedule', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('room_id', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
+                <!-- @error('schedule', 'editSchedule') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->editSchedule->any())
+                <div class="form-errors">
+                    @error('date', 'editSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('start_time', 'editSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('end_time', 'editSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('assignment_id', 'editSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('room_id', 'editSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('schedule', 'editSchedule')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
+
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
@@ -346,13 +451,13 @@
             <div class="form-group">
                 <label for="start_time">Start Time</label>
                 <input type="time" name="start_time" id="modalStartBatch" value="" data-old-value="{{ old('start_time') }}" required>
-                @error('start_time', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('start_time', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
                 <label for="end_time">End Time</label>
                 <input type="time" name="end_time" id="modalEndBatch" value="" data-old-value="{{ old('end_time') }}" required>
-                @error('end_time', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('end_time', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -375,7 +480,7 @@
                         @endforeach
                     @endif
                 </select>
-                @error('assignment_id', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('assignment_id', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -388,9 +493,54 @@
                         </option>
                     @endforeach
                 </select>
-                @error('room_id', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
-                @error('schedule', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror
+                <!-- @error('room_id', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror -->
+                <!-- @error('schedule', 'editScheduleBatch') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
+
+            @if($errors->editScheduleBatch->any())
+                <div class="form-errors">
+                    @error('start_time', 'editScheduleBatch')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('end_time', 'editScheduleBatch')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('assignment_id', 'editScheduleBatch')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('room_id', 'editScheduleBatch')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+
+                    @error('schedule', 'editScheduleBatch')
+                        @if ($message)
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span> <br>
+                        @endif
+                    @enderror
+                </div>
+            @endif
+
             <div class="form-actions">
                 <div class="close-user-button">
                     <span class="close"><i class="fa-solid fa-xmark"></i>Close</</span>
