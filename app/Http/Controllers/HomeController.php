@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Assignment;
+use App\Models\KeyLending;
 use App\Models\Room;
-use App\Models\User;
-use App\Models\Subject;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -33,12 +30,24 @@ class HomeController extends Controller
             ->orderBy('subject.name')
             ->select('schedule.*');
 
+        $query2 = KeyLending::whereDate('key_lending.created_at', $selectedDate)
+        ->whereColumn('key_lending.start_time', '=', 'key_lending.end_time')
+        ->join('schedule', 'key_lending.schedule_id', '=', 'schedule.id')
+        ->join('assignment', 'schedule.assignment_id', '=', 'assignment.id')
+        ->join('kelas', 'assignment.kelas_id', '=', 'kelas.id')
+        ->join('subject', 'kelas.subject_id', '=', 'subject.id')
+        ->orderBy('start_time')
+        ->orderBy('subject.name')
+        ->select('key_lending.*');
+
         if ($selectedRoom) {
             $query->where('room_id', $selectedRoom);
+            $query2->where('room_id', $selectedRoom);
         }
         $schedules = $query->get();
+        $keyLendings = $query2->get();
 
-        return view('home', compact('title', 'schedules', 'selectedDate', 'allRoom', 'selectedRoom'));
+        return view('home', compact('title', 'schedules', 'selectedDate', 'allRoom', 'selectedRoom', 'keyLendings', 'selectedRoom'));
     }
     
 }
