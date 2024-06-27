@@ -29,7 +29,6 @@
                         <div class="form-name">
                             <label>Subject Name</label>
                             <input type="text" name="name" value="{{  $subject->name }}"/>
-                            <!-- @error('name') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         @if($errors->any())

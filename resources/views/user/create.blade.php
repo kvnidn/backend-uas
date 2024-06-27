@@ -22,19 +22,16 @@
                         <div class="form-name">
                             <label>Name</label>
                             <input type="text" name="name" value="{{  old('name') }}"/>
-                            <!-- @error('name') <span class="">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-email">
                             <label>Email</label>
                             <input type="text" name="email" value="{{  old('email') }}"/>
-                            <!-- @error('email') <span class="">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-password">
                             <label>Password</label>
                             <input type="password" name="password" value="{{  old('password') }}"/>
-                            <!-- @error('password') <span class="">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-role">
@@ -42,7 +39,6 @@
                             <input type="radio" name="role" value="Admin" {{ old('role') == 'Admin' ? 'checked' : '' }}> Admin
                             <input type="radio" name="role" value="Lecturer" {{ old('role') == 'Lecturer' ? 'checked' : '' }}> Lecturer
                             <input type="radio" name="role" value="Assistant" {{ old('role') == 'Assistant' ? 'checked': '' }}> Assistant
-                            <!-- @error('role') <span class="">{{ $message }}</span> @enderror -->
                         </div>
 
                         @if($errors->any())

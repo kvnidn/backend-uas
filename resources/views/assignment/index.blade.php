@@ -91,7 +91,6 @@
                     @endforeach
                 </select>
                 <br>
-                <!-- @error('user_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -103,7 +102,6 @@
                     @endforeach
                 </select>
                 <br>
-                <!-- @error('kelas_id', 'createAssignment') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             @if($errors->createAssignment->any())

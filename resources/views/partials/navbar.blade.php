@@ -76,14 +76,12 @@
                 <label>Email</label>
                 <input type="text" name="email" id="email" value="{{old('email')}}" data-old-value="{{ old('email') }}" autofocus/>
                 <br>
-                <!-- @error('email', 'login') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" name="password" id="password" value=""/>
                 <br>
-                <!-- @error('password', 'login') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-remember">
@@ -93,12 +91,6 @@
                         Remember Me
                     </label>
                 </div>
-
-                <!-- @if (session('loginError'))
-                <span class="text-danger">
-                    {{ session('loginError') }}
-                </span>
-                @endif -->
             </div>
 
             @if ($errors->login->any() || session('loginError'))
@@ -153,21 +145,18 @@
                 <label>Name</label>
                 <input type="text" name="name" id="modalProfileName" value="{{  auth()->user()->name }}" data-old-value="{{ old('name') }}"/>
                 <br>
-                <!-- @error('name', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-email">
                 <label>Email</label>
                 <input type="text" name="email" id="modalProfileEmail" value="{{  auth()->user()->email }}" data-old-value="{{ old('email') }}"/>
                 <br>
-                <!-- @error('email', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-password">
                 <label>Current Password</label>
                 <input type="password" name="password" value="" placeholder="required"/>
                 <br>
-                <!-- @error('password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
                 <br>
             </div>
 
@@ -175,14 +164,12 @@
                 <label>New Password</label>
                 <input type="password" name="new_password" value="" placeholder="optional"/>
                 <br>
-                <!-- @error('new_password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-password">
                 <label>Confirm Password</label>
                 <input type="password" name="confirm_new_password" value="" placeholder="optional"/>
                 <br>
-                <!-- @error('confirm_new_password', 'editProfile') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-role">
@@ -197,7 +184,6 @@
                 <input type="radio" name="role" value="Assistant" {{ auth()->user()->role == 'Assistant' ? 'checked': '' }}> Assistant
                 @endif
                 <br>
-                <!-- @error('role') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             @if($errors->editProfile->any() || $errors->any())

@@ -69,7 +69,6 @@
                     <option value="SI">SI</option>
                 </select>
                 <br>
-                <!-- @error('prodi', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -81,7 +80,6 @@
                     @endforeach
                 </select>
                 <br>
-                <!-- @error('subject_id', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -93,7 +91,6 @@
                     @endforeach
                 </select>
                 <br>
-                <!-- @error('class', 'createClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             @if($errors->createClass->any())
@@ -154,7 +151,6 @@
                     <option value="SI">SI</option>
                 </select>
                 <br>
-                <!-- @error('prodi', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -166,7 +162,6 @@
                     @endforeach
                 </select>
                 <br>
-                <!-- @error('subject_id', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             <div class="form-group">
@@ -178,7 +173,6 @@
                     @endforeach
                 </select>
                 <br>
-                <!-- @error('class', 'editClass') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             @if($errors->editClass->any())

@@ -33,19 +33,16 @@
                         <div class="form-group">
                             <label for="date">Date</label>
                             <input type="date" name="date" id="date" required>
-                            <!-- @error('date') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
                             <label for="start_time">Start Time</label>
                             <input type="time" name="start_time" id="start_time" required>
-                            <!-- @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
                             <label for="end_time">End Time</label>
                             <input type="time" name="end_time" id="end_time" required>
-                            <!-- @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
@@ -58,7 +55,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <!-- @error('assignment_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">
@@ -71,7 +67,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <!-- @error('room_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-group">

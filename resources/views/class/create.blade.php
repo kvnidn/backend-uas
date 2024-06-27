@@ -32,7 +32,6 @@
                                 <option value="TI">TI</option>
                                 <option value="SI">SI</option>
                             </select>
-                            <!-- @error('prodi') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-name">
@@ -43,7 +42,6 @@
                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                 @endforeach
                             </select>
-                            <!-- @error('subject_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-class">
@@ -54,7 +52,6 @@
                                     <option value="{{ $char }}">{{ $char }}</option>
                                 @endforeach
                             </select>
-                            <!-- @error('class') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         @if($errors->any())

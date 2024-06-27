@@ -29,13 +29,11 @@
                         <div class="form-name">
                             <label>Email</label>
                             <input type="text" name="email" value="{{  old('email') }}" autofocus/>
-                            <!-- @error('email') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
                         
                         <div class="form-password">
                             <label>Password</label>
                             <input type="password" name="password" value="{{  old('password') }}"/>
-                            <!-- @error('password') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
                         
                         <div class="form-group">

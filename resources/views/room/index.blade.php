@@ -54,7 +54,6 @@
                 <label>Room Number</label>
                 <input type="text" name="room_number" id="room_number" data-old-value="{{ old('room_number') }}"/>
                 <br>
-                <!-- @error('room_number', 'createRoom') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             @if($errors->createRoom->any())
@@ -96,7 +95,6 @@
                 <label>Room Number</label>
                 <input type="text" name="room_number" id="modalRoomNumber" value="" data-old-value="{{ old('room_number') }}"/>
                 <br>
-                <!-- @error('room_number', 'editRoom') <span class="text-danger">{{ $message }}</span> @enderror -->
             </div>
 
             @if($errors->editRoom->any())

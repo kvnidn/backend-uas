@@ -22,7 +22,6 @@
                         <div class="form-name">
                             <label>Room Number</label>
                             <input type="text" name="room_number" value="{{  old('room_number') }}"/>
-                            <!-- @error('room_number') <span class="">{{ $message }}</span> @enderror -->
                         </div>
 
                         @if($errors->any())

@@ -36,7 +36,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <!-- @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-user">
@@ -49,7 +48,6 @@
                                 </option>
                                 @endforeach
                             </select>
-                            <!-- @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         @if($errors->any())

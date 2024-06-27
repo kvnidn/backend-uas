@@ -33,7 +33,6 @@
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
                             </select>
-                            <!-- @error('user_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         <div class="form-user">
@@ -44,7 +43,6 @@
                                     <option value="{{ $kelas->id }}">{{ $kelas->prodi }}-{{ $kelas->subject->name }}-{{ $kelas->class }}</option>
                                 @endforeach
                             </select>
-                            <!-- @error('kelas_id') <span class="text-danger">{{ $message }}</span> @enderror -->
                         </div>
 
                         @if($errors->any())
