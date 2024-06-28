@@ -42,10 +42,20 @@ Kelompok 4
 9. Website akan berjalan pada port 8000  
 *Catatan: Semua perintah dijalankan pada command window
 
+## Panduan Setup Database
+1. Buka aplikasi pgAdmin
+2. Buka tab 'Servers', kemudian tab 'PostgreSQL'
+3. Klik kanan pada tab 'Databases' → Create → Databases...
+4. Buat database baru dengan nama ```project_uas_laravel``` dan password ```12345``` untuk menghubungkan project dengan database
+
 ## Contoh Tampilan Website:
 ![SCREENSHOT 1](public/assets/Screenshot_1.jpg)
 ![SCREENSHOT 2](public/assets/Screenshot_2.jpg)
 ![SCREENSHOT 3](public/assets/Screenshot_3.jpg)
+
+## Video
+![Presentasi](https://kj.my.id/backend-uas/presentasi)
+![Demo Program](https://kj.my.id/backend-uas/demo-program)
 
 Masuk dengan akun admin dengan memasukkan  
 Username: admin@example.com  
