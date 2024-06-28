@@ -54,8 +54,8 @@ Kelompok 4
 ![SCREENSHOT 3](public/assets/Screenshot_3.jpg)
 
 ## Video
-![Presentasi](https://kj.my.id/backend-uas/presentasi)
-![Demo Program](https://kj.my.id/backend-uas/demo-program)
+[Presentasi](https://kj.my.id/backend-uas/presentasi)
+[Demo Program](https://kj.my.id/backend-uas/demo-program)
 
 Masuk dengan akun admin dengan memasukkan  
 Username: admin@example.com  
